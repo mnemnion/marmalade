@@ -39,7 +39,7 @@ What we're doing next is adding Instaparse to our project. To do this, we have t
 
 That done, start or restart your project in Catnip, [Emacs](http://emacs.org), or however you like to do it. You must launch with `lein`, which is totally conventional.
 
-This being a bootstrap, we will need to resort to some custom syntax in our Markdown. As we extract the source, we will encounter various `@magic words@`, which the parser will do various things with. The one in this paragraph, for example, it will ignore. The recognition sequence is `` `@ `` to begin a magic word, and `` @` `` to end one. 
+This being a bootstrap, we will need to resort to some custom syntax in our Markdown. As we extract the source, we will encounter various `@magic words@`, which the parser will do various things with. The ones in this paragraph, for example, it will ignore. The recognition sequence is `` `@ `` to begin a magic word, and `` @` `` to end one. Do you see both magic words?
 
 These aren't macros. As you can see, they remain in the source code, and don't modify it.
 
