@@ -18,10 +18,10 @@ If at all possible, we don't want to touch GFM itself. Therefore, here are some 
 
 { :name "A config file",
   :format :edn
-  :magic-number 42 }
+  :magic-number 42 } ;this is actually tagged ```clojure
 ```
 
-* Code in regular unfenced code blocks is not included in the weave.
+* Code in regular unfenced code blocks is not included in the weave. Nor are fenced code blocks that aren't reached from the top macro. The code above, for example, *will not* be in the finished weave, because it is exemplary.
 
 * All text ends up in the tangle, which is an HTML file. No other tangle format is contemplated. 
 
