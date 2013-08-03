@@ -39,13 +39,13 @@ What we're doing next is adding Instaparse to our project. To do this, we have t
 
 That done, start or restart your project in Catnip, [Emacs](http://emacs.org), or however you like to do it. You must launch with `lein`, which is totally conventional.
 
-This being a bootstrap, we will need to resort to some custom syntax in our Markdown. As we extract the source, we will encounter various `@"magic words"@`, which the parser will do various things with. The one in this paragraph, for example, it will ignore. The recognition sequence is `` `@" `` to begin a magic word, and `` "@` `` to end one. 
+This being a bootstrap, we will need to resort to some custom syntax in our Markdown. As we extract the source, we will encounter various `@magic words@`, which the parser will do various things with. The one in this paragraph, for example, it will ignore. The recognition sequence is `` `@ `` to begin a magic word, and `` @` `` to end one. 
 
 These aren't macros. As you can see, they remain in the source code, and don't modify it.
 
 Adding `[instaparse "1.2.2"]` to our project.clj gives us this:
 
-`@"/marmion/athena/project.clj"@` --> where we find it, natch
+`@/marmion/athena/project.clj@` --> where we find it, natch
 
 ```clojure
 (defproject athena "0.1.0-SNAPSHOT"
@@ -59,7 +59,7 @@ Adding `[instaparse "1.2.2"]` to our project.clj gives us this:
 
 Which should compile. 
 
-Lein provides us with the following template in `@"/marmion/athena/src/athena/core.clj"@`:
+Lein provides us with the following template in `@/marmion/athena/src/athena/core.clj@`:
 
 ```clojure
 (ns athena.core
@@ -79,7 +79,7 @@ Let's do something with it!
 
 How about we open up our source file, `athena.md`, and see if we can produce a quine of our existing file and directory structure?
 
-Leiningen provides us with a test, `@"/marmion/athena/src/athena/core_test.clj@"`. It begins life looking like this:
+Leiningen provides us with a test, `@/marmion/athena/src/athena/core_test.clj@"`. It begins life looking like this:
 
 ```clojure
 (ns athena.core-test
@@ -95,7 +95,7 @@ We will leave it alone for now. Eventually, we will want to test our quine again
 
 For the same reason, we will leave the function `foo` in the namespace. Nothing will be deleted or modified, and the order in which code is introduced is the order into which it will be woven. This is a bootstrap, after all. 
 
-Instaparse has its own format, which could be specified as a string within the .clj file. We prefer to put the grammar in its own file, `@"/marmion/athena/athena.grammar@"`, which we start like this:
+Instaparse has its own format, which could be specified as a string within the .clj file. We prefer to put the grammar in its own file, `@/marmion/athena/athena.grammar@"`, which we start like this:
 
 ```
 (* A Grammar for Athena, A Literate Weaver *)
@@ -103,7 +103,7 @@ Instaparse has its own format, which could be specified as a string within the .
 
 When we complete it, we'll use Clojure's charmingly named `slurp` function to pull it into memory as a string:
 
-`@"/marmion/athena/src/athena/core.clj"@`
+`@/marmion/athena/src/athena/core.clj@`
 ```clojure
 
 (def zeus-weaver (slurp "athena.grammar"))
@@ -111,7 +111,31 @@ When we complete it, we'll use Clojure's charmingly named `slurp` function to pu
 ```
 zeus is, of course, that from which Athena will spring full-born. 
 
-In order to embed instaparse.grammar into the tangle, we will resort to a hideous hack, by reaching into the Markdown to retrieve something. This is a once-off macro. We will eventually use a similar trick in a regular way to macro expand the source Marmion
+Our first rule is top level. The markdown may be separated into that which is kept, that which is ignored, and that which is magic.
+
+In Instaparse, that looks something like this:
+
+`@/marmion/athena/athena.grammar@"`
+```
+zeus-program = markdown code (markdown | code | magic) * ;
+```
+
+Which says a zeus program is markdown, followed by code, followed by markdown, code, or a magic word.
+
+We'll define code next:
+
+```
+code = \n <"```"> code-type* code-block \n <```> ;
+```
+
+Which will suffice to capture our quine, with thoughtful definition of code-type and code-block.
+
+We also need magic:
+
+```
+
+
+
 
 
 
