@@ -35,7 +35,7 @@ First, however, we need a parser that can extract our code. For that, we need to
 
 Time to fire up [Catnip](https://github.com/bodil/catnip) real quick. Be back soon!
 
-What we're doing next is adding Instaparse to our project. To do this, we have to tell Leiningen to grab Instaparse, which we must do from the config file. This is normally found at `~/.lein/profiles.clj`; if it's not, I hope you know what you're doing. 
+What we're doing next is adding Instaparse to our project. To do this, we have to tell Leiningen to grab Instaparse, which we must do from the config file. This is normally found at `~/.lein/profiles.clj`; if it's not, I hope you know what you're doing. We add the string `[instaparse "1.2.2"]` to the `:plugins` vector.
 
 That done, start or restart your project in Catnip, [Emacs](http://emacs.org), or however you like to do it. You must launch with `lein`, which is totally conventional.
 
