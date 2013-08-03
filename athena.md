@@ -19,3 +19,13 @@ This is project.clj:
   :dependencies [[org.clojure/clojure "1.4.0"]])
 ```
 
+In order to weave code, in general, we need a macro format. This may be made as flexible as necessary. The minimal requirement is the ability to specify a macro name, and expand those macros into files. 
+
+This is weaving in its essence.
+
+The above code contains no macro, yet. Writing macros in a Lisp is of course pleasurable and powerful, and clojure is no exception, having definable [reader macros](http://clojure.org/reader). Soon, we will define one.
+
+First, however, we need a parser that can extract our code. For that, we need to add [Instaparse](https://github.com/Engelberg/instaparse).
+
+Time to fire up [Catnip](https://github.com/bodil/catnip) real quick. Be back soon!
+
