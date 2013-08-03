@@ -39,9 +39,9 @@ If at all possible, we don't want to touch GFM itself. Therefore, here are some 
 
 * No mechanism for transclusion on the file level will be provided. The file structure of the Markdown is the file structure of the tangle.
 
-This is the sort of project that we can tackle in stages. The most important part is the weaver, because the tangler is already written, in the form of the git flavored markdown parser. 
+This is the sort of project that we can tackle in stages. The most important part is the weaver, because we have a fine tangler in the form of [Jekyll](http://jekyllrb.com/). 
 
-This is a job for Clojure. The weaver itself should be compatible with ClojureScript, but the whole package probably won't be, since an Instaparse-based syntax highlighter to replace / supplement Pygments would be a major component. 
+This is a job for [Clojure](http://clojure.org). The weaver itself should be compatible with ClojureScript, but the whole package probably won't be, since an Instaparse-based syntax highlighter to replace / supplement Pygments would be a major component. 
 
 Clojure is chosen because of EDN, which will be the format of any ```` ```config ```` code block. Also because of Instaparse, for which the usual regular-expression based markup approach is a strict subset of capabilities. It has the best story I'm aware of for setting regular expressions declaratively in a data format, which is exactly how we will provide macros. 
 
