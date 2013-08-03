@@ -4,7 +4,7 @@
 
 [Git Flavoured Markdown](https://help.github.com/articles/github-flavored-markdown), in particular, is crying out for a literate, multi-model programming system. The mechanism of named fenced code blocks lets one put multiple languages in a single file, and they will already be syntax highlighted according to the named language. 
 
-As literate programming is for the ages, we shall call our system [Marmion](README.md). The weaver shall be known as [Athena](); the tangler, [Arachne]().
+As literate programming is for the ages, we shall call our system [Marmion](README.md). The weaver shall be known as [Athena](athena.md); the tangler, [Arachne]().
 
 If at all possible, we don't want to touch GFM itself. Therefore, here are some principles:
 
