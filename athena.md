@@ -79,7 +79,7 @@ Let's do something with it!
 
 How about we open up our source file, `athena.md`, and see if we can produce a quine of our existing file and directory structure?
 
-Leiningen provides us with a test, `@/marmion/athena/src/athena/core_test.clj@"`. It begins life looking like this:
+Leiningen provides us with a test, `@/marmion/athena/src/athena/core_test.clj@`. It begins life looking like this:
 
 ```clojure
 (ns athena.core-test
@@ -115,7 +115,7 @@ Our first rule is top level. The markdown may be separated into that which is ke
 
 In Instaparse, that looks something like this:
 
-`@/marmion/athena/athena.grammar@"`
+`@/marmion/athena/athena.grammar@`
 ```
 zeus-program = markdown code (markdown | code | magic) * ;
 ```
