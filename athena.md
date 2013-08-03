@@ -103,6 +103,7 @@ Instaparse has its own format, which could be specified as a string within the .
 
 When we complete it, we'll use Clojure's charmingly named `slurp` function to pull it into memory as a string:
 
+`@"/marmion/athena/src/athena/core.clj"@`
 ```clojure
 
 (def zeus-weaver (slurp "athena.grammar"))
