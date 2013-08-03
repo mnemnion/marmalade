@@ -6,6 +6,12 @@ As we are writing a weaver, it happens that we do not have one. This file must p
 
 Athena is written in [Git Flavored Markdown](https://help.github.com/articles/github-flavored-markdown), a format designed around code sharing. The executable parts are written in [Clojure](http://clojure.org), using the [Instaparse](https://github.com/Engelberg/instaparse) parsing library. 
 
+##Bootstrap
+
+To bootstrap Athena, we write a restricted program. It does not weave, so much as extract and concatenate code.
+
+We then write more Markdown that specifies a macro format, also in this restricted format. We use our first weaver to weave both generations of the project into Athena, which will then be more broadly useful. 
+
 Clojure projects are typically generated with [Leiningen](https://github.com/technomancy/leiningen), and Athena is no exception. Leiningen projects are specified in a root directory file called `project.clj`. 
 
 This is project.clj:
@@ -80,6 +86,8 @@ Leiningen provides us with a test, `core_test.clj`. It begins life looking like 
 ```
 
 We will leave it alone for now. Eventually, we will want to test our quine against the code as it was written. 
+
+For the same reason, we will leave the function `foo` in the namespace. Nothing will be deleted or modified, and the order in which code is introduced is the order into which it will be woven. This is a bootstrap, after all. 
 
 
 
