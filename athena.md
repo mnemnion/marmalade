@@ -29,3 +29,42 @@ First, however, we need a parser that can extract our code. For that, we need to
 
 Time to fire up [Catnip](https://github.com/bodil/catnip) real quick. Be back soon!
 
+What we're doing next is adding Instaparse to our project. To do this, we have to tell Leiningen to grab Instaparse, which we must do from the config file. This is normally found at `~/.lein/profiles.clj`; if it's not, I hope you know what you're doing. 
+
+That done, start or restart your project in Catnip, [Emacs](http://emacs.org), or however you like to do it. You must launch with `lein`, which is totally conventional.
+
+Adding `[instaparse "1.2.2"]` to our project.clj gives us this:
+
+```clojure
+(defproject athena "0.1.0-SNAPSHOT"
+  :description "Athena: a Weaver of Code"
+  :url "http://github.com/mnemnion/marmion/athena"
+  :license {:name "BSD 2-Clause License"
+            :url "http://http://opensource.org/licenses/BSD-2-Clause"}
+  :dependencies [[org.clojure/clojure "1.4.0"]
+                 [instaparse "1.2.2"]])
+```
+
+Which should compile. 
+
+Lein provides us with the following template in `src/core.clj`:
+
+```clojure
+(ns athena.core
+    (:require [instaparse.core :as insta]))
+
+(defn foo
+  "I don't do a whole lot."
+  [x]
+  (println x "Hello, World!"))
+```
+
+We added instaparse.core there. This should compile too. 
+
+We now have a powerful and general [GLL] parser at our disposal. Yippie!
+
+Let's do something with it!
+
+How about we open up our source file, `athena.md`, and see if we can produce a quine of our existing file and directory structure?
+
+
