@@ -37,6 +37,8 @@ If at all possible, we don't want to touch GFM itself. Therefore, here are some 
 
 * The weaver should visit all internal links in search of code. Some tag in HTML form should be provided so that fully-marked-up links so tagged will also be followed, for exterior code. 
 
+* If exterior code is requested, it is added to the tangle. The weave preserves the location where the code was found, but things change.
+
 * No mechanism for transclusion on the file level will be provided. The file structure of the Markdown is the file structure of the tangle.
 
 This is the sort of project that we can tackle in stages. The most important part is the weaver, because we have a fine tangler in the form of [Jekyll](http://jekyllrb.com/). 
