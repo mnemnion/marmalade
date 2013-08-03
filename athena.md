@@ -75,7 +75,7 @@ How about we open up our source file, `athena.md`, and see if we can produce a q
 
 Leiningen provides us with a test, `core_test.clj`. It begins life looking like this:
 
-```
+```clojure
 (ns athena.core-test
   (:use clojure.test
         athena.core))
@@ -89,6 +89,18 @@ We will leave it alone for now. Eventually, we will want to test our quine again
 
 For the same reason, we will leave the function `foo` in the namespace. Nothing will be deleted or modified, and the order in which code is introduced is the order into which it will be woven. This is a bootstrap, after all. 
 
+Instaparse has its own format, which could be specified as a string within the .clj file. We prefer to put the grammar in its own file, `athena.grammar`, which we start like this:
 
+```
+(* A Grammar for Athena, A Literate Weaver *)
+```
 
+When we complete it, we'll use Clojure's charmingly named `slurp` function to pull it into memory as a string:
+
+```clojure
+
+(def zeus-weaver (slurp "athena.grammar"))
+
+```
+zeus is, of course, that from which Athena will spring full-born. 
 
