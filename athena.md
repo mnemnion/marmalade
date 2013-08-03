@@ -67,4 +67,20 @@ Let's do something with it!
 
 How about we open up our source file, `athena.md`, and see if we can produce a quine of our existing file and directory structure?
 
+Leiningen provides us with a test, `core_test.clj`. It begins life looking like this:
+
+```
+(ns athena.core-test
+  (:use clojure.test
+        athena.core))
+
+(deftest a-test
+  (testing "FIXME, I fail."
+    (is (= 0 1))))
+```
+
+We will leave it alone for now. Eventually, we will want to test our quine against the code as it was written. 
+
+
+
 
