@@ -4,7 +4,7 @@
 
 [Git Flavoured Markdown](https://help.github.com/articles/github-flavored-markdown), in particular, is crying out for a literate, multi-model programming system. The mechanism of named fenced code blocks lets one put multiple languages in a single file, and they will already be syntax highlighted according to the named language. 
 
-As literate programming is for the ages, we shall call our system [Marmion](README.md). The weaver shall be known as Athena; the tangler, Arachne.
+As literate programming is for the ages, we shall call our system [Marmion](README.md). The weaver shall be known as [Athena](); the tangler, [Arachne]().
 
 If at all possible, we don't want to touch GFM itself. Therefore, here are some principles:
 
@@ -49,9 +49,9 @@ To be clear, this will let us syntax highlight a provided macro in a distinctive
 
 Instaparse is my go-to choice for writing flexible parsers that are meant to be shared, so Clojure it is. I hope Instaparse catches on to the point where it becomes core, and hence worth maintaining separate `.clj` and `.cljs` versions. 
 
-The first, and most important step, is writing Athena, the weaver. The weaver doesn't do much: it finds all the ```` ```config ```` code, parses it to configure itself, then goes after the code blocks, and uses the macros and config information to construct the weave, and calls the trigger file, which must contain everything needed to build the weave. 
+The first, and most important step, is writing [Athena](athena.md), the weaver. The weaver doesn't do much: it finds all the ```` ```config ```` code, parses it to configure itself, then goes after the code blocks, and uses the macros and config information to construct the weave, and calls the trigger file, which must contain everything needed to build the weave. 
 
-The tangler, Ariadne, should be a fork of Jekyll, with a low surface area of interaction. What I mean by this is merges between the bases should avoid touching one another's files wherever possible. The only changes I contemplate personally is to plug-replace the syntax highlighter, for several reasons. 
+The tangler, [Arachne](), should be a [fork of Jekyll](https://github.com/mnemnion/jekyll), with a low surface area of interaction. What I mean by this is that merges between the bases should avoid touching one another's files wherever possible. The only changes I contemplate personally is to plug-replace the syntax highlighter, for several reasons. 
 
 Pygments requires one to write actual code to markup a new format. This is distasteful. Also, we need to markup the macros, which we won't know until we weave the code. Furthermore, a static syntax highlighter should be based on a powerful parser, not a regular engine janked up with extra Python. For pity's sake. 
 
