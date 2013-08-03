@@ -12,7 +12,7 @@ If at all possible, we don't want to touch GFM itself. Therefore, here are some 
 
 * Macros must employ patterns not used in a given language; therefore, we must be able to define those patterns.
 
-* All configuration happens in a special code block, called ```` ```config ````:
+* All configuration happens in special code blocks, called ```` ```config ````:
 
 ```clojure
 
