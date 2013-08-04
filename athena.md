@@ -2,7 +2,7 @@
 
 Athena is our weaver. This is her source file. 
 
-As we are writing a weaver, it happens that we do not have one. This file must perforce be hand woven until Athena may take over. Asking a Goddess to take over any process should, and shall not, be done casually. 
+As we are writing a weaver, it happens that we do not have one. This file must perforce be hand woven until Athena may take over. Asking a Goddess to take over any process should not, and shall not, be done casually. 
 
 Athena is written in [Git Flavored Markdown](https://help.github.com/articles/github-flavored-markdown), a format designed around code sharing. The executable parts are written in [Clojure](http://clojure.org), using the [Instaparse](https://github.com/Engelberg/instaparse) parsing library. 
 
@@ -60,7 +60,7 @@ In order to weave code, in general, we need a macro format. This may be made as 
 
 This is weaving in its essence.
 
-The above code contains no macro, yet. Writing macros in a Lisp is of course pleasurable and powerful, and clojure is no exception, having definable [reader macros](http://clojure.org/reader). Soon, we will define one.
+The above code contains no macro, yet. Writing macros in a Lisp is of course pleasurable and powerful, and Clojure is no exception, having definable [reader macros](http://clojure.org/reader). Soon, we will define one.
 
 First, however, we need a parser that can extract our code. For that, we need to add [Instaparse](https://github.com/Engelberg/instaparse).
 
@@ -70,7 +70,7 @@ What we're doing next is adding Instaparse to our project. To do this, we have t
 
 That done, start or restart your project in Catnip, [Emacs](http://emacs.org), or however you like to do it. You must launch with `lein`, which is totally conventional.
 
-This being a bootstrap, we will need to resort to some custom syntax in our Markdown. As we extract the source, we will encounter various `@magic words@`, which the parser will do various things with. The one in this paragraph, for example, it will ignore. The recognition sequence is `` `@ `` to begin a magic word, and `` @` `` to end one. 
+This being a bootstrap, we will need to resort to some custom syntax in our Markdown. As we extract the source, we will encounter various `@magic words@`, which the parser will do various things with. The ones in this paragraph, for example, it will ignore. The recognition sequence is `` `@ `` to begin a magic word, and `` @` `` to end one. 
 
 These aren't macros. As you can see, they remain in the source code, and don't modify it.
 
@@ -129,8 +129,8 @@ For the same reason, we will leave the function `foo` in the namespace. Nothing 
 Instaparse has its own format, which could be specified as a string within the .clj file. We prefer to put the grammar in its own file, `@/marmion/athena/athena.grammar@`, which we start like this:
 
 ```text
-(* A Grammar for Athena, A Literate Weaver *)
-`
+(* A Grammar for Zeus, Father of Athena, A Literate Weaver *)
+
 ```
 
 When we complete it, we'll use Clojure's charmingly named `slurp` function to pull it into memory as a string:
@@ -139,7 +139,7 @@ When we complete it, we'll use Clojure's charmingly named `slurp` function to pu
 
 ```clojure
 
-(def zeus-weaver (slurp "athena.grammar"))
+(def zeus-grammar (slurp "athena.grammar"))
 
 ```
 
