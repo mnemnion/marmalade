@@ -29,15 +29,15 @@ If at all possible, we don't want to touch GFM itself. Therefore, here are some 
 
 * The Markdown may be extended, but only in the same way as any other code: by specifying a macro template and expanding it from provided code. It is the macro-expanded Markdown which is tangled and woven.
 
-* Corollary: the Markdown is macro expanded before anything in a code block. 
-
-* We should maintain a set of canonical macro patterns for languages, to encourage mutual compatibility in source and tangled code. 
+* Corollary: the Markdown is macro expanded before anything in a code block.  
 
 * Corollary: the Markdown macro will be standard. There should be no reason to include it. Because Clojure is the implementation language, and has a defined reader macro syntax, this is already true of Clojure(Script).
 
 * The weaver should visit all internal links in search of code. Some tag in HTML form should be provided so that fully-marked-up links, so tagged, will also be followed in search of exterior code. 
 
-* If exterior code is requested, it is added to the source as a fenced code block. The tangle will preserve the link directly above the code block. Some sensible effort will be made to infer the code format from the file extension.
+* If exterior code is requested, it is added to the source as a fenced code block. The tangle will preserve the link directly above the code block. Some sensible effort will be made to infer the code format from the file extension. This is to be done before macro expansion, so that if there are macros in the exterior code, they will be expanded.
+
+* We should maintain a set of canonical macro patterns for languages, to encourage mutual compatibility in source and tangled code.
 
 * No mechanism for transclusion on the file level will be provided. The file structure of the Markdown is the file structure of the tangle. Working around this using the tagged-link method will leave a broken link in your tangle.
 
