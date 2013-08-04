@@ -150,6 +150,7 @@ In Instaparse, that looks something like this:
 `@/marmion/athena/athena.grammar@`
 
 ```text
+
 zeus-program = (magic | code | <markdown>) * 
 ```
 
@@ -158,9 +159,16 @@ What this says is that a zeus program is any combination of magic, code, and mar
 We'll define code next:
 
 ```text
+
 code =  <"`" "`" "`"> code-type code-block+ <"`" "`" "`"> 
    | <"`" "`" "`"> "\n" code-block+ <"`" "`" "`">
    ;
+   
+code-type = "clojure" | "text" ;
+
+<code-block> = code-glob;
+
+<code-glob> = #'[^`]+' | in-line-code ;
 ```
 
 Which will suffice to capture our quine. 
