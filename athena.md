@@ -39,7 +39,7 @@ What we're doing next is adding Instaparse to our project. To do this, we have t
 
 That done, start or restart your project in Catnip, [Emacs](http://emacs.org), or however you like to do it. You must launch with `lein`, which is totally conventional.
 
-This being a bootstrap, we will need to resort to some custom syntax in our Markdown. As we extract the source, we will encounter various `@magic words@`, which the parser will do various things with. The ones in this paragraph, for example, it will ignore. The recognition sequence is `` `@ `` to begin a magic word, and `` @` `` to end one. Do you see both magic words?
+This being a bootstrap, we will need to resort to some custom syntax in our Markdown. As we extract the source, we will encounter various `@magic words@`, which the parser will do various things with. The ones in this paragraph, for example, it will ignore. The recognition sequence is `` `@ `` to begin a magic word and `` @` `` to end one. Do you see both magic words?
 
 These aren't macros. As you can see, they remain in the source code, and don't modify it.
 
@@ -117,10 +117,11 @@ In Instaparse, that looks something like this:
 
 `@/marmion/athena/athena.grammar@`
 ```
-zeus-program = markdown code (markdown | code | magic) * ;
+zeus-program = (magic / code / markdown) * 
+
 ```
 
-Which says a zeus program is markdown, followed by code, followed by markdown, code, or a magic word.
+Which says a zeus program is any amount of markdown, code, or a magic word, in any sequence. It will check for magic first, code second, and markdown last, which is because markdown is garbage from zeus's lofty view. 
 
 We'll define code next:
 
@@ -133,6 +134,15 @@ Which will suffice to capture our quine, with thoughtful definition of code-type
 We also need magic:
 
 ```
+magic = "`@" magic-word "@`" ;
+
+magic-word = #"([a-z]|-|/|\.)+" ; 
+```
+
+So that we can pull magic words out of our source. It's sufficient to our needs, and not past them.
+
+code-type is an easy rule, as in this file, a block of code is either clojure or unmarked.
+
 
 
 

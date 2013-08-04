@@ -6,4 +6,4 @@
   [x]
   (println x "Hello, World!"))
            
-(def zeus-parser (slurp "athena.grammar"))
+(def zeus-parser (insta/parser (slurp "athena.grammar")))
