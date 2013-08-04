@@ -235,3 +235,7 @@ Now, how you feel about this line depends on how you feel about Lisp, generally.
 A more idiomatic Clojure way to do all this would be to use a threading macro like `->>` to thread the data structure through the transformations, instead of making all these global defs. Everything except `cat-code` so far could be a single function.
 
 `drop 10` just gets us past the front matter. We introduce our idioms before we use them, for a reason.
+
+We now have a flat vector, containing all the information we need. We need to transform it into a data structure which may then be massaged and spat out as our original project and core files. 
+
+The quine could be completed with a trivial act, which we put in the margins: `(spit athene-as-is.md (remove-tags-flatten-and-concatenate (zeus-parser (slurp athena.md) :unhide :all))`, which calls a function we needn't bother to write. All this does is parse athena.md, remove the tags, flatten the remaining literal values, which, because we used `:unhide :all`, was everything from our original source file. Cute, but not interesting enough to belong in the quine. Opening your source file, doing nothing interesting to it, and saving/printing it is generally a trivial quine, though if the convolutions you put the text through are hard enough to follow you will amuse someone at least.
