@@ -6,6 +6,33 @@ As we are writing a weaver, it happens that we do not have one. This file must p
 
 Athena is written in [Git Flavored Markdown](https://help.github.com/articles/github-flavored-markdown), a format designed around code sharing. The executable parts are written in [Clojure](http://clojure.org), using the [Instaparse](https://github.com/Engelberg/instaparse) parsing library. 
 
+#Hymn
+
+Hail, fleet footed Hermes, beloved of Athena!
+
+Hail, Pallas Athene! Hear the ancient words:
+
+    I begin to sing of Pallas Athena, the glorious Goddess, bright-eyed,  
+    inventive, unbending of heart,  
+    pure virgin, saviour of cities,  
+    courageous, Tritogeneia. Wise Zeus himself bare her  
+    from his awful head, arrayed in warlike arms  
+    of flashing gold, and awe seized all the gods as they gazed.  
+    But Athena sprang quickly from the immortal head 
+    and stood before Zeus who holds the aegis,  
+    shaxing a sharp spear: great Olympus began to reel horribly 
+    at the might of the bright-eyed Goddess, 
+    and earth round about cried fearfully,  
+    and the sea was moved and tossed with dark waves,  
+    while foam burst forth suddenly:  
+    the bright Son of Hyperion stopped his swift-footed horses a long while, 
+          until the maiden Pallas Athena had stripped the heavenly armour 
+          from her immortal shoulders.  
+    And wise Zeus was glad. 
+
+And so hail to you, daughter of Zeus who holds the aegis!  
+Now I will remember you and another song as well.  
+
 ##Bootstrap
 
 To bootstrap Athena, we write a restricted program. It does not weave, so much as extract and concatenate code.
@@ -39,7 +66,7 @@ What we're doing next is adding Instaparse to our project. To do this, we have t
 
 That done, start or restart your project in Catnip, [Emacs](http://emacs.org), or however you like to do it. You must launch with `lein`, which is totally conventional.
 
-This being a bootstrap, we will need to resort to some custom syntax in our Markdown. As we extract the source, we will encounter various `@magic words@`, which the parser will do various things with. The ones in this paragraph, for example, it will ignore. The recognition sequence is `` `@ `` to begin a magic word and `` @` `` to end one. Do you see both magic words?
+This being a bootstrap, we will need to resort to some custom syntax in our Markdown. As we extract the source, we will encounter various `@magic words@`, which the parser will do various things with. The one in this paragraph, for example, it will ignore. The recognition sequence is `` `@ `` to begin a magic word, and `` @` `` to end one. 
 
 These aren't macros. As you can see, they remain in the source code, and don't modify it.
 
@@ -117,11 +144,10 @@ In Instaparse, that looks something like this:
 
 `@/marmion/athena/athena.grammar@`
 ```
-zeus-program = (magic / code / markdown) * 
-
+zeus-program = markdown code (markdown | code | magic) * ;
 ```
 
-Which says a zeus program is any amount of markdown, code, or a magic word, in any sequence. It will check for magic first, code second, and markdown last, which is because markdown is garbage from zeus's lofty view. 
+Which says a zeus program is markdown, followed by code, followed by markdown, code, or a magic word.
 
 We'll define code next:
 
@@ -134,16 +160,6 @@ Which will suffice to capture our quine, with thoughtful definition of code-type
 We also need magic:
 
 ```
-magic = "`@" magic-word "@`" ;
-
-magic-word = #"([a-z]|-|/|\.)+" ; 
-```
-
-So that we can pull magic words out of our source. It's sufficient to our needs, and not past them.
-
-code-type is an easy rule, as in this file, a block of code is either clojure or unmarked.
-
-
 
 
 
