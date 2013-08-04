@@ -14,7 +14,9 @@
                      
 (def ugly-punct (str "':/*-#[]();,-_\"`"))
 
-(def athene (slurp "athene.md"))
+(def athene (slurp "/Users/atman/Dropbox/Projects/code/marmion/athena.md"))
+                   
+(def a-ts (slurp "athene.md"))
                    
 (def a-fr (apply str (drop 000 (take 3500 athene))))
                    
