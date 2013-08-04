@@ -154,9 +154,7 @@ code =  <"`" "`" "`"> code-type code-block+ <"`" "`" "`">
 
 code-type = "clojure" | "text" ;
 
-<code-block> = code-glob;
-
-<code-glob> = #'[^`]+' | in-line-code ;
+<code-block> = #'[^`]+' | in-line-code ;
 
 <in-line-code> = !("`" "`" "`") ("`"|"``");
 ```
@@ -185,9 +183,7 @@ That leaves `markdown` which is perhaps not strictly named, since the code block
 ```text
 
 
-markdown = markdown-glob | in-line-code ;
-
-markdown-glob = #'[^`@]+' ;
+markdown = #'[^`@]+' | in-line-code;
 ```
 
 We're done! We now have a grammar that we can make into a parser, so let's do it: we need to add more code to ``@/marmion/athena/src/athena/core.clj@`. 
@@ -238,4 +234,4 @@ A more idiomatic Clojure way to do all this would be to use a threading macro li
 
 We now have a flat vector, containing all the information we need. We need to transform it into a data structure which may then be massaged and spat out as our original project and core files. 
 
-The quine could be completed with a trivial act, which we put in the margins: `(spit athene-as-is.md (remove-tags-flatten-and-concatenate (zeus-parser (slurp athena.md) :unhide :all))`, which calls a function we needn't bother to write. All this does is parse athena.md, remove the tags, flatten the remaining literal values, which, because we used `:unhide :all`, was everything from our original source file. Cute, but not interesting enough to belong in the quine. Opening your source file, doing nothing interesting to it, and saving/printing it is generally a trivial quine, though if the convolutions you put the text through are hard enough to follow you will amuse someone at least.
+The quine could be completed with a trivial act, which we put in the margins: `(spit athene-as-is.md (remove-tags-flatten-and-concatenate (zeus-parser (slurp athena.md) :unhide :all)))`, which calls a function we needn't bother to write. All this does is parse athena.md, remove the tags, flatten the remaining literal values, which, because we used `:unhide :all`, was everything from our original source file. Cute, but not interesting enough to belong in the quine. Opening your source file, doing nothing interesting to it, and saving/printing it is generally a trivial quine, though if the convolutions you put the text through are hard enough to follow you will amuse someone at least.
