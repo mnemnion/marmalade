@@ -35,11 +35,11 @@ If at all possible, we don't want to touch GFM itself. Therefore, here are some 
 
 * Corollary: the Markdown macro will be standard. There should be no reason to include it. Because Clojure is the implementation language, and has a defined reader macro syntax, this is already true of Clojure(Script).
 
-* The weaver should visit all internal links in search of code. Some tag in HTML form should be provided so that fully-marked-up links so tagged will also be followed, for exterior code. 
+* The weaver should visit all internal links in search of code. Some tag in HTML form should be provided so that fully-marked-up links, so tagged, will also be followed in search of exterior code. 
 
-* If exterior code is requested, it is added to the tangle. The weave preserves the location where the code was found, but things change.
+* If exterior code is requested, it is added to the source as a fenced code block. The tangle will preserve the link directly above the code block. Some sensible effort will be made to infer the code format from the file extension.
 
-* No mechanism for transclusion on the file level will be provided. The file structure of the Markdown is the file structure of the tangle.
+* No mechanism for transclusion on the file level will be provided. The file structure of the Markdown is the file structure of the tangle. Working around this using the tagged-link method will leave a broken link in your tangle.
 
 This is the sort of project that we can tackle in stages. The most important part is the weaver, because we have a fine tangler in the form of [Jekyll](http://jekyllrb.com/). 
 
