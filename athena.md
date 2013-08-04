@@ -12,23 +12,25 @@ Hail, fleet footed Hermes, beloved of Athena!
 
 Hail, Pallas Athene! Hear the ancient words:
 
-    I begin to sing of Pallas Athena, the glorious Goddess, bright-eyed,  
-    inventive, unbending of heart,  
-    pure virgin, saviour of cities,  
-    courageous, Tritogeneia. Wise Zeus himself bare her  
-    from his awful head, arrayed in warlike arms  
-    of flashing gold, and awe seized all the gods as they gazed.  
-    But Athena sprang quickly from the immortal head 
-    and stood before Zeus who holds the aegis,  
-    shaxing a sharp spear: great Olympus began to reel horribly 
-    at the might of the bright-eyed Goddess, 
-    and earth round about cried fearfully,  
-    and the sea was moved and tossed with dark waves,  
-    while foam burst forth suddenly:  
-    the bright Son of Hyperion stopped his swift-footed horses a long while, 
-          until the maiden Pallas Athena had stripped the heavenly armour 
-          from her immortal shoulders.  
-    And wise Zeus was glad. 
+```
+I begin to sing of Pallas Athena, the glorious Goddess, bright-eyed,  
+inventive, unbending of heart,  
+pure virgin, saviour of cities,  
+courageous, Tritogeneia. Wise Zeus himself bare her  
+from his awful head, arrayed in warlike arms  
+of flashing gold, and awe seized all the gods as they gazed.  
+But Athena sprang quickly from the immortal head 
+and stood before Zeus who holds the aegis,  
+shaxing a sharp spear: great Olympus began to reel horribly 
+at the might of the bright-eyed Goddess, 
+and earth round about cried fearfully,  
+and the sea was moved and tossed with dark waves,  
+while foam burst forth suddenly:  
+the bright Son of Hyperion stopped his swift-footed horses a long while, 
+      until the maiden Pallas Athena had stripped the heavenly armour 
+      from her immortal shoulders.  
+And wise Zeus was glad. 
+```
 
 And so hail to you, daughter of Zeus who holds the aegis!  
 Now I will remember you and another song as well.  
@@ -143,7 +145,8 @@ Our first rule is top level. The markdown may be separated into that which is ke
 In Instaparse, that looks something like this:
 
 `@/marmion/athena/athena.grammar@`
-```
+
+```text
 zeus-program = markdown code (markdown | code | magic) * ;
 ```
 
@@ -151,7 +154,7 @@ Which says a zeus program is markdown, followed by code, followed by markdown, c
 
 We'll define code next:
 
-```
+```text
 code = \n <"```"> code-type* code-block \n <```> ;
 ```
 
@@ -159,7 +162,7 @@ Which will suffice to capture our quine, with thoughtful definition of code-type
 
 We also need magic:
 
-```
+
 
 
 

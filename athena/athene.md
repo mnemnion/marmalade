@@ -143,7 +143,8 @@ Our first rule is top level. The markdown may be separated into that which is ke
 In Instaparse, that looks something like this:
 
 `@/marmion/athena/athena.grammar@`
-```
+
+```text
 zeus-program = markdown code (markdown | code | magic) * ;
 ```
 
@@ -151,16 +152,13 @@ Which says a zeus program is markdown, followed by code, followed by markdown, c
 
 We'll define code next:
 
-```
+```text
 code = \n <"```"> code-type* code-block \n <```> ;
 ```
 
 Which will suffice to capture our quine, with thoughtful definition of code-type and code-block.
 
 We also need magic:
-
-```
-
 
 
 

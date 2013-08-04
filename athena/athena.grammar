@@ -20,7 +20,7 @@ in-line-code = !"```" ("`"|"``");
 
 <newline> = #"\n+"; 
 
-code-type = "clojure" / newline;
+code-type = "clojure" | "text" | epsilon;
 
 <code-block> = code-glob +  ;
 
