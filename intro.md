@@ -25,7 +25,7 @@ If at all possible, we don't want to touch GFM itself. Therefore, here are some 
 
 * All text ends up in the tangle, which is an HTML file. No other tangle format is contemplated. 
 
-* If standardized, the tangle format will not be specified, only the markup format and the requirements for the subsequent code. HTML is a moving target, as is visual display in general. 
+* If standardized, the tangle format will not be specified, only the markup format and the requirements for the subsequent weave. HTML is a moving target, as is visual display in general. 
 
 * The Markdown may be extended, but only in the same way as any other code: by specifying a macro template and expanding it from provided code. It is the macro-expanded Markdown which is tangled and woven.
 
