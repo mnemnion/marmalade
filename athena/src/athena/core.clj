@@ -6,18 +6,11 @@
   [x]
   (println x "Hello, World!"))
            
-(def zeus-parser (insta/parser (slurp "zeus.grammar")))
+(def zeus-parser (insta/parser (slurp "zeus.grammar") ))
 
-(def t-string (slurp "test/athena/test.md"))
-                     
-(def d-string (slurp "dirty.md"))                     
-                     
-(def ugly-punct (str "':/*-#[]();,-_\"`"))
+(def parsed-athena (zeus-parser (slurp "athena.md")))
+                                       
+(defn cat-code "a bit of help for code blocks"
+  [tag & body] (vec [tag (apply str body)]))
 
-(def athene (slurp "/Users/atman/Dropbox/Projects/code/marmion/athena.md"))
-                   
-(def a-ts (slurp "athene.md"))
-                   
-(def a-fr (apply str (drop 000 (take 3500 athene))))
-                   
-(def toy (insta/parser " parsi = fubar / fubar baz fubar = #'foobar|foo' baz = #'[A-Za-z]+' " ))
+(def flat-athena (drop 10 (flatten (insta/transform {:code cat-code} parsed-athena))))

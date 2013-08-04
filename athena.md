@@ -199,18 +199,39 @@ We're done! We now have a grammar that we can make into a parser, so let's do it
 
 That was simple enough. It disguises the toil of repeatedly writing bad, useless and exponentially explosive grammars.
 
-But then, literature generally hides the messiness behind its production. If you have read the unedited *Stranger in a Strange Land*, which Heinlein never wanted published, you can see why. Presuming you've read the edited version, that is. 
+But then, literature generally hides the messiness behind its production. If you have read the unedited *Stranger in a Strange Land*, which Heinlein never wanted published, you can see why. Presuming you've read the edited version. 
 
 Now, we use `zeus-parser` to parse this document, `athena.md`
 
 ```clojure
 
 (def parsed-athena (zeus-parser (slurp "athena.md")))
-
 ```
 
-When we run `core.clj` in a REPL, we see a tree-structure containing our magic words and code. We've designed this puzzle so that we can use this sorted information in the order we found it, so we don't need the tree structure.
+When we run `core.clj` in a REPL, we see that `parsed-athena` is a tree-structure containing our magic words and code. We've designed this puzzle so that we can use this sorted information in the order we found it, so we don't need the tree structure.
+
+To simply get rid of the tree structure we would `flatten` it. But this would leave us in a bad way, because some of our code blocks aren't globbed into a single string, thanks to separate detection for ` `` ` and `` ` ``. 
+
+Fortunately, this is so common that Instaparse ships with a function for fixing it. `insta/transform` to the rescue!
+
+First we need a helper function for insta/transform to call:
+
+```clojure
+
+(defn cat-code "a bit of help for code blocks"
+  [tag & body] (vec [tag (apply str body)]))
+```
+
+Then we call it and do some stuff to the results:
+
+```clojure
 
 
+(def flat-athena (drop 10 (flatten (insta/transform {:code cat-code} parsed-athena))))
+```
 
+Now, how you feel about this line depends on how you feel about Lisp, generally. This was written progressively from the middle out, on a REPL. It's easy to read if you know that, and would be easier still if formatted more naturally. 
 
+A more idiomatic Clojure way to do all this would be to use a threading macro like `->>` to thread the data structure through the transformations, instead of making all these global defs. Everything except `cat-code` so far could be a single function.
+
+`drop 10` just gets us past the front matter. We introduce our idioms before we use them, for a reason.
