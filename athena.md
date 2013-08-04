@@ -88,7 +88,7 @@ Which should compile.
 
 Lein provides us with the following template in `@/marmion/athena/src/athena/core.clj@`:
 
-```  clojure
+```clojure
 (ns athena.core
     (:require [instaparse.core :as insta]))
 
@@ -124,7 +124,7 @@ For the same reason, we will leave the function `foo` in the namespace. Nothing 
 
 Instaparse has its own format, which could be specified as a string within the .clj file. We prefer to put the grammar in its own file, `@/marmion/athena/athena.grammar@"`, which we start like this:
 
-```
+```text
 (* A Grammar for Athena, A Literate Weaver *)
 ```
 
