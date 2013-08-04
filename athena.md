@@ -21,7 +21,7 @@ from his awful head, arrayed in warlike arms
 of flashing gold, and awe seized all the gods as they gazed.  
 But Athena sprang quickly from the immortal head 
 and stood before Zeus who holds the aegis,  
-shaxing a sharp spear: great Olympus began to reel horribly 
+shaking a sharp spear: great Olympus began to reel horribly 
 at the might of the bright-eyed Goddess, 
 and earth round about cried fearfully,  
 and the sea was moved and tossed with dark waves,  
@@ -40,6 +40,8 @@ Now I will remember you and another song as well.
 To bootstrap Athena, we write a restricted program. It does not weave, so much as extract and concatenate code.
 
 We then write more Markdown that specifies a macro format, also in this restricted format. We use our first weaver to weave both generations of the project into Athena, which will then be more broadly useful. 
+
+This first weaver will be known as zeus. zeus is, of course, that from which Athena will spring full-born. 
 
 Clojure projects are typically generated with [Leiningen](https://github.com/technomancy/leiningen), and Athena is no exception. Leiningen projects are specified in a root directory file called `project.clj`. 
 
@@ -138,7 +140,6 @@ When we complete it, we'll use Clojure's charmingly named `slurp` function to pu
 (def zeus-weaver (slurp "athena.grammar"))
 
 ```
-zeus is, of course, that from which Athena will spring full-born. 
 
 Our first rule is top level. The markdown may be separated into that which is kept, that which is ignored, and that which is magic.
 
