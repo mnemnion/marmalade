@@ -51,7 +51,7 @@ To be clear, this will let us syntax highlight a provided macro in a distinctive
 
 Instaparse is my go-to choice for writing flexible parsers that are meant to be shared, so Clojure it is. I hope Instaparse catches on to the point where it becomes core, and hence worth maintaining separate `.clj` and `.cljs` versions. 
 
-The first, and most important step, is writing [Athena](athena.md), the weaver. The weaver doesn't do much: it finds all the ```` ```config ```` code, parses it to configure itself, then goes after the code blocks, and uses the macros and config information to construct the weave, and calls the trigger file, which must contain everything needed to build the weave. 
+The first, and most important step, is writing [Athena](athena.md), the weaver. The weaver does the following: finds all the ```` ```config ```` code, parses it to configure itself, then goes after the code blocks, and uses the macros and config information to construct the weave. Finally, it calls the trigger file, which must contain everything needed to build the weave into an executable, or whatever the final product is.
 
 The tangler, [Arachne](), should be a [fork of Jekyll](https://github.com/mnemnion/jekyll), with a low surface area of interaction. What I mean by this is that merges between the bases should avoid touching one another's files wherever possible. The only changes I contemplate personally is to plug-replace the syntax highlighter, for several reasons. 
 
