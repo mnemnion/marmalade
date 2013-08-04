@@ -43,7 +43,7 @@ If at all possible, we don't want to touch GFM itself. Therefore, here are some 
 
 This is the sort of project that we can tackle in stages. The most important part is the weaver, because we have a fine tangler in the form of [Jekyll](http://jekyllrb.com/). 
 
-This is a job for [Clojure](http://clojure.org). The weaver itself should be compatible with ClojureScript, but the whole package probably won't be, since an Instaparse-based syntax highlighter to replace / supplement Pygments would be a major component. 
+This is a job for [Clojure](http://clojure.org). The weaver and perhaps the tangler will be Clojurescript compatible in the narrow sense, but useless unless Instaparse is ported, which seems unlikely, though you never know. 
 
 Clojure is chosen for a few reasons. [EDN](https://github.com/edn-format/edn), for one, which will be the format of any ```` ```config ```` code block. Also because of [Instaparse](https://github.com/Engelberg/instaparse), for which the usual regular-expression based markup approach is a strict subset of capabilities. It has the best story I'm aware of for setting regular expressions declaratively in a data format, which is exactly how we will provide macros. 
 
