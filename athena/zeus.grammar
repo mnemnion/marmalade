@@ -1,24 +1,10 @@
 (* comments? *)
 
-zeus-program = (magic | code | <md>) * 
+zeus-program = (magic | code | <markdown>) * 
 
 code =  <"`" "`" "`"> code-type code-block+ <"`" "`" "`"> 
 	 | <"`" "`" "`"> "\n" code-block+ <"`" "`" "`">
 	 ;
-
-<magic> = <"`@"> magic-word <"@`"> ;
-
-magic-word = #'[^@]+' ; 
-
-md = md-glob | in-line-code ;
-
-<text> = #'([A-Za-z ]|[0-9])+';
-
-md-glob = #'[^`@]+' ;
-
-<in-line-code> = !("`" "`" "`") ("`"|"``");
-
-newline = #"\n+"; 
 
 code-type = "clojure" | "text" ;
 
@@ -26,3 +12,12 @@ code-type = "clojure" | "text" ;
 
 <code-glob> = #'[^`]+' | in-line-code ;
 
+<in-line-code> = !("`" "`" "`") ("`"|"``");
+
+<magic> = <"`@"> magic-word <"@`"> ;
+
+magic-word = #'[^@]+' ; 
+
+markdown = markdown-glob | in-line-code ;
+
+markdown-glob = #'[^`@]+' ;

@@ -6,7 +6,7 @@
   [x]
   (println x "Hello, World!"))
            
-(def zp (insta/parser (slurp "zeus.grammar")))
+(def zeus-parser (insta/parser (slurp "zeus.grammar")))
 
 (def t-string (slurp "test/athena/test.md"))
                      

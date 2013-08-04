@@ -133,21 +133,9 @@ Instaparse has its own format, which could be specified as a string within the .
 
 ```
 
-When we complete it, we'll use Clojure's charmingly named `slurp` function to pull it into memory as a string:
-
-`@/marmion/athena/src/athena/core.clj@`
-
-```clojure
-
-(def zeus-grammar (slurp "athena.grammar"))
-
-```
-
 Our first rule is top level. The markdown may be separated into that which is kept, that which is ignored, and that which is magic.
 
 In Instaparse, that looks something like this:
-
-`@/marmion/athena/athena.grammar@`
 
 ```text
 
@@ -163,22 +151,65 @@ We'll define code next:
 code =  <"`" "`" "`"> code-type code-block+ <"`" "`" "`"> 
    | <"`" "`" "`"> "\n" code-block+ <"`" "`" "`">
    ;
-   
+
 code-type = "clojure" | "text" ;
 
 <code-block> = code-glob;
 
 <code-glob> = #'[^`]+' | in-line-code ;
+
+<in-line-code> = !("`" "`" "`") ("`"|"``");
 ```
 
 Which will suffice to capture our quine. 
 
 Please note: we could use a more direct way to capture three `` ` ``, if we weren't writing a peculiar quine. Zeus uses the simplest possible grammar to extract a minimalist weaver from this very source file. 
 
+A couple notes: `code-glob` is mostly a regular expression that doesn't consume backticks. `in-line-code` uses negative lookahead `!`, which is great stuff: it says, if there aren't three backticks ahead of us, you may match one or two of those backticks. 
+
+Between them, they match everything except three backticks. Real Markdown uses newlines and triple backticks together. This is harder to write and understand, so we'll do it in the second pass.
+
 We also need magic:
 
+```text
+
+<magic> = <"`@"> magic-word <"@`"> ;
+
+magic-word = #'[^@]+' ; 
+```
+
+Which is defined fairly carefully to consume our magic words. We don't use the at-sign elsewhere in the outer Markdown to enable easy magic.
+
+That leaves `markdown` which is perhaps not strictly named, since the code blocks are markdown also. For Zeus, we may as well call it junk; we have to match it, but we don't look at it. It looks like this:
+
+```text
 
 
+markdown = markdown-glob | in-line-code ;
+
+markdown-glob = #'[^`@]+' ;
+```
+
+We're done! We now have a grammar that we can make into a parser, so let's do it: we need to add more code to ``@/marmion/athena/src/athena/core.clj@`. 
+
+```clojure
+
+(def zeus-parser (insta/parser (slurp "zeus.grammar")))
+```
+
+That was simple enough. It disguises the toil of repeatedly writing bad, useless and exponentially explosive grammars.
+
+But then, literature generally hides the messiness behind its production. If you have read the unedited *Stranger in a Strange Land*, which Heinlein never wanted published, you can see why. Presuming you've read the edited version, that is. 
+
+Now, we use `zeus-parser` to parse this document, `athena.md`
+
+```clojure
+
+(def parsed-athena (zeus-parser (slurp "athena.md")))
+
+```
+
+When we run `core.clj` in a REPL, we see a tree-structure containing our magic words and code. We've designed this puzzle so that we can use this sorted information in the order we found it, so we don't need the tree structure.
 
 
 
