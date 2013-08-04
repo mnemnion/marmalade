@@ -2,22 +2,28 @@
 
 zeus-program = (magic | code | <md>) * 
 
-<code> = <"```"> code-type* code-block+   <"```"> ;
+code = <"```"> code-type code-block+ <"```"> ;
 
 <magic> = <"`@"> magic-word <"@`"> ;
 
-magic-word = #"([a-z]|-|/|\.| )+" ; 
+magic-word = #"[^@]+" ; 
 
-md = text+ | punctuation+ ;
+md = md-glob | in-line-code ;
 
 <text> = #'([A-Za-z ]|[0-9])+';
 
+md-glob = #'[^`@]+' ;
+
 in-line-code = !"```" ("`"|"``");
 
-<punctuation> = #'[\:/\-\^\\#;,*\[\]()._"?~!{}]+' | "'"+ |  in-line-code | newline ;
+<punctuation> = #'[\:/\-\^\\#;,*\[\]()._"?~!{}<>]+' | "'" |  in-line-code | newline ;
 
-newline = #"\n"; 
+<newline> = #"\n+"; 
 
-code-type = "clojure" ;
+code-type = "clojure" / newline;
 
-<code-block> = text + | punctuation +  ;
+<code-block> = code-glob +  ;
+
+<code-glob> = #'[^`]+';
+
+<code-block-old> = text + | punctuation +  ;

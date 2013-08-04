@@ -88,7 +88,7 @@ Which should compile.
 
 Lein provides us with the following template in `@/marmion/athena/src/athena/core.clj@`:
 
-```clojure
+```  clojure
 (ns athena.core
     (:require [instaparse.core :as insta]))
 

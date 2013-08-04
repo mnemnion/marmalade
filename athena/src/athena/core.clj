@@ -15,3 +15,7 @@
 (def ugly-punct (str "':/*-#[]();,-_\"`"))
 
 (def athene (slurp "athene.md"))
+                   
+(def a-fr (apply str (drop 000 (take 3500 athene))))
+                   
+(def toy (insta/parser " parsi = fubar / fubar baz fubar = #'foobar|foo' baz = #'[A-Za-z]+' " ))
