@@ -1,0 +1,23 @@
+
+
+zeus-program = (magic | code | <md>) * 
+
+<code> = <"```"> code-type* code-block+   <"```"> ;
+
+<magic> = <"`@"> magic-word <"@`"> ;
+
+magic-word = #"([a-z]|-|/|\.| )+" ; 
+
+md = text+ | punctuation+ ;
+
+<text> = #'([A-Za-z ]|[0-9])+';
+
+in-line-code = !"```" ("`"|"``");
+
+<punctuation> = #'[\:/\-\^\\#;,*\[\]()._"?~!{}]+' | "'"+ |  in-line-code | newline ;
+
+newline = #"\n"; 
+
+code-type = "clojure" ;
+
+<code-block> = text + | punctuation +  ;
