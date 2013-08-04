@@ -130,6 +130,7 @@ Instaparse has its own format, which could be specified as a string within the .
 
 ```text
 (* A Grammar for Athena, A Literate Weaver *)
+`
 ```
 
 When we complete it, we'll use Clojure's charmingly named `slurp` function to pull it into memory as a string:
@@ -149,18 +150,22 @@ In Instaparse, that looks something like this:
 `@/marmion/athena/athena.grammar@`
 
 ```text
-zeus-program = markdown code (markdown | code | magic) * ;
+zeus-program = (magic | code | <markdown>) * 
 ```
 
-Which says a zeus program is markdown, followed by code, followed by markdown, code, or a magic word.
+What this says is that a zeus program is any combination of magic, code, and markdown. Since Zeus does nothing with the markdown, we use angle brackets to tell Instaparse that we don't care to see the output. 
 
 We'll define code next:
 
 ```text
-code = \n <"```"> code-type* code-block \n <```> ;
+code =  <"`" "`" "`"> code-type code-block+ <"`" "`" "`"> 
+   | <"`" "`" "`"> "\n" code-block+ <"`" "`" "`">
+   ;
 ```
 
-Which will suffice to capture our quine, with thoughtful definition of code-type and code-block.
+Which will suffice to capture our quine. 
+
+Please note: we could use a more direct way to capture three `` ` ``, if we weren't writing a peculiar quine. Zeus uses the simplest possible grammar to extract a minimalist weaver from this very source file. 
 
 We also need magic:
 
