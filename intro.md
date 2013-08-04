@@ -2,7 +2,7 @@
 
 [Literate Programming](http://www-cs-faculty.stanford.edu/~uno/lp.html) is one of those paradigms whose fate is continual reinvention. I've been noticing that my software projects start as Markdown. It stands to reason that they should end up as Markdown as well.
 
-[Git Flavoured Markdown](https://help.github.com/articles/github-flavored-markdown), in particular, is crying out for a literate, multi-model programming system. The mechanism of named fenced code blocks lets one put multiple languages in a single file, and they will already be syntax highlighted according to the named language. 
+[Git Flavored Markdown](https://help.github.com/articles/github-flavored-markdown), in particular, is crying out for a literate, multi-model programming system. The mechanism of named fenced code blocks lets one put multiple languages in a single file, and they will already be syntax highlighted according to the named language. 
 
 As literate programming is for the ages, we shall call our system [Marmion](README.md). The weaver shall be known as [Athena](athena.md); the tangler, [Arachne]().
 
