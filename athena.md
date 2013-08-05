@@ -281,12 +281,12 @@ So here's our last trick:
       
 (def zeus-map (weave-zeus {} flat-athena))
                           
-(do (spit "zeus.grammar"  (:zeus-grammar zeus-map))
-    (spit "core-test.clj" (:core_test-clj zeus-map))
-    (spit "core.clj"      (:core-clj zeus-map))) 
+(do (spit "migraine/zeus.grammar"  (:zeus-grammar zeus-map))
+    (spit "migraine/core-test.clj" (:core_test-clj zeus-map))
+    (spit "migraine/core.clj"      (:core-clj zeus-map))) 
 ```
 
-That's it! This leaves our files stranded in the home directory, and there are some extra newlines, but I don't care and neither should you. It's officially close enough for government work. In our next chapter, we will undergo the formality of writing a test and demonstrating that Migraine's markdown contains Athena alpha, which will be a part of Athena herself. 
+That's it! The structure of the migraine directory is flat, not the structure leiningen requires, and there are some extra newlines in the source, but I don't care and neither should you. It's officially close enough for government work. In our next chapter, we will undergo the formality of writing a test and demonstrating that Migraine's markdown contains Athena alpha, which will be a part of Athena herself. 
 
 Migraine, the next chapter in this adventure, will add some actual capabilities. Migraine is just Zeus with an extra headache: instead of producing himself, he has to produce Athena, which is a more challenging software to write.   
 

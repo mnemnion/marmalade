@@ -40,8 +40,8 @@
       
 (def zeus-map (weave-zeus {} flat-athena))
                           
-(do (spit "zeus.grammar"  (:zeus-grammar zeus-map))
-    (spit "core-test.clj" (:core_test-clj zeus-map))
-    (spit "core.clj"      (:core-clj zeus-map)))                                        
+(do (spit "migraine/zeus.grammar"  (:zeus-grammar zeus-map))
+    (spit "migraine/core-test.clj" (:core_test-clj zeus-map))
+    (spit "migraine/core.clj"      (:core-clj zeus-map)))                                        
                
                
