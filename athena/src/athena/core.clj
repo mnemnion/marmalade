@@ -28,14 +28,11 @@
           (weave-zeus (assoc state 
                              :current-file, (first (rest code))) 
                       (drop 2 code))
-          (if (= :code-type (first code))
-              
-              (let [file-key (key-maker (:current-file state))]
+          (let [file-key (key-maker (:current-file state))]
               (weave-zeus (assoc state
                                  file-key, 
                                  (apply str (state file-key) (first (rest (rest code))))) 
-                          (drop 3 code)))
-              (println "error")))                                                      
+                          (drop 3 code))))                                                      
       state))
       
 (def zeus-map (weave-zeus {} flat-athena))
