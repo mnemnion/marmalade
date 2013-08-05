@@ -186,7 +186,7 @@ That leaves `markdown` which is perhaps not strictly named, since the code block
 markdown = #'[^`@]+' | in-line-code;
 ```
 
-We're done! We now have a grammar that we can make into a parser, so let's do it: we need to add more code to ``@/marmion/athena/src/athena/core.clj@`. 
+We're done! We now have a grammar that we can make into a parser, so let's do it: we need to add more code to `@/marmion/athena/src/athena/core.clj@`. 
 
 ```clojure
 
