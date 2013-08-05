@@ -18,7 +18,7 @@
 (defn key-maker
   "makes a keyword name from our file string"
   [file-name]
-  (clojure.string/replace (last (clojure.string/split file-name #"/")) "." "-"))
+  (keyword (clojure.string/replace (last (clojure.string/split file-name #"/")) "." "-")))
 
 (defn weave-zeus
   "a weaver to generate our next iteration"
@@ -30,12 +30,12 @@
                       (drop 2 code))
           (if (= :code-type (first code))
               
-              (let [file-key (keyword (key-maker (:current-file state)))]
+              (let [file-key (key-maker (:current-file state))]
               (weave-zeus (assoc state
                                  file-key, 
                                  (apply str (state file-key) (first (rest (rest code))))) 
                           (drop 3 code)))
-              (println "not reached yet")))                                                      
+              (println "error")))                                                      
       state))
      
 (defn huh

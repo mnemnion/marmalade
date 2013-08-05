@@ -222,7 +222,6 @@ Then we call it and do some stuff to the results:
 
 ```clojure
 
-
 (def flat-athena (drop 10 (flatten (insta/transform {:code cat-code} parsed-athena))))
 ```
 
@@ -235,3 +234,16 @@ A more idiomatic Clojure way to do all this would be to use a threading macro li
 We now have a flat vector, containing all the information we need. We need to transform it into a data structure which may then be massaged and spat out as our original project and core files. 
 
 The quine could be completed with a trivial act, which we put in the margins: `(spit athene-as-is.md (remove-tags-flatten-and-concatenate (zeus-parser (slurp athena.md) :unhide :all)))`, which calls a function we needn't bother to write. All this does is parse athena.md, remove the tags, flatten the remaining literal values, which, because we used `:unhide :all`, was everything from our original source file. Cute, but not interesting enough to belong in the quine. Opening your source file, doing nothing interesting to it, and saving/printing it is generally a trivial quine, though if the convolutions you put the text through are hard enough to follow you will amuse someone at least.
+
+Instead, we write a little helper function, `key-maker`
+
+```clojure
+
+(defn key-maker
+  "makes a keyword name from our file string"
+  [file-name]
+  (clojure.string/replace (last (clojure.string/split file-name #"/")) "." "-"))
+```
+
+This takes our fully-qualified filename, pulled from a magic word, and keywordizes it. The magic words are arranged so there's one each time zeus needs to change files.
+
