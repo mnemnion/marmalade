@@ -26,14 +26,17 @@
   (if (keyword? (first code))
       (if (= :magic-word (first code))
           (weave-zeus (assoc state 
-                             :current-file (first (rest code))) 
-                                  (drop 2 code))
+                             :current-file, (first (rest code))) 
+                      (drop 2 code))
           (if (= :code-type (first code))
+              
+              (let [file-key (keyword (key-maker (:current-file state)))]
               (weave-zeus (assoc state
-                                 (keyword (key-maker (:current-file state))) (first (rest (rest code)))) 
-                                     (drop 3 code))
+                                 file-key, 
+                                 (apply str (state file-key) (first (rest (rest code))))) 
+                          (drop 3 code)))
               (println "not reached yet")))                                                      
-      (println "not reached yet b")))
+      state))
      
 (defn huh
   "huh?"
