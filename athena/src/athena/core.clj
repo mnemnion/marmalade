@@ -20,23 +20,7 @@
   [file-name]
   (keyword (clojure.string/replace (last (clojure.string/split file-name #"/")) "." "-")))
 
-(defn weave-zeus
-  "a weaver to generate our next iteration"
-  [state code]
-  (if (keyword? (first code))
-      (if (= :magic-word (first code))
-          (weave-zeus (assoc state 
-                             :current-file, (first (rest code))) 
-                      (drop 2 code))
-          (if (= :code-type (first code))
-              
-              (let [file-key (key-maker (:current-file state))]
-              (weave-zeus (assoc state
-                                 file-key, 
-                                 (apply str (state file-key) (first (rest (rest code))))) 
-                          (drop 3 code)))
-              (println "error")))                                                      
-      state))
+
      
 (defn huh
   "huh?"

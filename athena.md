@@ -235,7 +235,7 @@ We now have a flat vector, containing all the information we need. We need to tr
 
 The quine could be completed with a trivial act, which we put in the margins: `(spit athene-as-is.md (remove-tags-flatten-and-concatenate (zeus-parser (slurp athena.md) :unhide :all)))`, which calls a function we needn't bother to write. All this does is parse athena.md, remove the tags, flatten the remaining literal values, which, because we used `:unhide :all`, was everything from our original source file. Cute, but not interesting enough to belong in the quine. Opening your source file, doing nothing interesting to it, and saving/printing it is generally a trivial quine, though if the convolutions you put the text through are hard enough to follow you will amuse someone at least.
 
-Instead, we write a little helper function, `key-maker`
+Instead, let's write a little helper function, `key-maker`
 
 ```clojure
 
@@ -246,4 +246,32 @@ Instead, we write a little helper function, `key-maker`
 ```
 
 This takes our fully-qualified filename, pulled from a magic word, and keywordizes it. The magic words are arranged so there's one each time zeus needs to change files.
+
+Now for the meat of the matter. `weave-zeus` produces the source file to zeus from the markdown version of this very file. 
+
+```clojure
+(defn weave-zeus
+  "a weaver to generate our next iteration"
+  [state code]
+  (if (keyword? (first code))
+      (if (= :magic-word (first code))
+          (weave-zeus (assoc state 
+                             :current-file, (first (rest code))) 
+                      (drop 2 code))
+          (if (= :code-type (first code))
+              
+              (let [file-key (key-maker (:current-file state))]
+              (weave-zeus (assoc state
+                                 file-key, 
+                                 (apply str (state file-key) (first (rest (rest code))))) 
+                          (drop 3 code)))
+              (println "error")))                                                      
+      state))
+```
+
+Now, that's an ugly hack. It's a bootstrap; I fiddled with it until it worked and dropped the matter thereafter. It is perhaps more readable than a more elegant version, if you have, like most of us, a background or ongoing investment in imperative style. The fact that there's a clause that one shouldn't even reach, and that we don't, should be grounds for a rewrite. We aren't touching it further, though we use it as a spring-off point for migraine, the next step in the process.
+
+Migraine because it actually gives birth to Athena. Named in honor of whichever poor sufferer dreamed that mythos up. 
+
+So we move the latest athena.md into the project directory, load up the REPL and sure enough, there's our data.
 
