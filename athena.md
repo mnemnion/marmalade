@@ -273,5 +273,20 @@ Now, that's an ugly hack. It's a bootstrap; I fiddled with it until it worked an
 
 Migraine because it actually gives birth to Athena. Named in honor of whichever poor sufferer dreamed that mythos up. 
 
-So we move the latest athena.md into the project directory, load up the REPL and sure enough, there's our data.
+So we move the latest athena.md into the project directory, load up the REPL and sure enough, it's all in there. Now we just have to `spit` it out. To do it right, we'd have kept some exact record of our file name so we could put it into a new directory of the same form. We're going to cheat instead; we did the hard part, and want to keep it readable since we don't have macros with which to bury the boring parts.
+
+So here's our last trick:
+
+```clojure
+      
+(def zeus-map (weave-zeus {} flat-athena))
+                          
+(do (spit "zeus.grammar"  (:zeus-grammar zeus-map))
+    (spit "core-test.clj" (:core_test-clj zeus-map))
+    (spit "core.clj"      (:core-clj zeus-map))) 
+```
+
+That's it! This leaves our files stranded in the home directory, and there are some extra newlines, but I don't care and neither should you. 
+
+Migraine, the next chapter in this adventure, will add some actual capabilities. Migraine is just Zeus with an extra headache: instead of producing himself, he has to produce Athena, which is a more challenging software to write.   
 

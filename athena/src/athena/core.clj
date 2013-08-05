@@ -20,15 +20,28 @@
   [file-name]
   (keyword (clojure.string/replace (last (clojure.string/split file-name #"/")) "." "-")))
 
-
-     
-(defn huh
-  "huh?"
-  [_]
-  (if (= 0 0)
-      ((println "many things can happen under such conditions")
-       +(println "why, almost anything might be true")
-        (+ 2 2))
-      (println "this never happens of course")))
+(defn weave-zeus
+  "a weaver to generate our next iteration"
+  [state code]
+  (if (keyword? (first code))
+      (if (= :magic-word (first code))
+          (weave-zeus (assoc state 
+                             :current-file, (first (rest code))) 
+                      (drop 2 code))
+          (if (= :code-type (first code))
+              
+              (let [file-key (key-maker (:current-file state))]
+              (weave-zeus (assoc state
+                                 file-key, 
+                                 (apply str (state file-key) (first (rest (rest code))))) 
+                          (drop 3 code)))
+              (println "error")))                                                      
+      state))
+      
+(def zeus-map (weave-zeus {} flat-athena))
+                          
+(do (spit "zeus.grammar"  (:zeus-grammar zeus-map))
+    (spit "core-test.clj" (:core_test-clj zeus-map))
+    (spit "core.clj"      (:core-clj zeus-map)))                                        
                
                
