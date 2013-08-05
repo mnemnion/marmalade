@@ -14,3 +14,34 @@
   [tag & body] (vec [tag (apply str body)]))
 
 (def flat-athena (drop 10 (flatten (insta/transform {:code cat-code} parsed-athena))))
+
+(defn key-maker
+  "makes a keyword name from our file string"
+  [file-name]
+  (clojure.string/replace (last (clojure.string/split file-name #"/")) "." "-"))
+
+(defn weave-zeus
+  "a weaver to generate our next iteration"
+  [state code]
+  (if (keyword? (first code))
+      (if (= :magic-word (first code))
+          (weave-zeus (assoc state 
+                             :current-file (first (rest code))) 
+                                  (drop 2 code))
+          (if (= :code-type (first code))
+              (weave-zeus (assoc state
+                                 (keyword (key-maker (:current-file state))) (first (rest (rest code)))) 
+                                     (drop 3 code))
+              (println "not reached yet")))                                                      
+      (println "not reached yet b")))
+     
+(defn huh
+  "huh?"
+  [_]
+  (if (= 0 0)
+      ((println "many things can happen under such conditions")
+       +(println "why, almost anything might be true")
+        (+ 2 2))
+      (println "this never happens of course")))
+               
+               
