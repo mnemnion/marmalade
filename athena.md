@@ -228,7 +228,7 @@ Then we call it and do some stuff to the results:
 
 Now, how you feel about this line depends on how you feel about Lisp, generally. This was written progressively from the middle out, on a REPL. It's easy to read if you know that, and would be easier still if formatted more naturally. 
 
-A more idiomatic Clojure way to do all this would be to use a threading macro like `->>` to thread the data structure through the transformations, instead of making all these global defs. Everything except `cat-code` so far could be a single function.
+A more idiomatic Clojure way to do all this would be to use a threading macro like `->>` to thread the data structure through the transformations, instead of making all these global defs. Everything so far could be a single function, though it's sensible to put the parser in its own ref.
 
 `drop 10` just gets us past the front matter. We introduce our idioms before we use them, for a reason.
 
