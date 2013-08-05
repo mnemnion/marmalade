@@ -286,7 +286,7 @@ So here's our last trick:
     (spit "core.clj"      (:core-clj zeus-map))) 
 ```
 
-That's it! This leaves our files stranded in the home directory, and there are some extra newlines, but I don't care and neither should you. 
+That's it! This leaves our files stranded in the home directory, and there are some extra newlines, but I don't care and neither should you. It's officially close enough for government work. In our next chapter, we will undergo the formality of writing a test and demonstrating that Migraine's markdown contains Athena alpha, which will be a part of Athena herself. 
 
 Migraine, the next chapter in this adventure, will add some actual capabilities. Migraine is just Zeus with an extra headache: instead of producing himself, he has to produce Athena, which is a more challenging software to write.   
 
