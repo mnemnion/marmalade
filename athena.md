@@ -126,7 +126,7 @@ We will leave it alone for now. Eventually, we will want to test our quine again
 
 For the same reason, we will leave the function `foo` in the namespace. Nothing will be deleted or modified, and the order in which code is introduced is the order into which it will be woven. This is a bootstrap, after all. 
 
-Instaparse has its own format, which could be specified as a string within the .clj file. We prefer to put the grammar in its own file, `@/marmion/athena/athena.grammar@`, which we start like this:
+Instaparse has its own format, which could be specified as a string within the .clj file. We prefer to put the grammar in its own file, `@/marmion/athena/zeus.grammar@`, which we start like this:
 
 ```text
 (* A Grammar for Zeus, Father of Athena, A Literate Weaver *)
@@ -186,7 +186,7 @@ That leaves `markdown` which is perhaps not strictly named, since the code block
 markdown = #'[^`@]+' | in-line-code;
 ```
 
-We're done! We now have a grammar that we can make into a parser, so let's do it: we need to add more code to ``@/marmion/athena/src/athena/core.clj@`. 
+We're done! We now have a grammar that we can make into a parser, so let's do it: we need to add more code to `@/marmion/athena/src/athena/core.clj@`. 
 
 ```clojure
 
@@ -206,7 +206,7 @@ Now, we use `zeus-parser` to parse this document, `athena.md`
 
 When we run `core.clj` in a REPL, we see that `parsed-athena` is a tree-structure containing our magic words and code. We've designed this puzzle so that we can use this sorted information in the order we found it, so we don't need the tree structure.
 
-To simply get rid of the tree structure we would `flatten` it. But this would leave us in a bad way, because some of our code blocks aren't globbed into a single string, thanks to separate detection for ` `` ` and `` ` ``. 
+To simply get rid of the tree structure we would `flatten` it. But this would leave us in a bad way, because some of our code blocks aren't globbed into a single string, thanks to separate detection for `` ` ` `` [sic] and `` ` ``. 
 
 Fortunately, this is so common that Instaparse ships with a function for fixing it. `insta/transform` to the rescue!
 
