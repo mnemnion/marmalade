@@ -206,7 +206,7 @@ Now, we use `zeus-parser` to parse this document, `athena.md`
 
 When we run `core.clj` in a REPL, we see that `parsed-athena` is a tree-structure containing our magic words and code. We've designed this puzzle so that we can use this sorted information in the order we found it, so we don't need the tree structure.
 
-To simply get rid of the tree structure we would `flatten` it. But this would leave us in a bad way, because some of our code blocks aren't globbed into a single string, thanks to separate detection for ` `` ` and `` ` ``. 
+To simply get rid of the tree structure we would `flatten` it. But this would leave us in a bad way, because some of our code blocks aren't globbed into a single string, thanks to separate detection for `` ` ` `` [sic] and `` ` ``. 
 
 Fortunately, this is so common that Instaparse ships with a function for fixing it. `insta/transform` to the rescue!
 
