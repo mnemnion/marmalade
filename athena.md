@@ -126,7 +126,7 @@ We will leave it alone for now. Eventually, we will want to test our quine again
 
 For the same reason, we will leave the function `foo` in the namespace. Nothing will be deleted or modified, and the order in which code is introduced is the order into which it will be woven. This is a bootstrap, after all. 
 
-Instaparse has its own format, which could be specified as a string within the .clj file. We prefer to put the grammar in its own file, `@/marmion/athena/athena.grammar@`, which we start like this:
+Instaparse has its own format, which could be specified as a string within the .clj file. We prefer to put the grammar in its own file, `@/marmion/athena/zeus.grammar@`, which we start like this:
 
 ```text
 (* A Grammar for Zeus, Father of Athena, A Literate Weaver *)
