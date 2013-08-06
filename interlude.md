@@ -28,8 +28,10 @@ This is an easy add when Arachne gets written.
 
 Your humble narrator is only human, and made a very basic mistake. A weaver creates the documentation, and a tangler the source code. 
 
-Donald Knuth is a writer of books, that are incidentally programs. The books will inspire generations after the source is run to any practical end, indeed the core TeX engine is largely superceded. Of course the weave creates the documentation. I feel quite foolish. Migraine indeed.
+Donald Knuth is a writer of books, that are incidentally programs. The books will inspire for generations after the source is run to any practical end, indeed the core TeX engine is largely superceded, and MMX is run only to explore Professor Knuth's work. Of course the weave creates the documentation. I feel quite foolish. Migraine indeed.
 
 Well, we have a way out. I heard an ancient version of the myth in Crete, from an old man whose name was, well, they should have called him the bridge builder. But they didn't. He told me that when Athena broke loose from Zeus's forehead, a fragment of bone from his skull somehow ended up impregnating a human woman. He was actually quite graphic about the details, but in any case, thus was Arachne born. Much is explained: why Arachne was a better weaver in human eyes than Athena (she was born from the same thought), why Athena was so vengeful (she was a toddler as Olympians go), and why Arachne was ultimately forgiven and given domain over all spiders and things that crawl. 
+
+Arachne is technically a spider, crawling a hypertext document, collating data of utility, and transforming it into something useful. Athena is a weaver, taking one hypertextual context and spinning it into another. The center holds.
 
 Thus, Migraine will birth Athena, and in doing so, birth Arachne. The technical term is a fork. They do address the same input in complementary ways, so this is a sensible development. Stay tuned.
