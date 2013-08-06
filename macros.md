@@ -12,5 +12,9 @@ A container (which is a chain of arity two, but is the most useful chain and has
 
 To make macro definitions clearer, let's pretend this is a macro for Foolang, which is found in ```` ```foolang ```` code blocks. Markdown macros may be more complex, as an edge case. Somewhere in a code block, we've called a macro `` `<@foomac@>` ``.
 
+In its own codeblock, we put, as the first line, an anchor: `` `<@foomac/source@>` ``, with a newline immediately after. The code follows: one code block per macro. If it is a container or a chain, ` @><@ ` marks the points where literal code is written around.
+
+That's it, that's all the macro we're providing. The metadata will allow language specific macros, which must be literal (no regular expression macro boundaries please!), and which, to work correctly, should be syntax errors anywhere outside of literal strings within your target language, in opening, closing, and continuation forms.
+
 
 
