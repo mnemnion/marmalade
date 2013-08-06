@@ -1,0 +1,15 @@
+
+<form> = object 
+       | symbol
+       | keyword
+       | WS* form WS* ;
+
+object = WS* "{" WS* pair* "}" WS* ;
+
+<pair> = form form ;
+
+symbol = #"[A-Za-z]+" ; (* a conventional start *)
+
+WS = <#"[\s]+">	 ;
+
+keyword = #"[:][A-Za-z]+" ;
