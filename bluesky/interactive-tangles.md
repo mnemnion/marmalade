@@ -4,7 +4,7 @@ We've already mentioned that the major feature of Marmion, as distinct from Athe
 
 There's a second possibility, of course, which is tangles which feed back into the source. A good early candidate would be [Task Lists](https://github.com/blog/1375-task-lists-in-gfm-issues-pulls-comments) as implemented by Github. Check the box, the X shows up in your source code. 
 
-- [ ] Task Lists
+- [ ] Task Lists - do not work outside of issues etc. Boo.
 
 It's trivial, but building the back channel is not. Something like Firebase could bootstrap it, but is insufficiently general for production use. Marmion (any feedback from tangle or weave into source is Marmion's doing) could check out Firebase and see if there are any action items, but we'd like something more durable and less API specific. Marmion shouldn't have to be running to complete the circuit.
 
