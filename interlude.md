@@ -2,12 +2,6 @@
 
 Before we proceed with migraine (indeed my head hurts slightly, and I will eat before long), let's have another digression. I am nothing if not discursive.
 
-
-
-#An Interlude
-
-Before we proceed with migraine (indeed my head hurts slightly, and I will eat before long), let's have another digression. I am nothing if not discursive.
-
 Marmion is intended as a production tool. To really get there, certain feedback loops are non optional. Marmion is a means to an end, but it should be made into an excellent means. We shouldn't want to discard Marmion until we have our own host environment. That may confidently be expected to take years. 
 
 So Marmion is Athena, which weaves, and Arachne, which tangles. What, then, is Marmion itself? A mere aggregate, a chimera with the face of a virgin and the body of a spider? Marmion is the package, true, but Marmion per se, the command `marmion`, will perform the critical act of unraveling.
