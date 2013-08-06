@@ -1,15 +1,18 @@
 
-<form> = object 
+<form> = object
+       | vector
        | symbol
        | keyword
        | WS* form WS* ;
 
 object = WS* "{" WS* pair* "}" WS* ;
 
+vector = WS* "[" WS* form* "]" WS* ;
+
 <pair> = form form ;
 
 symbol = #"[A-Za-z]+" ; (* a conventional start *)
 
-WS = <#"[\s,]+">	 ; (* commas are whitespace *)
+<WS> = <#"[\s,]+">	 ; (* commas are whitespace *)
 
 keyword = #"[:][A-Za-z]+" ;
