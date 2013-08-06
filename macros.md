@@ -16,5 +16,8 @@ In its own codeblock, we put, as the first line, an anchor: `` `<@foomac/source@
 
 That's it, that's all the macro we're providing. The metadata will allow language specific macros, which must be literal (no regular expression macro boundaries please!), and which, to work correctly, should be syntax errors anywhere outside of literal strings within your target language, in opening, closing, and continuation forms.
 
+Note: the trigraph format virtually guarantees picking a distinctive set of characters which will perform the dual of validation against your target languages syntax. Some languages, Lisps in particular, are strongly form oriented, and a single character terminal, hence two character continuation, is practical. Let your source be your guide.
+
+
 
 
