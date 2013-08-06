@@ -10,7 +10,7 @@ This is easy to illustrate. For Markdown, a simple enough macro would be `` `<@ 
 
 A container (which is a chain of arity two, but is the most useful chain and has its own name) would start with `` `<@ ``, have a front matter closed with `` @> `` (note the lack of a closing `` ` ``) and immediately follow this with `` <@ ``. Whitespace between is not allowed, the middle symbol is `` @><@ `` in full. This is followed by literal source code, which is closed with `` @>` ``. A chain has more than one `` @><@ `` before the `` @>` `` which closes.
 
-To make macro definitions clearer, let's pretend this is a macro for Foolang, which is found in ` ```foolang ` code blocks. Markdown macros may be more complex, as an edge case. Somewhere in a code block, we've called a macro `` `<@foomac@>` ``.
+To make macro definitions clearer, let's pretend this is a macro for Foolang, which is found in ```` ```foolang ```` code blocks. Markdown macros may be more complex, as an edge case. Somewhere in a code block, we've called a macro `` `<@foomac@>` ``.
 
 
 
