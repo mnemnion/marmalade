@@ -20,6 +20,16 @@ A sensible working environment will take a more durable, less quirky approach to
 
 Another useful addition, which I'm sticking here because I lack another place to put it, would be support for [ASCIIMathML](http://www1.chapman.edu/~jipsen/mathml/asciimath.html) in the Markdown. Generating readable mathematics to go along with the code will prove handy someday I'm sure.
 
-The syntax would be `` `$ASCIIMathML$ ``, inspired by TeX. The backtick is not used in ASCIIMathML markup; if you want a literal token with dollar signs on both sides, you must use double backticks to enclose it, or put spaces between the backtick and the dollar signs. 
+The syntax would be `` `$ASCIIMathML$` ``, inspired by TeX. The backtick is not used in ASCIIMathML markup; if you want a literal token with dollar signs on both sides, you must use double backticks to enclose it, or put spaces between the backtick and the dollar signs. 
 
 This is an easy add when Arachne gets written. 
+
+##A twist
+
+Your humble narrator is only human, and made a very basic mistake. A weaver creates the documentation, and a tangler the source code. 
+
+Donald Knuth is a writer of books, that are incidentally programs. The books will inspire generations after the source is run to any practical end, indeed the core TeX engine is largely superceded. Of course the weave creates the documentation. I feel quite foolish. Migraine indeed.
+
+Well, we have a way out. I heard an ancient version of the myth in Crete, from an old man whose name was, well, they should have called him the bridge builder. But they didn't. He told me that when Athena broke loose from Zeus's forehead, a fragment of bone from his skull somehow ended up impregnating a human woman. He was actually quite graphic about the details, but in any case, thus was Arachne born. Much is explained: why Arachne was a better weaver in human eyes than Athena (she was born from the same thought), why Athena was so vengeful (she was a toddler as Olympians go), and why Arachne was ultimately forgiven and given domain over all spiders and things that crawl. 
+
+Thus, Migraine will birth Athena, and in doing so, birth Arachne. The technical term is a fork. They do address the same input in complementary ways, so this is a sensible development. Stay tuned.
