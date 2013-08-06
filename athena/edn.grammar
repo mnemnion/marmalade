@@ -10,6 +10,6 @@ object = WS* "{" WS* pair* "}" WS* ;
 
 symbol = #"[A-Za-z]+" ; (* a conventional start *)
 
-WS = <#"[\s]+">	 ;
+WS = <#"[\s,]+">	 ; (* commas are whitespace *)
 
 keyword = #"[:][A-Za-z]+" ;
