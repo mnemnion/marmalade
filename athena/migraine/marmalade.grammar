@@ -4,15 +4,30 @@
 
 marmalade = paragraph + line*;
 
-line = #'[^\n]+' (!blank-line '\n')*;
+line = !(code-header | code-footer) #'[^\n]+' (!blank-line '\n')*;
 
 <block> = line+ ;
 
-paragraph = block blank-line+ ;
+paragraph = prose | code ;
+
+prose = block blank-line+ ;
+
+code = code-header (line | blank-line)+ code-footer ;
 
 blank-line = '\n' #'[ \t]*' '\n' ;
 
-code =  blank-line triple-ticks code-type code-block triple-ticks '\n'
+code-header = triple-ticks (code-type)* "\n" ;
+
+code-footer = triple-ticks sp blank-line; 
+
+sp = #'[ \t]*' ;
+
+
+
+
+
+
+old-code =  blank-line triple-ticks code-type code-block triple-ticks '\n'
    | blank-line triple-ticks "\n" code-block triple-ticks '\n'
    ;
 
