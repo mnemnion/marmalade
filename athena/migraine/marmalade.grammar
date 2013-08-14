@@ -4,13 +4,15 @@
 
 marmalade = blocks +
 
-blocks = code | magic | markdown 
+blocks =  markdown ;
 
-paragraph = #'[^@\n]+'  !blank-line  '\n'* ;
+line = #'[^\n]+' (!blank-line '\n')*;
 
-markdown = (paragraph !code blank-line)+ ;
+paragraph = line+ ;
 
-blank-line = '\n' #'[ \t]'+ '\n' ;
+markdown = paragraph blank-line+ ;
+
+blank-line = '\n' #'[ \t]*' '\n' ;
 
 code =  blank-line triple-ticks code-type code-block triple-ticks '\n'
    | blank-line triple-ticks "\n" code-block triple-ticks '\n'
