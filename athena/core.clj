@@ -10,7 +10,7 @@
 
 (def zeus-parser (insta/parser (slurp "zeus.grammar")))
                                       
-(def edn-p (insta/parser (slurp "edn.grammar")))
+(def edn-p (insta/parser (slurp "edn.grammar"):output-format :enlive))
 
 
 (def parsed-athena (zeus-parser (slurp "athena.md") :unhide :all))
@@ -58,11 +58,13 @@
   [tree]
   (apply str (filter string? (flatten tree))))
 
-(defn re-parse
+#_(defn re-parse
   "flatten a tree and reparse with a given grammar"
   [parser tree]
   (parser (make-flat tree)))
-                                 
+                                
+(defn re-parse
+  "re-parse a tree in place, with a given grammer.)
 
 
 

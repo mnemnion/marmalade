@@ -7,14 +7,14 @@
   [x]
   (println x "Hello, World!"))
 
-(def zeus-parser (insta/parser (slurp "zeus.grammar")))
+(def marmalade-parser (insta/parser (slurp "marmalade.grammar")))
 
-(def parsed-athena (zeus-parser (slurp "athena.md")))
+(def parsed-migraine (marmalade-parser (slurp "migraine.md")))
 
 (defn cat-code "a bit of help for code blocks"
   [tag & body] (vec [tag (apply str body)]))
 
-(def flat-athena (drop 10 (flatten (insta/transform {:code cat-code} parsed-athena))))
+#_(def flat-athena (drop 10 (flatten (insta/transform {:code cat-code} parsed-athena))))
 
 (defn key-maker
   "makes a keyword name from our file string"
@@ -37,8 +37,8 @@
       state))
 
       
-(def zeus-map (weave-zeus {} flat-athena))
+#_(def zeus-map (weave-zeus {} flat-athena))
                           
-(do (spit "migraine/zeus.grammar"  (:zeus-grammar zeus-map))
+#_(do (spit "migraine/zeus.grammar"  (:zeus-grammar zeus-map))
     (spit "migraine/core-test.clj" (:core_test-clj zeus-map))
     (spit "migraine/core.clj"      (:core-clj zeus-map))) 

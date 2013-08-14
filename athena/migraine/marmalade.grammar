@@ -1,0 +1,29 @@
+
+(* A Grammar for Marmalade, A Literate Flavour of Markdown *)
+
+
+marmalade = blocks +
+
+blocks = code | magic | markdown 
+
+paragraph = #'[^@\n]+'  !blank-line  '\n'* ;
+
+markdown = (paragraph !code blank-line)+ ;
+
+blank-line = '\n' #'[ \t]'+ '\n' ;
+
+code =  blank-line triple-ticks code-type code-block triple-ticks '\n'
+   | blank-line triple-ticks "\n" code-block triple-ticks '\n'
+   ;
+
+code-type = "clojure" | "text" ;
+
+code-block = code-lines + ;
+
+code-lines = #'[`\n]+' '\n' ;
+
+triple-ticks = "`" "`" "`" ;
+
+magic = "`@" magic-word "@`" ;
+
+magic-word = #'[^@]+' ; 

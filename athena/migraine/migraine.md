@@ -31,7 +31,7 @@ the bright Son of Hyperion stopped his swift-footed horses a long while,
       from her immortal shoulders.  
 And wise Zeus was glad. 
 ```
-
+ 
 And so hail to you, daughter of Zeus who holds the aegis!  
 Now I will remember you and another song as well.  
 
