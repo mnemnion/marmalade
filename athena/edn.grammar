@@ -9,7 +9,11 @@ object = WS* "{" WS* pair* "}" WS* ;
 
 vector = WS* "[" WS* form* "]" WS* ;
 
-<pair> = form form ;
+<pair> = key val ;
+
+key = form ;
+
+val = form ;
 
 symbol = #"[A-Za-z]+" ; (* a conventional start *)
 

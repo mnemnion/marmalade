@@ -2,13 +2,17 @@
 (* A Grammar for Marmalade, A Literate Flavour of Markdown *)
 
 
-marmalade = paragraph + line*;
+marmalade = section+ ;
 
-line = !(code-header | code-footer) #'[^\n]+' (!blank-line '\n')*;
+section = header paragraph + line*;
+
+<line> = !(header | triple-ticks) #'[^\n]+' (!blank-line '\n')*;
 
 <block> = line+ ;
 
-paragraph = prose | code ;
+<paragraph> = prose | code | header;
+
+header = "#" #'[^\n]+' '\n'+; 
 
 prose = block blank-line+ ;
 
