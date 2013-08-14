@@ -2,15 +2,13 @@
 (* A Grammar for Marmalade, A Literate Flavour of Markdown *)
 
 
-marmalade = blocks +
-
-blocks =  markdown ;
+marmalade = paragraph + line*;
 
 line = #'[^\n]+' (!blank-line '\n')*;
 
-paragraph = line+ ;
+<block> = line+ ;
 
-markdown = paragraph blank-line+ ;
+paragraph = block blank-line+ ;
 
 blank-line = '\n' #'[ \t]*' '\n' ;
 
