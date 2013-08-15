@@ -1,1 +1,0 @@
-([:dependencies ([catnip "0.6.0-SNAPSHOT"] [org.clojure/clojure "1.4.0"] [instaparse/instaparse "1.2.2"])])
