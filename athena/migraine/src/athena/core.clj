@@ -11,17 +11,17 @@
 
 (def parsed-migraine (marmalade-parser (slurp "migraine.md")))
 
-(defn cat-code "a bit of help for code blocks"
-  [tag & body] (vec [tag (apply str body)]))
-
-#_(def flat-athena (drop 10 (flatten (insta/transform {:code cat-code} parsed-athena))))
-
 (defn key-maker
   "makes a keyword name from our file string"
   [file-name]
   (keyword  (last (clojure.string/split file-name #"/"))))
 
-(insta/transform {:prose (fn [ & lines ] [:prose (apply str lines)])} parsed-migraine)
+(defn smush
+  "smushes a keyword corresponding to a terminal node"
+  [rule tree]
+    (insta/transform 
+         {rule (fn [ & lines ] [rule (apply str lines)])} 
+                   tree))
 
 (defn weave-zeus
   "a weaver to generate our next iteration"
