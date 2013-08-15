@@ -6,15 +6,17 @@ marmalade = section+ ;
 
 section = header paragraph + line*;
 
-<line> = !(header | triple-ticks) #'[^\n]+' (!blank-line '\n')*;
-
-<block> = line+ ;
-
 <paragraph> = prose | code ;
+
+<line> = !(header | triple-ticks) word+ (!blank-line '\n')*;
+
+word = #'[^\n ]+' sp ; (*Many are the things which go here*)
 
 header = "#" #'[^\n]+' '\n'+; 
 
 prose = block blank-line+ ;
+
+<block> = line+ ;
 
 code = code-header code-body code-footer ;
 
