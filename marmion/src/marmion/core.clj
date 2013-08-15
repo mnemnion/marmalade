@@ -29,13 +29,12 @@
 (defn- e-tree-seq 
   "tree-seqs enlive trees/graphs, at least instaparse ones"
   [e-tree]
-  (tree-seq (comp seq :content) :content e-tree)) 
+  (tree-seq (comp seq :content) :content (first e-tree))) 
 
-(= (first (filter (fn [x] (coll? (:content (first x)))) (e-tree-seq (edn-enl "{ :foo { :bar baz}}")))) 
-   (edn-enl "{ :foo { :bar baz}}")) ;true
 
-(= (apply str (filter (fn [x] (constantly false)) (e-tree-seq (edn-enl "{ :foo { :bar baz}}"))))
-   "{ :foo { :bar baz}}" ) ;false
+
+(= (apply str (filter string? (e-tree-seq (edn-enl "{ :foo { :bar baz}}"))))
+   "{ :foo { :bar baz}}" ) ; true :-)
 
 
 (defn weave-zeus
