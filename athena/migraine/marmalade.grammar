@@ -10,15 +10,16 @@ section = header paragraph + line*;
 
 <block> = line+ ;
 
-<paragraph> = prose | code | header;
+paragraph = prose | code | header;
 
 header = "#" #'[^\n]+' '\n'+; 
 
 prose = block blank-line+ ;
 
-code = code-header (line | blank-line)+ code-footer ;
+code = code-header code-body code-footer ;
 
-blank-line = '\n' #'[ \t]*' '\n' ;
+code-body = (line | blank-line)+ ;
+<blank-line> = '\n' #'[ \t]*' '\n' ;
 
 code-header = triple-ticks (code-type)* "\n" ;
 

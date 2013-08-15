@@ -21,6 +21,8 @@
   [file-name]
   (keyword  (last (clojure.string/split file-name #"/"))))
 
+(insta/transform {:prose (fn [ & lines ] [:prose (apply str lines)])} parsed-migraine)
+
 (defn weave-zeus
   "a weaver to generate our next iteration"
   [state code]
