@@ -10,7 +10,7 @@ section = header paragraph + line*;
 
 <block> = line+ ;
 
-paragraph = prose | code | header;
+<paragraph> = prose | code ;
 
 header = "#" #'[^\n]+' '\n'+; 
 
@@ -19,30 +19,18 @@ prose = block blank-line+ ;
 code = code-header code-body code-footer ;
 
 code-body = (line | blank-line)+ ;
-<blank-line> = '\n' #'[ \t]*' '\n' ;
+ 
+<blank-line> = '\n' sp '\n' ;
 
 code-header = triple-ticks (code-type)* "\n" ;
 
 code-footer = triple-ticks sp blank-line; 
 
-sp = #'[ \t]*' ;
-
-
-
-
-
-
-old-code =  blank-line triple-ticks code-type code-block triple-ticks '\n'
-   | blank-line triple-ticks "\n" code-block triple-ticks '\n'
-   ;
+<sp> = #'[ \t]*' ;
 
 code-type = "clojure" | "text" ;
 
-code-block = code-lines + ;
-
-code-lines = #'[`\n]+' '\n' ;
-
-triple-ticks = "`" "`" "`" ;
+<triple-ticks> = "`" "`" "`" ;
 
 magic = "`@" magic-word "@`" ;
 
