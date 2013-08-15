@@ -9,6 +9,10 @@
 
 (def marmalade-parser (insta/parser (slurp "marmalade.grammar")))
 
+(def mar-enl (insta/parser (slurp "marmalade.grammar") :output-format :enlive))
+
+(def edn-enl (insta/parser (slurp "edn.grammar") :output-format :enlive))
+
 (def parsed-migraine (marmalade-parser (slurp "migraine.md")))
 
 (defn key-maker
@@ -22,6 +26,17 @@
     (insta/transform 
          {rule (fn [ & lines ] [rule (apply str lines)])} 
                    tree))
+(defn- e-tree-seq 
+  "tree-seqs enlive trees/graphs, at least instaparse ones"
+  [e-tree]
+  (tree-seq (comp seq :content) :content e-tree)) 
+
+(= (first (filter (fn [x] (coll? (:content (first x)))) (e-tree-seq (edn-enl "{ :foo { :bar baz}}")))) 
+   (edn-enl "{ :foo { :bar baz}}")) ;true
+
+(= (apply str (filter (fn [x] (constantly false)) (e-tree-seq (edn-enl "{ :foo { :bar baz}}"))))
+   "{ :foo { :bar baz}}" ) ;false
+
 
 (defn weave-zeus
   "a weaver to generate our next iteration"
