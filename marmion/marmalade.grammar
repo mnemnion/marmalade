@@ -2,9 +2,9 @@
 (* A Grammar for Marmalade, A Literate Flavour of Markdown *)
 
 
-marmalade = section+ ;
+marmalade = &header section+ | paragraph + section * ;
 
-section = header? paragraph + line*;
+section = header paragraph + line*;
 
 <line> = !(header | triple-ticks) #'[^\n]+' (!blank-line '\n')*;
 

@@ -9,7 +9,7 @@
 
 (def marmalade-parser (insta/parser (slurp "marmalade.grammar")))
 
-#_(def parsed-migraine (marmalade-parser (slurp "migraine.md")))
+(def parsed-migraine (marmalade-parser (slurp "migraine.md")))
 
 (defn key-maker
   "makes a keyword name from our file string"
