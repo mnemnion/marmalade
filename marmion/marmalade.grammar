@@ -1,0 +1,39 @@
+
+(* A Grammar for Marmalade, A Literate Flavour of Markdown *)
+
+
+marmalade = section+ ;
+
+section = header? paragraph + line*;
+
+<line> = !(header | triple-ticks) #'[^\n]+' (!blank-line '\n')*;
+
+<block> = line+ ;
+
+<paragraph> = prose | code ;
+
+header = "#" #'[^\n]+' '\n'+; 
+
+prose = block blank-line+ ;
+
+code = code-header code-body code-footer ;
+
+code-body = (line | blank-line)+ ;
+ 
+<blank-line> = '\n' sp #'[\n]+' ;
+
+code-header = triple-ticks (code-type)* "\n" ;
+
+code-footer = triple-ticks ws; 
+
+<sp> = #'[ \t]*' ;
+
+<ws> = #'[\s]+';
+
+code-type = "clojure" | "text" ;
+
+<triple-ticks> = "`" "`" "`" ;
+
+magic = "`@" magic-word "@`" ;
+
+magic-word = #'[^@]+' ; 
