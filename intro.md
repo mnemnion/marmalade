@@ -1,4 +1,4 @@
-#Marmelade
+#Marmalade
 
 [Literate Programming](http://www-cs-faculty.stanford.edu/~uno/lp.html) is one of those paradigms whose fate is continual reinvention. I've been noticing that my software projects start as Markdown. It stands to reason that they should end up as Markdown as well.
 
