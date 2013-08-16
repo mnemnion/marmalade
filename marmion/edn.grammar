@@ -1,9 +1,20 @@
+edn = form + ;
+
 
 <form> = object
        | vector
        | symbol
        | keyword
-       | WS* form WS* ;
+       | WS* form WS*
+       | dispatched-form ;
+
+dispatched-form = "#" dispatch-modifier? form ;
+
+dispatch-modifier = discard | tagged ;
+
+discard = "_"
+
+tagged = symbol;
 
 object = WS* "{" WS* pair* "}" WS* ;
 
@@ -15,7 +26,13 @@ key = form ;
 
 val = form ;
 
-symbol = #"[A-Za-z]+" ; (* a conventional start *)
+letters = #"[A-Za-z]+" ; (* a conventional start *)
+
+symbol = symbol "." symbol 
+       | symbol "/" symbol
+       | symbol "." symbol "/" symbol
+       | letters
+       ;
 
 <WS> = #"[\s,]+"	 ; (* commas are whitespace *)
 
