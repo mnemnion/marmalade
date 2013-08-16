@@ -8,7 +8,9 @@ edn = form + ;
        | WS* form WS*
        | dispatched-form ;
 
-<atom> = built-in / symbol ;
+<atom> = built-in / (symbol | string);
+
+string = #'("[^"\\]*(?:\\.[^"\\]*)*")' ; 
 
 <built-in> = boolean | nil ;
 
