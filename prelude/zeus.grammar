@@ -1,0 +1,21 @@
+
+(* A Grammar for Zeus, Father of Athena, A Literate Weaver *)
+
+
+zeus-program = (magic | code | <markdown>) * 
+
+code =  <"`" "`" "`"> code-type code-block+ <"`" "`" "`"> 
+   | <"`" "`" "`"> "\n" code-block+ <"`" "`" "`">
+   ;
+
+code-type = "clojure" | "text" ;
+
+<code-block> = #'[^`]+' | in-line-code ;
+
+<in-line-code> = !("`" "`" "`") ("`"|"``");
+
+<magic> = <"`@"> magic-word <"@`"> ;
+
+magic-word = #'[^@]+' ; 
+
+markdown = #'[^`@]+' | in-line-code;
