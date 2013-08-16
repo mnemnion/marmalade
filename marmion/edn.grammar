@@ -1,12 +1,20 @@
 edn = form + ;
 
 
-<form> = object
+<form> = atom
+       | object
        | vector
-       | symbol
        | keyword
        | WS* form WS*
        | dispatched-form ;
+
+<atom> = built-in / symbol ;
+
+<built-in> = boolean | nil ;
+
+boolean = "true" | "false" ;
+
+nil = "nil" ;
 
 dispatched-form = "#" dispatch-modifier? form ;
 
@@ -26,7 +34,7 @@ key = form ;
 
 val = form ;
 
-letters = #"[A-Za-z]+" ; (* a conventional start *)
+<letters> = #"[A-Za-z]+" ; (* a conventional start *)
 
 symbol = symbol "." symbol 
        | symbol "/" symbol
