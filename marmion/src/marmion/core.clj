@@ -40,13 +40,7 @@
 (defn flatten-rule-hiccup
   "flattens a hiccup tree (instparse dialect)"
   [tree]
-  (apply str (filter string? (flatten tree))))
-
-(= (apply str (filter string? (e-tree-seq (edn-enl "{ :foo { :bar baz}}"))))
-   "{ :foo { :bar baz}}" ) ; true :-)
-
-(= (apply str (filter string? (flatten (edn-hic "{ :foo bar }" ) )))
-   "{ :foo bar }" ) ; also true :-)                                              
+  (apply str (filter string? (flatten tree))))                                          
 
 (defn weave-zeus
   "a weaver to generate our next iteration"
