@@ -11,7 +11,7 @@ edn = form + ;
        | comment
        ;
 
-<atom> = built-in / (symbol | string| character);
+<atom> = built-in / (symbol | string | character);
 
 character = "\\" ((!#"[A-Za-z]{2}" #"[A-Za-z]") | "newline" | "space" | "return" | "tab") WS ;
 
@@ -47,12 +47,29 @@ comment = ";" #"[^\n]+" "\n"? ;
 
 <letters> = #"[A-Za-z]+" ; (* a conventional start *)
 
+
+symbol = non-numeric 
+       | non-numeric non-numeric
+       | non-numeric non-numeric all-id-chars 
+       | prefix-character all-id-chars
+       | namespaced-symbol ;
+
+<namespaced-symbol> = symbol "/" symbol ;
+
+<non-numeric> =  #"[A-Za-z.*+!\-_?$%&=]" ;
+
+<prefix-character> =  #"[A-Za-z*!\_?$%&=]" ;
+
+<all-id-chars> = #"[0-9A-Za-z.*+!\-_?$%&=]+" ;
+
+(* #"[A-Za-z.*+!\-_?$%&=]" *) 
+(*
 symbol = symbol "." symbol 
        | symbol "/" symbol
        | symbol "." symbol "/" symbol
        | letters
        ;
-
+*)
 <WS> = #"[\s,]+"	 ; (* commas are whitespace *)
 
 keyword = #"[:][A-Za-z]+" ;
