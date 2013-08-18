@@ -55,13 +55,13 @@ keyword = ":" keyword-symbol;
                  | namespaced-symbol 
                  ;
 
-dispatched-form = "#" dispatch-modifier? form ;
-
-dispatch-modifier = discard | tagged ;
+dispatched-form = "#" discard form 
+                | "#" tagged 
+                ;
 
 discard = "_"
 
-tagged = symbol;
+tagged = !"_" symbol;
 
 vector =  "[" form* "]"  ;
 
