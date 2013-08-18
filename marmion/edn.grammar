@@ -23,6 +23,8 @@ boolean = "true" | "false" ;
 
 nil = "nil" ;
 
+keyword = ":" identifier ;
+
 dispatched-form = "#" dispatch-modifier? form ;
 
 dispatch-modifier = discard | tagged ;
@@ -47,12 +49,14 @@ comment = ";" #"[^\n]+" "\n"? ;
 
 <letters> = #"[A-Za-z]+" ; (* a conventional start *)
 
+symbol = identifier ;
 
-symbol = non-numeric 
-       | non-numeric non-numeric
-       | non-numeric non-numeric all-id-chars 
-       | prefix-character all-id-chars
-       | namespaced-symbol ;
+<identifier> = namespaced-symbol 
+             / prefix-character all-id-chars
+             / non-numeric non-numeric all-id-chars 
+             /  non-numeric non-numeric
+             / non-numeric
+             ;
 
 <namespaced-symbol> = symbol "/" symbol ;
 
@@ -71,5 +75,3 @@ symbol = symbol "." symbol
        ;
 *)
 <WS> = #"[\s,]+"	 ; (* commas are whitespace *)
-
-keyword = #"[:][A-Za-z]+" ;
