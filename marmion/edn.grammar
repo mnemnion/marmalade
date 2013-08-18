@@ -56,7 +56,7 @@ keyword = ":" keyword-symbol;
                  ;
 
 dispatched-form = "#" discard form 
-                | "#" tagged 
+                | "#" tagged form
                 ;
 
 valid-terminator = #"[ \]})]" ;
@@ -65,11 +65,11 @@ discard = "_"
 
 tagged = !"_" symbol;
 
-vector =  "[" form* "]"  ;
+vector =  "[" form* WS* "]"  ;
 
-list = "(" form* ")" ;
+list = "(" form* WS*")" ;
 
-object =  "{"  pair* "}"  ;
+object =  "{"  pair* WS*"}"  ;
 
 <pair> = key val ;
 
