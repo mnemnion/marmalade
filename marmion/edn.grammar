@@ -95,8 +95,11 @@ while correct, this is highly ambiguous and doesn't parse well, hence:
 <identifier> = #"[A-Za-z*!\_?$%&=][0-9A-Za-z.*+!\-_?$%&=]*" 
              | #"[A-Za-z.*+!\-_?$%&=][A-Za-z.*+!\-_?$%&=]*[0-9A-Za-z.*+!\-_?$%&=]*"
 
-<namespaced-symbol> = symbol "/" symbol ;
+namespaced-symbol = namespace "/" name ;
 
+name = identifier ;
+
+namespace = identifier ;
 
 
 (* #"[A-Za-z.*+!\-_?$%&=]" *) 
