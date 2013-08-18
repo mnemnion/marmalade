@@ -45,7 +45,7 @@ string = #'("[^"\\]*(?:\\.[^"\\]*)*")' ;
 
 <built-in> = boolean | nil ;
 
-boolean = "true" | "false" ;
+boolean = &valid-terminator ("true" | "false") ;
 
 nil = "nil" ;
 
@@ -58,6 +58,8 @@ keyword = ":" keyword-symbol;
 dispatched-form = "#" discard form 
                 | "#" tagged 
                 ;
+
+valid-terminator = #"[ \]})]" ;
 
 discard = "_"
 
