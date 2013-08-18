@@ -1,0 +1,13 @@
+
+{:district/region :region/e, :db/id #db/id[:db.part/user -1000001], :district/name "East"}
+{:db/id #db/id[:db.part/user -1000002], :neighborhood/name "Capitol Hill", :neighborhood/district #db/id[:db.part/user -1000001]}
+{:community/category ["15th avenue residents"], :community/orgtype :community.orgtype/community, :community/type :community.type/email-list, :db/id #db/id[:db.part/user -1000003], :community/name "15th Ave Community", :community/url "http://groups.yahoo.com/group/15thAve_Community/", :community/neighborhood #db/id[:db.part/user -1000002]}
+{:district/region :region/sw, :db/id #db/id[:db.part/user -1000004], :district/name "Southwest"}
+{:db/id #db/id[:db.part/user -1000005], :neighborhood/name "Admiral (West Seattle)", :neighborhood/district #db/id[:db.part/user -1000004]}
+{:community/category ["neighborhood association"], :community/orgtype :community.orgtype/community, :community/type :community.type/email-list, :db/id #db/id[:db.part/user -1000006], :community/name "Admiral Neighborhood Association", :community/url "http://groups.yahoo.com/group/AdmiralNeighborhood/", :community/neighborhood #db/id[:db.part/user -1000005]}
+{:district/region :region/sw, :db/id #db/id[:db.part/user -1000007], :district/name "Southwest"}
+{:db/id #db/id[:db.part/user -1000008], :neighborhood/name "Alki", :neighborhood/district #db/id[:db.part/user -1000007]}
+{:community/category ["members of the Alki Community Council and residents of the Alki Beach neighborhood"], :community/orgtype :community.orgtype/community, :community/type :community.type/email-list, :db/id #db/id[:db.part/user -1000009], :community/name "Alki News", :community/url "http://groups.yahoo.com/group/alkibeachcommunity/", :community/neighborhood #db/id[:db.part/user -1000008]}
+{:district/region :region/sw, :db/id #db/id[:db.part/user -1000010], :district/name "Southwest"}
+{:db/id #db/id[:db.part/user -1000011], :neighborhood/name "Alki", :neighborhood/district #db/id[:db.part/user -1000010]}
+{:community/category ["news" "council meetings"], :community/orgtype :community.orgtype/community, :community/type :community.type/blog, :db/id #db/id[:db.part/user -1000012], :community/name "Alki News/Alki Community Council", :community/url "http://alkinews.wordpress.com/", :community/neighborhood #db/id[:db.part/user -1000011]}

@@ -15,6 +15,10 @@
   
 (def parsed-migraine (marmalade-parser (slurp "migraine.md")))
 
+(def test-vec (apply vector (clojure.string/split (slurp "test-files.txt") #"\n")))
+                                                  
+(defn count-parses [x] (count (insta/parses edn (slurp (str "/Users/atman/code/opp/edn-tests/valid-edn/" x)))))
+
 (defn key-maker
   "makes a keyword name from our file string"
   [file-name]

@@ -49,7 +49,11 @@ boolean = "true" | "false" ;
 
 nil = "nil" ;
 
-keyword = ":" identifier ;
+keyword = ":" keyword-symbol;
+
+<keyword-symbol> = identifier
+                 | namespaced-symbol 
+                 ;
 
 dispatched-form = "#" dispatch-modifier? form ;
 
@@ -95,7 +99,7 @@ while correct, this is highly ambiguous and doesn't parse well, hence:
 <identifier> = #"[A-Za-z*!\_?$%&=][0-9A-Za-z.*+!\-_?$%&=]*" 
              | #"[A-Za-z.*+!\-_?$%&=][A-Za-z.*+!\-_?$%&=]*[0-9A-Za-z.*+!\-_?$%&=]*"
 
-namespaced-symbol = namespace "/" name ;
+<namespaced-symbol> = namespace "/" name ;
 
 name = identifier ;
 
