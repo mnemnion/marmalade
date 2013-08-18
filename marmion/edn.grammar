@@ -2,11 +2,14 @@ edn = form + ;
 
 
 <form> = atom
+	   | list
        | object
        | vector
        | keyword
        | WS* form WS*
-       | dispatched-form ;
+       | dispatched-form 
+       | comment
+       ;
 
 <atom> = built-in / (symbol | string);
 
@@ -26,15 +29,19 @@ discard = "_"
 
 tagged = symbol;
 
-object = WS* "{" WS* pair* "}" WS* ;
-
-vector = WS* "[" WS* form* "]" WS* ;
+object =  "{"  pair* "}"  ;
 
 <pair> = key val ;
 
 key = form ;
 
 val = form ;
+
+vector =  "[" form* "]"  ;
+
+list = "(" form ")" ;
+
+comment = ";" #"[^\n]+" "\n"? ;
 
 <letters> = #"[A-Za-z]+" ; (* a conventional start *)
 

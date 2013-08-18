@@ -10,6 +10,9 @@
 (def edn-enl (insta/parser (slurp "edn.grammar") :output-format :enlive))
                            
 (def edn-hic (insta/parser (slurp "edn.grammar")))
+
+(def edn edn-hic)
+  
 (def parsed-migraine (marmalade-parser (slurp "migraine.md")))
 
 (defn key-maker
