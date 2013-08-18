@@ -1,35 +1,43 @@
 edn = form + WS* ;
 
 
-<form> = atom
-	   | list
-       | object
-       | vector
-       | keyword
-       | WS* form 
-       | dispatched-form 
-       | comment
+<form> = built-in
+       / floating-point
+       /  ( atom
+          | list
+          | object
+          | vector
+          | keyword
+          | WS* form 
+          | dispatched-form 
+          | comment 
+          )
        ;
 
-<atom> = (built-in | number | symbol | string | character);
+<atom> = symbol | string | character;
 
 character = "\\" ((!#"[A-Za-z]{2}" #"[A-Za-z]") | "newline" | "space" | "return" | "tab") ;
 
-<number> = floating-point / integer ;
+<number> = floating-point ;
 
+(*
 floating-point = int "M" 
                | int frac
                | int exp
                | int frac exp
                ;
+*)
+
+(* integer = #'[+\-]?[0-9]+' ; *)
+
+floating-point = #'[+\-]?[1-9][0-9]*\.[0-9]+N?'  (* frac *)
+               | #'[+\-]?[1-9][0-9]*[Ee][+\-]?[0-9]+N?' (* exp *)
+               | #'[+\-]?[1-9][0-9]*\.[0-9]+[Ee]?[+\-]?[0-9]+N?' (* frac exp *)
+               ;
 
 frac = "." #"[0-9]+" ;
 
 exp = #"[Ee][+-]?" ;
-
-integer = int "N"?
-
-<int> = ("+"|"-")? (#'[1-9][0-9]+' / #'[0-9]') ;
 
 string = #'("[^"\\]*(?:\\.[^"\\]*)*")' ; 
 
@@ -51,7 +59,7 @@ tagged = symbol;
 
 vector =  "[" form* "]"  ;
 
-list = "(" form ")" ;
+list = "(" form* ")" ;
 
 object =  "{"  pair* "}"  ;
 
@@ -68,24 +76,26 @@ comment = ";" #"[^\n]+" "\n"? ;
 symbol = identifier
        | namespaced-symbol ;
 
-(* <identifier> = namespaced-symbol 
-             / prefix-character all-id-chars
-             / non-numeric non-numeric all-id-chars 
-             /  non-numeric non-numeric
-             / non-numeric
-             ;
- *)
+(* <identifier> = prefix-character all-id-chars
+                / non-numeric non-numeric all-id-chars 
+                /  non-numeric non-numeric
+                / non-numeric
+                ; 
+
+<non-numeric> =  #"[A-Za-z.*+!\-_?$%&=]" ;
+<prefix-character> =  #"[A-Za-z*!\_?$%&=]" ;
+<all-id-chars> = #"[0-9A-Za-z.*+!\-_?$%&=]+" ;
+
+while correct, this is highly ambiguous and doesn't parse well, hence:
+ 
+*)
 
 <identifier> = #"[A-Za-z*!\_?$%&=][0-9A-Za-z.*+!\-_?$%&=]*" 
              | #"[A-Za-z.*+!\-_?$%&=][A-Za-z.*+!\-_?$%&=]*[0-9A-Za-z.*+!\-_?$%&=]*"
 
 <namespaced-symbol> = symbol "/" symbol ;
 
-<non-numeric> =  #"[A-Za-z.*+!\-_?$%&=]" ;
 
-<prefix-character> =  #"[A-Za-z*!\_?$%&=]" ;
-
-<all-id-chars> = #"[0-9A-Za-z.*+!\-_?$%&=]+" ;
 
 (* #"[A-Za-z.*+!\-_?$%&=]" *) 
 (*
