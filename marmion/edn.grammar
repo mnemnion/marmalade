@@ -11,7 +11,9 @@ edn = form + ;
        | comment
        ;
 
-<atom> = built-in / (symbol | string);
+<atom> = built-in / (symbol | string| character);
+
+character = "\\" ((!#"[A-Za-z]{2}" #"[A-Za-z]") | "newline" | "space" | "return" | "tab") WS ;
 
 string = #'("[^"\\]*(?:\\.[^"\\]*)*")' ; 
 
@@ -29,6 +31,10 @@ discard = "_"
 
 tagged = symbol;
 
+vector =  "[" form* "]"  ;
+
+list = "(" form ")" ;
+
 object =  "{"  pair* "}"  ;
 
 <pair> = key val ;
@@ -36,10 +42,6 @@ object =  "{"  pair* "}"  ;
 key = form ;
 
 val = form ;
-
-vector =  "[" form* "]"  ;
-
-list = "(" form ")" ;
 
 comment = ";" #"[^\n]+" "\n"? ;
 
