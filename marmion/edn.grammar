@@ -2,7 +2,7 @@ edn = form + WS* ;
 
 
 <form> = built-in
-       / floating-point
+       / number
        /  ( atom
           | list
           | object
@@ -18,7 +18,9 @@ edn = form + WS* ;
 
 character = "\\" ((!#"[A-Za-z]{2}" #"[A-Za-z]") | "newline" | "space" | "return" | "tab") ;
 
-<number> = floating-point ;
+<number> = floating-point | integer;
+
+integer =  !floating-point #'[+\-]?[0-9]+' ; 
 
 (*
 floating-point = int "M" 
