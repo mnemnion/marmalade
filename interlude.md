@@ -8,13 +8,11 @@ So Marmion is Athena, which weaves, and Arachne, which tangles. What, then, is M
 
 Unraveling doesn't fit into Donald Knuth's workflow. When one is publishing ones code as hardbound books, clearly, there is no time for debugging, and any errors found may be hand curated back into the source. 
 
-This is not good enough for our purposes. The tangle will be an excellent guide to the code. Indeed, one may click on the tangle at any point containing code and be directed to the weave. It is to be expected that a fair amount of work may be done within the weave itself, and it would be a right pain to put that work back. What to do? 
+This is not good enough for our purposes. The weave will be an excellent guide to the code. Indeed, one may click on the weave at any point containing code and be directed to the tangle. It is to be expected that a fair amount of work may be done within the tangle itself, and it would be a right pain to put that work back. What to do? 
 
-Unravel, clearly. We take the weave, as generated from the source, and compare it to the updates in the weave, and use `diff` to put the various fixes back where they belong. There is probably some way to piggyback on `git` to do this directly.
+Unravel, clearly. We take the tangle, as generated from the source, and compare it to the updates, using `diff` to put the various fixes back where they belong. There is probably some way to piggyback on `git` to do this directly.
 
-The tangle is not the source, as we know, but it does contain the unexpanded macros found within code blocks, and regularly formatted HTML containing links which have the resulting line numbers within them. This is an achievable goal. 
-
-Don't do refactoring from the weave. Refactor from the source, where it is enjoyable and clear. If we stay away from crossing logical boundaries with our edits, and most things which qualify as bug fixes wouldn't, we're in good shape. 
+Don't do refactoring from the tangle. Refactor from the source, where it is enjoyable and clear. If we stay away from crossing logical boundaries with our edits, and most things which qualify as bug fixes wouldn't, we're in good shape. The most important rule is not to modify the contents of a macro, because Marmion can't decide for you if the fix should propagate to other uses of the macro or not. (This only applies to a macro expanded in more than one place; many common macros are just placeholders for code and can be safely modified).
 
 A sensible working environment will take a more durable, less quirky approach to aggregating data including what we now call source code. In the meantime, well, we don't have Marmion either. But we do have zeus, and that's more than we had two days ago.  
 
@@ -22,11 +20,11 @@ Another useful addition, which I'm sticking here because I lack another place to
 
 The syntax would be `` `$ASCIIMathML$` ``, inspired by TeX. The backtick is not used in ASCIIMathML markup; if you want a literal token with dollar signs on both sides, you must use double backticks to enclose it, or put spaces between the backtick and the dollar signs. 
 
-This is an easy add when Arachne gets written. 
+This is an easy add when Athena gets written. 
 
 ##A twist
 
-Your humble narrator is only human, and made a very basic mistake. A weaver creates the documentation, and a tangler the source code. 
+Your humble narrator is only human, and made a very basic mistake. A weaver creates the documentation, and a tangler the source code. All traces of this error are being erased from history; author's privilege.
 
 Donald Knuth is a writer of books, that are incidentally programs. The books will inspire for generations after the source is run to any practical end, indeed the core TeX engine is largely superceded, and MMX is run only to explore Professor Knuth's work. Of course the weave creates the documentation. I feel quite foolish. Migraine indeed.
 
