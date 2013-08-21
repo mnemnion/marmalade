@@ -39,7 +39,7 @@ If at all possible, we don't want to touch GFM itself. Therefore, here are some 
 
 * No mechanism for transclusion on the file level will be provided. The file structure of the Markdown is the file structure of the weave.
 
-This is the sort of project that we can tackle in stages. The first part is the tangler, because we have a fine tangler in the form of [Jekyll](http://jekyllrb.com/). 
+This is the sort of project that we can tackle in stages. The first part is the tangler, because we have a decent bootstrap weaver in the form of [Jekyll](http://jekyllrb.com/). 
 
 This is a job for [Clojure](http://clojure.org). It should be Clojurescript compatible in the narrow sense, but useless unless Instaparse is ported, which seems unlikely, though you never know. 
 
