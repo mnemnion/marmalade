@@ -45,7 +45,7 @@ This is a job for [Clojure](http://clojure.org). It should be Clojurescript comp
 
 Clojure is chosen for a few reasons. [EDN](https://github.com/edn-format/edn), for one, which will be the format of any ```` ```config ```` code block. Also because of [Instaparse](https://github.com/Engelberg/instaparse), for which the usual regular-expression based markup approach is a strict subset of capabilities. It has the best story I'm aware of for setting regular expressions declaratively in a data format, which is exactly how we will provide macros. 
 
-To be clear, this will let us syntax highlight a provided macro in a distinctive way, and put things like the colors to use right in the markdown. This is only useful with a completed weaver; Pygments will get the macros wrong but this is a minor stylistic matter which can be corrected by retangling with a better highlighter. 
+To be clear, this will let us syntax highlight a provided macro in a distinctive way, and put things like the colors to use right in the markdown. This is only useful with a completed weaver; Pygments will get the macros wrong but this is a minor stylistic matter which can be corrected by reweaving with a better highlighter. 
 
 Instaparse is my go-to choice for writing flexible parsers that are meant to be shared, so Clojure it is. I hope Instaparse catches on to the point where it becomes core, and hence worth maintaining separate `.clj` and `.cljs` versions. 
 
