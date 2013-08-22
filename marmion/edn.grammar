@@ -49,7 +49,7 @@ boolean = &valid-terminator ("true" | "false") ;
 
 nil = "nil" ;
 
-keyword = ":" keyword-symbol;
+keyword = #":[0-9A-Za-z.*+!\-_?$%&=#:]*/*[0-9A-Za-z.*+!\-_?$%&=#:]*" ;
 
 <keyword-symbol> = identifier
                  | namespaced-symbol 
@@ -98,8 +98,8 @@ while correct, this is highly ambiguous and doesn't parse well, hence:
  
 *)
 
-<identifier> = #"[A-Za-z*!\_?$%&=][0-9A-Za-z.*+!\-_?$%&=]*" 
-             | #"[A-Za-z.*+!\-_?$%&=][A-Za-z.*+!\-_?$%&=]*[0-9A-Za-z.*+!\-_?$%&=]*"
+<identifier> = #"[A-Za-z*!\_?$%&=][0-9A-Za-z.*+!\-_?$%&=#:]*" 
+             | #"[A-Za-z.*+!\-_?$%&=][A-Za-z.*+!\-_?$%&=#:]*[0-9A-Za-z.*+!\-_?$%&=]*"
 
 <namespaced-symbol> = namespace "/" name ;
 
