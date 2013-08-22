@@ -57,7 +57,10 @@ keyword = #":[0-9A-Za-z.*+!\-_?$%&=#:]*/*[0-9A-Za-z.*+!\-_?$%&=#:]*" ;
 
 dispatched-form = "#" discard form 
                 | "#" tagged form
+                | "#" set
                 ;
+
+set = '{' form* '}' ;
 
 valid-terminator = #"[ \]})]" ;
 
