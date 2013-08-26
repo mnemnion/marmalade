@@ -1,4 +1,4 @@
-edn = form + WS* ;
+edn = form * WS* ;
 
 
 <form> = built-in
@@ -6,6 +6,7 @@ edn = form + WS* ;
        /  ( atom
           | list
           | object
+          | set
           | vector
           | keyword
           | WS* form 
@@ -14,9 +15,11 @@ edn = form + WS* ;
           )
        ;
 
-<atom> = symbol | string | character;
+<built-in> = boolean | nil ;
 
-character = "\\" ((!#"[A-Za-z]{2}" #"[A-Za-z]") | "newline" | "space" | "return" | "tab") ;
+boolean = &valid-terminator ("true" | "false") ;
+
+nil = "nil" ;
 
 <number> = floating-point | integer;
 
@@ -41,15 +44,13 @@ frac = "." #"[0-9]+" ;
 
 exp = #"[Ee][+-]?" ;
 
+<atom> = symbol | string | character;
+
+character = "\\" ((!#"[A-Za-z]{2}" #"[A-Za-z]") | "newline" | "space" | "return" | "tab") ;
+
 string = #'("[^"\\]*(?:\\.[^"\\]*)*")' ; 
 
-<built-in> = boolean | nil ;
-
-boolean = &valid-terminator ("true" | "false") ;
-
-nil = "nil" ;
-
-keyword = #":[0-9A-Za-z.*+!\-_?$%&=#:]*/*[0-9A-Za-z.*+!\-_?$%&=#:]*" ;
+keyword = #":[0-9A-Za-z.*+!\-_?$%&=#:]*/?[0-9A-Za-z.*+!\-_?$%&=#:]*" ;
 
 <keyword-symbol> = identifier
                  | namespaced-symbol 
@@ -57,10 +58,9 @@ keyword = #":[0-9A-Za-z.*+!\-_?$%&=#:]*/*[0-9A-Za-z.*+!\-_?$%&=#:]*" ;
 
 dispatched-form = "#" discard form 
                 | "#" tagged form
-                | "#" set
                 ;
 
-set = '{' form* '}' ;
+set = '#' '{' form* '}' ;
 
 valid-terminator = #"[ \]})]" ;
 
@@ -84,8 +84,7 @@ comment = ";" #"[^\n]+" "\n"? ;
 
 <letters> = #"[A-Za-z]+" ; (* a conventional start *)
 
-symbol = identifier
-       | namespaced-symbol ;
+symbol = identifier / namespaced-symbol;
 
 (* <identifier> = prefix-character all-id-chars
                 / non-numeric non-numeric all-id-chars 
@@ -103,8 +102,10 @@ while correct, this is highly ambiguous and doesn't parse well, hence:
 
 <identifier> = #"[A-Za-z*!\_?$%&=][0-9A-Za-z.*+!\-_?$%&=#:]*" 
              | #"[A-Za-z.*+!\-_?$%&=][A-Za-z.*+!\-_?$%&=#:]*[0-9A-Za-z.*+!\-_?$%&=]*"
+             
+             ;
 
-<namespaced-symbol> = namespace "/" name ;
+<namespaced-symbol> = namespace "/" name;
 
 name = identifier ;
 
