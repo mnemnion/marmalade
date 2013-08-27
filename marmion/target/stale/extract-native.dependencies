@@ -1,1 +1,1 @@
-([:dependencies ([catnip "0.6.0-SNAPSHOT"] [org.clojure/clojure "1.4.0"] [instaparse/instaparse "1.2.2"])])
+([:dependencies ([catnip "0.6.0-SNAPSHOT"] [org.clojure/clojure "1.4.0"] [instaparse/instaparse "1.2.2"] [aacc/aacc "0.0.1-SNAPSHOT"])])
