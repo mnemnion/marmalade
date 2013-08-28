@@ -87,3 +87,22 @@ magic-word = #'[^@]+' ;
 ```
 
 Although it's much prettier in Sublime Text.
+
+The next step is to start to define our macros. 
+
+##Literate Macros
+
+The term macro generally refers to a function that rewrites code prior to any attempt to make sense of it. Whether Coffeescript is a macro preprocessor over Javascript or a language in its own right is a matter of taste. Macros can get arbitrarily complex. We will keep ours as simple as practical. 
+
+Our simplest type of macro is an anchor. It is surrounded with a triglyph on both sides, e.g. ` ~<$macro$>~ `, where the triglyph selected is one that will not appear in either order in the target language.
+
+We will provide a mechanism for defining macro glyphs in the ```` ```config ```` blocks, later. For now we're hard wiring them. Marmalade has one, which I won't type until the code is sanitized to allow literal quoting of the macro form. 
+
+It's quite possible to write a legit Marmalade file that doesn't use any Markdown macros. Without macros in the code blocks, there will be no tangle. The default behavior around a code block with no macros is to include it in the weave but not the tangle. Often this is what we want, if we are quoting a short piece of code that never gets used or that has been deprecated in favor of better code. 
+
+
+
+
+
+
+
