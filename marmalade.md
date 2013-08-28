@@ -45,9 +45,7 @@ Fun, huh?
 Since then, I've made substantial alterations to the Markdown parser. It currently looks like this:
 
 ```
-
 (* A Grammar for Marmalade, A Literate Flavour of Markdown *)
-
 
 marmalade = &header section+ | paragraph + section * ;
 
@@ -65,11 +63,13 @@ prose = block blank-line+ ;
 
 code = code-header code-body code-footer ;
 
-code-body = (line | blank-line)+ ;
+code-body = (code-line | blank-line)+ ;
+
+<code-line> = !(triple-ticks) #'[^\n]+' (!blank-line '\n')* ;
  
 <blank-line> = '\n' sp #'[\n]+' ;
 
-code-header = triple-ticks (code-type)* "\n" ;
+code-header = triple-ticks (code-type)* "\n"+ ;
 
 code-footer = triple-ticks ws; 
 
@@ -80,10 +80,6 @@ code-footer = triple-ticks ws;
 code-type = "clojure" | "text" ;
 
 <triple-ticks> = "`" "`" "`" ;
-
-magic = "`@" magic-word "@`" ;
-
-magic-word = #'[^@]+' ; 
 ```
 
 Although it's much prettier in Sublime Text.
@@ -109,3 +105,44 @@ Another keyword form is `~<$file:/src/file.extn$>~`. Any code block containing s
 There is a short continuation form used to intersperse code and commentary. Let's say we're targeting foo-lang, and we have declared a ```` ```foo-lang ```` block that has started a file. If the next foo-lang block looks like ```` ```foo-lang~ ```` with a `~` after it, that block continues in the same file. 
 
 Each language may be considered namespaced in this regard, so if you are interweaving two or more languages, each will go into the current file. Try to keep things easy to follow.
+
+##Implementing Macros
+
+Our Markdown "parser" doesn't do much, on purpose. It splits things up into prose and code, taking 18 ms to parse this file at the moment on my Macbook. That's good, source has a way of getting large and we'd like file IO to be the limiting factor. Holding it all in memory shouldn't be a challenge, but we'll `spit` files out and flush them from memory as soon as they're complete, just in case we're trying to build an operating system or something. 
+
+In order to find things like macros, we'll use a helper function called `re-parse`. This might find its way into the Instaparse core eventually, for now, here's what we need in one chunk.
+
+```clojure
+(defn- e-tree-seq 
+  "tree-seqs enlive trees/graphs, at least instaparse ones"
+  [e-tree]
+  (if (map? (first e-tree))
+      (tree-seq (comp seq :content) :content (first e-tree))
+      (tree-seq (comp seq :content) :content e-tree)))
+                                      
+(defn- flatten-enlive
+  "flattens an enlive tree (instaparse dialect)"
+  [tree]
+  (apply str (filter string? (e-tree-seq tree))))
+                                         
+(defn- flatten-hiccup
+  "flattens a hiccup tree (instparse dialect)"
+  [tree]
+  (apply str (filter string? (flatten tree))))
+                    
+(defn re-parse
+  "[parser tree (:rule)]
+  Re-parse an instaparse tree with a parser
+  If :rule is given, re-parse only those nodes matching
+  :rule."
+  ([parser tree]
+  (if (vector? tree)
+         (insta/parse parser (flatten-hiccup tree))
+         (insta/parse parser (flatten-enlive tree))))
+  ([parser tree rule]
+  (if (vector? tree)
+         (insta/transform {rule (fn [& node] (re-parse parser [rule node]))} tree)
+         (insta/transform {rule (fn [& node] (re-parse parser {:tag rule, :content node}))} tree))))
+```
+
+Looks good. 

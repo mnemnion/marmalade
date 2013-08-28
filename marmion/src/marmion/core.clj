@@ -13,8 +13,10 @@
 (def edn-hic (insta/parser (slurp "edn.grammar"))) 
                                   
 (def edn edn-hic)
-  
-(def parsed-marmalade (marmalade-parser (slurp "../marmalade.md")))
+
+(def marm-str (slurp "../marmalade.md"))
+
+(def parsed-marmalade (marmalade-parser marm-str))
 
 (def test-vec (apply vector (clojure.string/split (slurp "test-files.txt") #"\n")))
 

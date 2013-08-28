@@ -18,7 +18,9 @@ prose = block blank-line+ ;
 
 code = code-header code-body code-footer ;
 
-code-body = (line | blank-line)+ ;
+code-body = (code-line | blank-line)+ ;
+
+<code-line> = !(triple-ticks) #'[^\n]+' (!blank-line '\n')* ;
  
 <blank-line> = '\n' sp #'[\n]+' ;
 
