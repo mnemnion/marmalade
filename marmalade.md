@@ -17,3 +17,29 @@ Literate programming is conceptually straightforward: your source code consists 
 Our stack has a third program, the detangler: it takes changes in the weave and attempts to back-propagate them into the source. I feel as though this is the missing element in existing literate environments: it is easier, often, to modify code in-place, especially with languages that have a REPL. We want to be able to pull those changes back into the source, to be further rearranged if desired. 
 
 Because of macros, this can't always be done predictably. Marmion, our detangler, will be smart enough to know when it can't incorporate changes, or when the source was modified in ways it can't follow. 
+
+##Athena
+
+Athena is our weaver. We will be using Jekyll for most of the heavy lifting at first, so Athena will do some macro expansion and streamlining and emit Markdown at first. Later, we will bring [enlive](https://github.com/cgrand/enlive) into the mix and start emitting HTML directly. Because HTML embeds directly into Markdown, Athena may always emit .md, which is in many ways the more flexible format of the two. 
+
+We intend to do some cool things with Athena, in particular embedding line-by-line links to the tangle in the weave, adding ASCIIMathML support, and a few other tricks. There's a JS-driven REPL for almost any language, and we could add interactivity where it makes sense. 
+
+For projects that target a browser, the line between a tangle and a weave is somewhat blurred. Athena and the tangler, Arachne, will share a certain amount of code, and Marmion will be able to draw from the weave as well if, say, we embed code editors directly into it. 
+
+I'm editing Marmalade from Github at the moment, so that's a plausible thing to do. 
+
+##Arachne
+
+Arachne is the first crucial tool. Markdown parsers are commonplace, though none quite so Olympian in name. Literate Markdown is also not a new idea. [Literate Coffeescript](http://coffeescript.org/#literate) is officially supported by the core language and widely considered a good idea.
+
+It isn't "real" literate programming, because the code order is physical, not logical. A literate Coffeescript file compiles to one Coffeescript file, the contents of which is exactly and only the ```` ```coffee ```` code found within.
+
+No big deal. It fits the philosophy of the language and I wouldn't expect or want this to change. Marmalade's just a different jam.
+
+Zeus, our bootstrap, is a slight refinement on this: it has just enough magic-word capability kludged in to generate multiple source files from a single Markdown document. This was a pleasureable, slightly manic weekend project.
+
+It was necessary because Zeus is written in Clojure, which typically wants a certain structure for a project, and uses Instaparse, which has its own grammar format. This is the source file for Marmalade alpha, which will be massaged into shape from the bootstrap. 
+
+Fun, huh?
+
+Since then, I've made substantial alterations to the Markdown
