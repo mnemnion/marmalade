@@ -22,7 +22,7 @@ code-body = (line | blank-line)+ ;
  
 <blank-line> = '\n' sp #'[\n]+' ;
 
-code-header = triple-ticks (code-type)* "\n" ;
+code-header = triple-ticks (code-type)* "\n"+ ;
 
 code-footer = triple-ticks ws; 
 
@@ -33,7 +33,3 @@ code-footer = triple-ticks ws;
 code-type = "clojure" | "text" ;
 
 <triple-ticks> = "`" "`" "`" ;
-
-magic = "`@" magic-word "@`" ;
-
-magic-word = #'[^@]+' ; 

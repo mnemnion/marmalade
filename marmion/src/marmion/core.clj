@@ -10,11 +10,11 @@
 
 (def edn-enl (insta/parser (slurp "edn.grammar") :output-format :enlive))
                            
-(def edn-hic (insta/parser (slurp "edn.grammar")))
-
+(def edn-hic (insta/parser (slurp "edn.grammar"))) 
+                                  
 (def edn edn-hic)
   
-(def parsed-migraine (marmalade-parser (slurp "migraine.md")))
+(def parsed-marmalade (marmalade-parser (slurp "../marmalade.md")))
 
 (def test-vec (apply vector (clojure.string/split (slurp "test-files.txt") #"\n")))
 
