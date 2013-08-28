@@ -96,13 +96,11 @@ The term macro generally refers to a function that rewrites code prior to any at
 
 Our simplest type of macro is an anchor. It is surrounded with a triglyph on both sides, e.g. ` ~<$macro$>~ `, where the triglyph selected is one that will not appear in either order in the target language.
 
-We will provide a mechanism for defining macro glyphs in the ```` ```config ```` blocks, later. For now we're hard wiring them. Marmalade has one, which I won't type until the code is sanitized to allow literal quoting of the macro form. 
+Second rule: if the triglyphs are `~<$` and `$>~`, then `$><$` must also be an invalid token in the targeted language. We will use this rule for chaining macros.
+
+We will provide a mechanism for defining macro glyphs in the ```` ```config ```` blocks, later. For now we're hard wiring them. Marmalade has one, which I won't type until the code is sanitized to allow literal quoting of the macro form. The Clojure macros are `#|(` and `)|#` with the tetraglyph form `)||(`. They are syntax errors and likely to stay so. If it turns into anything legitimate, it will be a block quote a la Common Lisp. Rich has declared his opposition. 
 
 It's quite possible to write a legit Marmalade file that doesn't use any Markdown macros. Without macros in the code blocks, there will be no tangle. The default behavior around a code block with no macros is to include it in the weave but not the tangle. Often this is what we want, if we are quoting a short piece of code that never gets used or that has been deprecated in favor of better code. 
-
-
-
-
 
 
 
