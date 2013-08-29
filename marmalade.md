@@ -153,4 +153,42 @@ This will be nice when it comes time to make sense of our `:prose` as well. For 
 
 For now, let's define a grammar that will capture our Clojure macros. When that works, we'll add some Markdown macros, a `re-parse` for the prose, and then we can really get cooking. 
 
+```
+(* A Mini Grammar for Literate Clojure Macros in Marmalade *)
+
+code-body = (code-line | blank-line)+ ;
+
+<code-line> = (#'[^\n#|(]+' | macro | punc) (!blank-line '\n')* ;
+ 
+macro = mac-start mac-name mac-end ;
+
+<mac-start> = '#|(' ;
+
+mac-name = command ':' mac-id
+         | mac-id
+         ;
+
+mac-id = #'[0-9A-Za-z.?!+\-_/]*'
+         ;
+
+command = #'[0-9A-Za-z.?!+\-_]+'
+          ;
+
+<mac-end> = ')|#' ;
+
+<punc> = !mac-start #'[#|(]+' ;
+
+<blank-line> = '\n' sp #'[\n]+' ;
+
+<sp> = #'[ \t]*' ;
+
+<ws> = #'[\s]+';
+```
+
+This is an okay first approximation. We need to do more with that macro rule so we know what kind of macro we're dealing with. 
+
+
+
+
+
 

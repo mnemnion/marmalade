@@ -3,18 +3,11 @@
               [marmion.util])
     (:require [aacc.core :refer :all]))
 
+(def marm (insta/parser (slurp "marmalade.grammar") :output-format :enlive))
 
-(def mar-hic (insta/parser (slurp "marmalade.grammar")))
-
-(def mar-enl (insta/parser (slurp "marmalade.grammar") :output-format :enlive))
-
-(def edn-enl (insta/parser (slurp "edn.grammar") :output-format :enlive))
-                           
-(def edn-hic (insta/parser (slurp "edn.grammar"))) 
-                                  
+(def edn (insta/parser (slurp "edn.grammar") :output-format :enlive))
+                                                    
 (def ex-str (mar-enl (slurp "../exmp.md")))
-                                  
-(def edn edn-hic)
 
 (def clj-mac (insta/parser (slurp "clj-macro.grammar") :output-format :enlive))
 
@@ -22,20 +15,7 @@
 
 (def parsed-marmalade (mar-hic marm-str))
 
-(def test-vec (apply vector (clojure.string/split (slurp "test-files.txt") #"\n")))
-
-(def fail-vec (apply vector (clojure.string/split (slurp "fail-files.txt") #"\n")))
-
-(defn count-failures [x] (count (insta/parses edn (slurp (str "/Users/atman/code/opp/edn-tests/invalid-edn/" x)))))
-                                                  
-(defn count-parses [x] (count (insta/parses edn (slurp (str "/Users/atman/code/opp/edn-tests/valid-edn/" x)))))
-
-(defn key-maker
-  "makes a keyword name from our file string"
-  [file-name]
-  (keyword  (last (clojure.string/split file-name #"/"))))
-
-(defn smush
+(defn smush-hic
   "smushes a keyword corresponding to a terminal node"
   [rule tree]
     (insta/transform 

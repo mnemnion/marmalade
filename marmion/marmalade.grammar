@@ -24,14 +24,16 @@ code-body = (code-line | blank-line)+ ;
  
 <blank-line> = '\n' sp #'[\n]+' ;
 
-code-header = triple-ticks (code-type)* "\n"+ ;
+code-header = triple-ticks (code-type)* contd? "\n"+ ;
+
+contd = '~' ;
 
 code-footer = triple-ticks ws; 
-
-<sp> = #'[ \t]*' ;
-
-<ws> = #'[\s]+';
 
 code-type = "clojure" | "text" ;
 
 <triple-ticks> = "`" "`" "`" ;
+
+<sp> = #'[ \t]*' ;
+
+<ws> = #'[\s]+';
