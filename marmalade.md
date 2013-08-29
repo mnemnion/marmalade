@@ -185,7 +185,15 @@ command = #'[0-9A-Za-z.?!+\-_]+'
 <ws> = #'[\s]+';
 ```
 
-This is an okay first approximation. We need to do more with that macro rule so we know what kind of macro we're dealing with. 
+This would appear to do it. Right now we're being fairly permissive with our command names; it's easier to handle errors without the parse breaking, since Instaparse is kind of grumpy about returning a useful tree under such circumstances. 
+
+So now we can find macros inside Clojure code, and we have at least an idea of how we're going to find macros inside arbitrary code. The `mac-start` and `mac-end` rules can be overridden, I think, using the parser combinator forms. We can certainly concatenate a string containing the new rules to the grammar string and roll our own parser on demand.
+
+From Arachne's perspective, the codes are what matter. The prose needs to be crawled for internal links that contain more Marmalade, which we'll do soon.
+
+First, let's make a vector with the interesting code blocks. For now, that's all of them. We'll use `aacc`, a library that aims to eventually be a reasonable tool for building compilers using instaparse grammars. While primitive at the moment, it will serve our purposes. 
+
+We need a rule that will take the code out of the code blocks and leave behind something we can work with. `def-rule-fn` contains a magic variable, `seq-tree`, that contains a sequence of the rest of the tree. Inside the `:code` rule, 
 
 
 

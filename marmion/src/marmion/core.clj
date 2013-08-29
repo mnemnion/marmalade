@@ -13,14 +13,7 @@
 
 (def marm-str (slurp "../marmalade.md"))
 
-(def parsed-marmalade (mar-hic marm-str))
-
-(defn smush-hic
-  "smushes a keyword corresponding to a terminal node"
-  [rule tree]
-    (insta/transform 
-         {rule (fn [ & lines ] [rule (apply str lines)])} 
-                   tree))
+(def parsed-marmalade (marm marm-str))
 
 (defn- e-tree-seq 
   "tree-seqs enlive trees/graphs, at least instaparse ones"
