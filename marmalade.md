@@ -92,7 +92,7 @@ The term macro generally refers to a function that rewrites code prior to any at
 
 Our simplest type of macro is an anchor. It is surrounded with a triglyph on both sides, e.g. ` ~<$macro$>~ `, where the triglyph selected is one that will not appear in either order in the target language.
 
-Second rule: if the triglyphs are `~<$` and `$>~`, then `$><$` must also be an invalid token in the targeted language. We will use this rule for chaining macros.
+Second rule: if the triglyphs are `~<$` and `$>~`, then `$><$` must also be an invalid token in the targeted language. We will use this rule for chaining macros. Those are also the default triglyphs in code blocks, if none are provided.
 
 We will provide a mechanism for defining macro glyphs in the ```` ```config ```` blocks, later. For now we're hard wiring them. Marmalade has one, which I won't type until the code is sanitized to allow literal quoting of the macro form. The Clojure macros are `#|(` and `)|#` with the tetraglyph form `)||(`. They are syntax errors and likely to stay so. If it turns into anything legitimate, it will be a block comment a la Common Lisp. Rich has declared his opposition. 
 
@@ -145,4 +145,12 @@ In order to find things like macros, we'll use a helper function called `re-pars
          (insta/transform {rule (fn [& node] (re-parse parser {:tag rule, :content node}))} tree))))
 ```
 
-Looks good. 
+Looks good. Added 5 ms to the parse. 
+
+`re-parse` takes a tree, which can be a node of a larger tree, and re-parses it. It can use the same grammar, or in our case, a different one. 
+
+This will be nice when it comes time to make sense of our `:prose` as well. For now we're focused on code. We will soon need to delve into the prose to find links to follow: Arachne, called on the top file of a project, does the rest. 
+
+For now, let's define a grammar that will capture our Clojure macros. When that works, we'll add some Markdown macros, a `re-parse` for the prose, and then we can really get cooking. 
+
+
