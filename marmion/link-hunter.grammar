@@ -1,6 +1,8 @@
 (* A Link Hunting Mini Grammar for Arachne *)
 
-prose = (stuff | link / punct)+ ;
+prose = categories+ 
+
+<categories> = (stuff | link) / punct ;
 
 <stuff> = #'[^\[\]()]+' ;
 

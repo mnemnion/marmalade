@@ -255,3 +255,7 @@ There is also absolutely no reason we shouldn't correctly highlight embedded cod
 Arachne has some work to do in our :prose as well. Most links are not her business, rather Athena's. Arachne does need to look in any local links for more source code that may contain weavable code blocks.
 
 Arachne won't look for these kinds of links in headers, only in :prose blocks. Let's write a little `re-parse` grammar to find these kinds of links. First, let's [add one](docs/intro.md).
+
+Currently there's a behavior in the grammar that prevents the last line from being part of the paragraph. The easiest way to fix this is to check for the line manually and add it to the :prose block.
+
+One of the tools that needs to get written soon is `compact`, which takes a given tree and concatenates all adjacent strings. A number of the `re-parse` operations fragment a given string, and we want a way to reverse that so we can `re-parse` things effectively. It may be more important to make sure that the fragments end up under a tag rather than being embedded as literals in the list.
