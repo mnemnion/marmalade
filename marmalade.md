@@ -249,3 +249,9 @@ That will require thoughtful data types. The challenge of a good syntax highligh
 Since this is a parser-driven highlight, we will likely end up with something like major and minor modes for color themes. Every language grammar will come with a map from the tags in the grammar onto a default set of names for programming concepts, kind of like the TextMate domain. Every color theme must cover all these names (they can inherit from other themes in this respect) and may in addition provide minor modes for languages in which overriding color tags are provided directly.
 
 There is also absolutely no reason we shouldn't correctly highlight embedded code. Let's say a language contains an inline facility for C. We can specify that region to be highlighted using the C engine. A page conflating HTML, CSS and JS into a single text file could be correctly marked up. It won't even be particularly challenging. `re-parse` is a cool little function.
+
+##Link Hunter
+
+Arachne has some work to do in our :prose as well. Most links are not her business, rather Athena's. Arachne does need to look in any local links for more source code that may contain weavable code blocks.
+
+Arachne won't look for these kinds of links in headers, only in :prose blocks. Let's write a little `re-parse` grammar to find these kinds of links. First, let's [add one](docs/intro.md).
