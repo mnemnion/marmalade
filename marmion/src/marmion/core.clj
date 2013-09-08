@@ -17,6 +17,8 @@
 
 (def clj-mac (insta/parser (slurp "clj-macro.grammar") :output-format :enlive))
 
+(def macro-parse (insta/parser (slurp "macro.grammar") :output-format :enlive))
+
 (def marm-str (slurp "../marmalade.md"))
 
 (def parsed-marmalade (marm marm-str))
