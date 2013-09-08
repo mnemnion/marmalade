@@ -1,0 +1,13 @@
+(* A Link Hunting Mini Grammar for Arachne *)
+
+prose = (stuff | link / punct)+ ;
+
+<stuff> = #'[^\[\]()]+' ;
+
+link = "[" #'[^\]]+' "]" WS* "(" local-file ")" ;
+
+local-file = #"[^):]+" ;
+
+punct = #"[\[\]()]" ;
+
+WS = #'[ ]+' ;

@@ -13,6 +13,8 @@
 
 (def edn-hic (insta/parser (slurp "edn.grammar")))
 
+(def link-hunter (insta/parser (slurp "link-hunter.grammar")))
+
 (def ex-str (marm (slurp "../exmp.md")))
 
 (def clj-mac (insta/parser (slurp "clj-macro.grammar") :output-format :enlive))
