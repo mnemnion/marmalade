@@ -93,3 +93,10 @@
 as a string, or \\n if not found."
   [tree]
   (first (:content (first (:content tree)))))
+
+(defn clj-parse
+  "clojure macro parses appropriate code."
+  [tree]
+  (if (= (code-type tree) "clojure")
+    (re-parse clj-mac tree :code-body)
+     tree))

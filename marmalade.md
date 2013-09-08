@@ -199,11 +199,21 @@ So now we can find macros inside Clojure code, and we have at least an idea of h
 
 From Arachne's perspective, the codes are what matter. The prose needs to be crawled for internal links that contain more Marmalade, which we'll do soon.
 
-First, let's make a vector with the interesting code blocks. For now, that's all of them. We'll use `aacc`, a library that aims to eventually be a reasonable tool for building compilers using instaparse grammars. While primitive at the moment, it will serve our purposes.
-
-We need a rule that will take the code out of the code blocks and leave behind something we can work with. `def-rule-fn` contains a magic variable, `seq-tree`, that contains a sequence of the rest of the tree. Inside the `:code` rule, `(rest seq-tree)` gives us the rest of the code block:
+In the meantime, we have to actually get at the macros. We need some more helper functions.
 
 ```clojure
-(def-rule-fn (
-  (assoc state :codes (conj (:codes state) (rest seq-tree))))
+(defn tag-stripper
+  "strips :tag from tree"
+  [tag parse-tree]
+  (let [seq-tree (e-tree-seq parse-tree)]
+    (filter #(= tag (:tag %))
+            seq-tree)))
+
+#|(macro)|#
+
+(defn code-type
+  "expects a :code tree. Returns the type of the code,
+as a string, or \\n if not found."
+  [tree]
+  (first (:content (first (:content tree)))))
 ```
