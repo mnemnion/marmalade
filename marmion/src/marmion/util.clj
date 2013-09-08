@@ -13,22 +13,6 @@
     (insta/transform
          {rule (fn [ & lines ] [rule (apply str lines)])}
                    tree))
-(defn e-tree-seq
-  "tree-seqs enlive trees/graphs, at least instaparse ones"
-  [e-tree]
-  (if (map? (first e-tree))
-      (tree-seq (comp seq :content) :content (first e-tree))
-      (tree-seq (comp seq :content) :content e-tree)))
-
-(defn flatten-enlive
-  "flattens an enlive tree (instaparse dialect)"
-  [tree]
-  (apply str (filter string? (e-tree-seq tree))))
-
-(defn flatten-hiccup
-  "flattens a hiccup tree (instparse dialect)"
-  [tree]
-  (apply str (filter string? (flatten tree))))
 
 (defn flat-tree
      [tree]
@@ -49,3 +33,16 @@
   (if (vector? tree)
          (insta/transform {rule (fn [& node] (re-parse parser [rule node]))} tree)
          (insta/transform {rule (fn [& node] (re-parse parser {:tag rule, :content node}))} tree))))
+
+(defn code-type
+  "expects a :code tree. Returns the type of the code,
+as a string, or \\n if not found."
+  [tree]
+  (first (:content (first (:content tree)))))
+
+(defn tag-stripper
+  "strips :tag from tree"
+  [tag parse-tree]
+  (let [seq-tree (e-tree-seq parse-tree)]
+    (filter #(= tag (:tag %))
+            seq-tree)))
