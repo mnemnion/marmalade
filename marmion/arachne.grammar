@@ -1,0 +1,39 @@
+
+(* A Grammar for Arachne, A Literate Tangler of Markdown *)
+
+
+marmalade = &header section+ | paragraph + section * ;
+
+section = header paragraph + line*;
+
+<line> = !(header | triple-ticks) #'[^\n]+' (!blank-line '\n')*;
+
+<block> = line+ ;
+
+<paragraph> = prose | code ;
+
+header = "#" #'[^\n]+' '\n'+; 
+
+prose = block blank-line+ ;
+
+code = code-header code-body code-footer ;
+
+code-body = (code-line | blank-line)+ ;
+
+<code-line> = !(triple-ticks) #'[^\n]+' (!blank-line '\n')* ;
+ 
+<blank-line> = '\n' sp #'[\n]+' ;
+
+code-header = triple-ticks (code-type)* contd? "\n"+ ;
+
+contd = '~' ;
+
+code-footer = triple-ticks ws; 
+
+<code-type> = "clojure" | "text" ;
+
+<triple-ticks> = <"```"> ;
+
+<sp> = #'[ \t]*' ;
+
+<ws> = #'[\s]+';

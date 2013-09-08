@@ -168,19 +168,11 @@ code-body = (code-line | blank-line)+ ;
 
 <code-line> = (#'[^\n#|(]+' | macro | punc) (!blank-line '\n')* ;
 
-macro = mac-start mac-name mac-end ;
+macro = <mac-start> mac-name <mac-end> ;
 
 <mac-start> = '#|(' ;
 
-mac-name = command ':' mac-id
-         | mac-id
-         ;
-
-mac-id = #'[0-9A-Za-z.?!+\-_/]*'
-         ;
-
-command = #'[0-9A-Za-z.?!+\-_]+'
-          ;
+<mac-name> = !mac-end #'[^)]+' ;
 
 <mac-end> = ')|#' ;
 
@@ -191,9 +183,10 @@ command = #'[0-9A-Za-z.?!+\-_]+'
 <sp> = #'[ \t]*' ;
 
 <ws> = #'[\s]+';
+
 ```
 
-This would appear to do it. Right now we're being fairly permissive with our command names; it's easier to handle errors without the parse breaking, since Instaparse is kind of grumpy about returning a useful tree under such circumstances.
+This would appear to do it. We will parse the macro body later. Note that, once we find the macro begins and ends, we discard them. Arachne discards what she doesn't need, as Athena will do as well.
 
 So now we can find macros inside Clojure code, and we have at least an idea of how we're going to find macros inside arbitrary code. The `mac-start` and `mac-end` rules can be overridden, I think, using the parser combinator forms. We can certainly concatenate a string containing the new rules to the grammar string and roll our own parser on demand.
 
@@ -217,3 +210,13 @@ as a string, or \\n if not found."
   [tree]
   (first (:content (first (:content tree)))))
 ```
+
+Here's a block that's for some macros:
+
+```clojure
+#|(macro:with/a/file.txt)|#
+#|(prefix?macro:with-a-name)|#
+#|(ordinary macro with whitespace)|# ;this may not be allowed.
+```
+
+Let's try that out.

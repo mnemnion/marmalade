@@ -1,0 +1,11 @@
+(* A Micro Grammar For Macros *)
+
+mac-name = command ':' mac-id
+         | mac-id
+         ;
+
+mac-id = #'[0-9A-Za-z.?!+\-_/]*'
+         ;
+
+command = #'[0-9A-Za-z.?!+\-_]+'
+          ;

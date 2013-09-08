@@ -1,0 +1,22 @@
+(* A Mini Grammar for Literate Clojure Macros in Marmalade *)
+
+code-body = (code-line | blank-line)+ ;
+
+<code-line> = (#'[^\n#|(]+' | macro | punc) (!blank-line '\n')* ;
+ 
+macro = <mac-start> mac-name <mac-end> ;
+
+<mac-start> = '#|(' ;
+
+<mac-name> = !mac-end #'[^)]+' ;
+
+<mac-end> = ')|#' ;
+
+<punc> = !mac-start #'[#|(]+' ;
+
+<blank-line> = '\n' sp #'[\n]+' ;
+
+<sp> = #'[ \t]*' ;
+
+<ws> = #'[\s]+';
+

@@ -88,7 +88,7 @@
 (def marm-codes (map (partial re-parse clj-mac) (tag-stripper :code parsed-marmalade)))
                                         ;breaks in the second code block
 
-(def m-code-vec (tag-stripper :code marm-arach))
+(def m-codes (tag-stripper :code marm-arach))
 
 (defn code-type
   "expects a :code tree. Returns the type of the code,
