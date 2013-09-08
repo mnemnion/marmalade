@@ -195,14 +195,13 @@ From Arachne's perspective, the codes are what matter. The prose needs to be cra
 In the meantime, we have to actually get at the macros. We need some more helper functions.
 
 ```clojure
+#|(Helper Functions)|#
 (defn tag-stripper
   "strips :tag from tree"
   [tag parse-tree]
   (let [seq-tree (e-tree-seq parse-tree)]
     (filter #(= tag (:tag %))
             seq-tree)))
-
-#|(macro)|#
 
 (defn code-type
   "expects a :code tree. Returns the type of the code,
@@ -242,6 +241,8 @@ command = #'[0-9A-Za-z.!+\-_ ]+'
 Which works, except we may want to normalize whitespace. Or simply disallow it outside of file names, where it may be required.
 
 Athena will eventually emit the HTML for highlighted code blocks directly. That will allow us to highlight macros in a distinctive color, and make them into links within the weave which lead to their definitions or to whatever other place makes sense. Later, we'll want to add line-links into the online repo.
+
+Another advantage of doing this could be that Athena could be tuned to emit Markdown, rather than the Git flavor. GFM is widely supported but Markdown itself is practically lingua franca.
 
 That will require thoughtful data types. The challenge of a good syntax highlighter is this: we want to be able to write color themes that will work with everything. Alas, concepts are not equivalent across programming languages.
 
