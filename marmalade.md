@@ -256,6 +256,15 @@ Arachne has some work to do in our :prose as well. Most links are not her busine
 
 Arachne won't look for these kinds of links in headers, only in :prose blocks. Let's write a little `re-parse` grammar to find these kinds of links. First, let's [add one](docs/intro.md).
 
-Currently there's a behavior in the grammar that prevents the last line from being part of the paragraph. The easiest way to fix this is to check for the line manually and add it to the :prose block.
+Currently there's a behavior in the grammar that prevents the last line from being part of the paragraph. I've tagged it as :last-line, so we can `transform` it into :prose.
 
-That seems to work. I believe we nearly have a enough here to write a code quine. Time for some refactoring, and then we'll try it.
+What we need to do:
+
+  1. Parse the head file
+  1. Parse and follow all interior links
+  1. Parse the files thereby found
+  1. Parse all code blocks for macros
+  1. Expand said macros into file strings
+  1. Spit out the file strings into the tangle.
+
+Pretty much, that's the job. I'm curious to see what our Marmalade parser will do with that list. Should be :prose (it is).

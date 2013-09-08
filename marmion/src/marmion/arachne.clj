@@ -10,3 +10,14 @@
   "strips links on behalf of Arachne"
   [tree]
   (tag-stripper :link (re-parse link-hunter tree :prose)))
+
+(def clj-mac (insta/parser (slurp "clj-macro.grammar") :output-format :enlive))
+
+(def macro-parse (insta/parser (slurp "macro.grammar") :output-format :enlive))
+
+(defn clj-parse
+  "clojure macro parses appropriate code."
+  [tree]
+  (if (= (code-type tree) "clojure")
+    (re-parse clj-mac tree :code-body)
+     tree))
