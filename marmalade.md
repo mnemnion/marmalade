@@ -219,4 +219,32 @@ Here's a block that's for some macros:
 #|(ordinary macro with whitespace)|# ;this may not be allowed.
 ```
 
-Let's try that out.
+Let's try that out. Looks good! Also, happily, Pygments/Linguist tags the `|` as an error in the macros, giving them a distinctive look.
+
+We need a little micro-grammar to parse it:
+
+```
+(* A Micro Grammar For Macros *)
+
+mac-name = prefix? command ':' mac-id
+         | mac-id
+         ;
+
+prefix = #'[0-9A-Za-z.!+\- ]+\?'
+
+mac-id = #'[0-9A-Za-z.!+\-_/ ]*'
+         ;
+
+command = #'[0-9A-Za-z.!+\-_ ]+'
+          ;
+```
+
+Which works, except we may want to normalize whitespace. Or simply disallow it outside of file names, where it may be required.
+
+Athena will eventually emit the HTML for highlighted code blocks directly. That will allow us to highlight macros in a distinctive color, and make them into links within the weave which lead to their definitions or to whatever other place makes sense. Later, we'll want to add line-links into the online repo.
+
+That will require thoughtful data types. The challenge of a good syntax highlighter is this: we want to be able to write color themes that will work with everything. Alas, concepts are not equivalent across programming languages.
+
+Since this is a parser-driven highlight, we will likely end up with something like major and minor modes for color themes. Every language grammar will come with a map from the tags in the grammar onto a default set of names for programming concepts, kind of like the TextMate domain. Every color theme must cover all these names (they can inherit from other themes in this respect) and may in addition provide minor modes for languages in which overriding color tags are provided directly.
+
+There is also absolutely no reason we shouldn't correctly highlight embedded code. Let's say a language contains an inline facility for C. We can specify that region to be highlighted using the C engine. A page conflating HTML, CSS and JS into a single text file could be correctly marked up. It won't even be particularly challenging. `re-parse` is a cool little function.
