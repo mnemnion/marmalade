@@ -258,4 +258,4 @@ Arachne won't look for these kinds of links in headers, only in :prose blocks. L
 
 Currently there's a behavior in the grammar that prevents the last line from being part of the paragraph. The easiest way to fix this is to check for the line manually and add it to the :prose block.
 
-One of the tools that needs to get written soon is `compact`, which takes a given tree and concatenates all adjacent strings. A number of the `re-parse` operations fragment a given string, and we want a way to reverse that so we can `re-parse` things effectively. It may be more important to make sure that the fragments end up under a tag rather than being embedded as literals in the list.
+That seems to work. I believe we nearly have a enough here to write a code quine. Time for some refactoring, and then we'll try it.
