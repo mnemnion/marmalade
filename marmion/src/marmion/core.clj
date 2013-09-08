@@ -5,6 +5,10 @@
 
 (def marm (insta/parser (slurp "marmalade.grammar") :output-format :enlive))
 
+(def arachne-parse (insta/parser (slurp "arachne.grammar") :output-format :enlive))
+
+(def marm-arach (arachne-parse marm-str))
+
 (def edn (insta/parser (slurp "edn.grammar") :output-format :enlive))
 
 (def edn-hic (insta/parser (slurp "edn.grammar")))
@@ -76,3 +80,16 @@
             seq-tree)))
 
 (def marm-seq (e-tree-seq parsed-marmalade))
+
+(map (partial re-parse clj-mac) (tag-stripper :code ex-str) ) ; works
+
+(def marm-codes (map (partial re-parse clj-mac) (tag-stripper :code parsed-marmalade)))
+                                        ;breaks in the second code block
+
+(def m-code-vec (tag-stripper :code marm-arach))
+
+(defn code-type
+  "expects a :code tree. Returns the type of the code,
+as a string, or \\n if not found."
+  [tree]
+  (first (:content (first (:content tree)))))
