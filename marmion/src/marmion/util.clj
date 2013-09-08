@@ -13,6 +13,22 @@
     (insta/transform
          {rule (fn [ & lines ] [rule (apply str lines)])}
                    tree))
+(defn- e-tree-seq
+  "tree-seqs enlive trees/graphs, at least instaparse ones"
+  [e-tree]
+  (if (map? (first e-tree))
+      (tree-seq (comp seq :content) :content (first e-tree))
+      (tree-seq (comp seq :content) :content e-tree)))
+
+(defn- flatten-enlive
+  "flattens an enlive tree (instaparse dialect)"
+  [tree]
+  (apply str (filter string? (e-tree-seq tree))))
+
+(defn- flatten-hiccup
+  "flattens a hiccup tree (instparse dialect)"
+  [tree]
+  (apply str (filter string? (flatten tree))))
 
 (defn flat-tree
      [tree]
