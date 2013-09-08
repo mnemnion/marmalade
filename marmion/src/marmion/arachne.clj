@@ -21,3 +21,11 @@
   (if (= (code-type tree) "clojure")
     (re-parse clj-mac tree :code-body)
      tree))
+
+(defn tangle
+  "Main Arachne function. Takes a file string, tangling all code she finds."
+  [top-file]
+  (let [master-parse (arachne-parse (slurp top-file))
+        master-links (tag-stripper :local-file
+                                   (re-parse link-hunter master-parse :prose))]
+    master-links))
