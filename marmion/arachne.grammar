@@ -4,7 +4,9 @@
 
 marmalade = &header section+ | paragraph + section * ;
 
-section = header paragraph + line*;
+section = header paragraph + final-line*;
+
+final-line = line ;
 
 <line> = !(header | triple-ticks) #'[^\n]+' (!blank-line '\n')*;
 

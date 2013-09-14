@@ -8,7 +8,7 @@
 
 (def tangle-box {})
 
-(defn arach-link-strip
+(defn link-strip
   "strips links on behalf of Arachne"
   [tree]
   (tag-stripper :local-file (re-parse link-hunter tree :prose)))
@@ -22,9 +22,14 @@
   [tree]
   (if (= (code-type tree) "clojure")
     (re-parse clj-mac tree :code-body)
-     tree))
+    tree))
 
-(defn tangle
+(defn fix-final-line
+  "fix the final line of a Marmalade file if necessary"
+  [tree]
+  (insta/transform {:final-line #(assoc {} :tag :prose :content %1)} tree))
+
+#_(defn tangle ;too soon
   "Main Arachne function. Takes a file string, tangling all code she finds."
   [prefix top-file]
   (let [master-parse (arachne-parse (slurp (str prefix top-file)))
