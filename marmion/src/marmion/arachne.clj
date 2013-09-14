@@ -27,7 +27,8 @@
 (defn fix-final-line
   "fix the final line of a Marmalade file if necessary"
   [tree]
-  (insta/transform {:final-line #(assoc {} :tag :prose :content %1)} tree))
+  (insta/transform
+   {:final-line (fn [& chars] (assoc {:tag :prose} :content (list (apply str chars))))} tree))
 
 #_(defn tangle ;too soon
   "Main Arachne function. Takes a file string, tangling all code she finds."
@@ -40,7 +41,7 @@
                                            master-links)))))
 
 
-(defn arachne
+(defn load-and-parse
   "Main Arachne fn"
   [file]
   (-> file
