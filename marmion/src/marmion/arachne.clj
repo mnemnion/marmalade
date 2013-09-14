@@ -43,8 +43,15 @@
 
 (defn load-and-parse
   "Main Arachne fn"
-  [file]
-  (-> file
-      (slurp)
-      (arachne-parse)
-      (fix-final-line)))
+  ([file]
+      (-> file
+          (slurp)
+          (arachne-parse)
+          (fix-final-line)))
+  ([prefix file]
+     (let [full-file (str prefix file)]
+       (-> full-file
+           (slurp)
+           (arachne-parse)
+           (fix-final-line))
+       )))
