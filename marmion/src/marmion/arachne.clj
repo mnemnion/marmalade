@@ -38,3 +38,12 @@
     (assoc tangle-box :files (into (list top-file)
                                    (filter #(slurp (str prefix (first (:content %))))
                                            master-links)))))
+
+
+(defn arachne
+  "Main Arachne fn"
+  [file]
+  (-> file
+      (slurp)
+      (arachne-parse)
+      (fix-final-line)))
