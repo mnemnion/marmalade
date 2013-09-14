@@ -13,6 +13,6 @@
 
 (def parsed-marmalade (marm marm-str))
 
-(def marm-arach (arachne-parse marm-str))
+(def marm-arach (load-and-parse "../" "marmalade.md"))
 
 (def m-codes (tag-stripper :code marm-arach))

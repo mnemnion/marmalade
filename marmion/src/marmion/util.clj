@@ -54,7 +54,10 @@
   "expects a :code tree. Returns the type of the code,
 as a string, or \\n if not found."
   [tree]
-  (first (:content (first (:content tree)))))
+  (->  (filter #(= (:tag %) :code-header) (:content tree))
+       (first)
+       (:content)
+       (first)))
 
 (defn tag-stripper
   "strips :tag from tree"

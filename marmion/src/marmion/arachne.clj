@@ -30,16 +30,6 @@
   (insta/transform
    {:final-line (fn [& chars] (assoc {:tag :prose} :content (list (apply str chars))))} tree))
 
-#_(defn tangle ;too soon
-  "Main Arachne function. Takes a file string, tangling all code she finds."
-  [prefix top-file]
-  (let [master-parse (arachne-parse (slurp (str prefix top-file)))
-        master-links (arach-link-strip master-parse)]
-    (assoc tangle-box :files (list top-file))
-    (assoc tangle-box :files (into (list top-file)
-                                   (filter #(slurp (str prefix (first (:content %))))
-                                           master-links)))))
-
 
 (defn load-and-parse
   "Main Arachne fn"
