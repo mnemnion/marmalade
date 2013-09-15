@@ -17,6 +17,11 @@
 
 (def macro-parse (insta/parser (slurp "macro.grammar") :output-format :enlive))
 
+(defn parse-macros
+  "parse macros in-place on a single tree"
+  [tree]
+  (re-parse macro-parse tree :macro))
+
 (defn clj-parse
   "clojure macro parses appropriate code."
   [tree]
@@ -41,7 +46,10 @@
   ([prefix file]
      (let [full-file (str prefix file)]
        (-> full-file
-           (slurp)
-           (arachne-parse)
-           (fix-final-line))
+           slurp
+           arachne-parse
+           fix-final-line)
        )))
+
+;;(map parse-macros (map clj-parse m-codes))
+;; this returns a list of all codes, with the clojure parsed for macros.
