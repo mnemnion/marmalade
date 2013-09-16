@@ -9,10 +9,10 @@
 
 (def ex-str (marm (slurp "../exmp.md")))
 
-(def marm-str (slurp "../marmalade.md"))
+(def marm-str (slurp "../source/marmalade.md"))
 
 (def parsed-marmalade (marm marm-str))
 
-(def marm-arach (load-and-parse "../" "marmalade.md"))
+(def marm-arach (load-and-parse "../source/" "marmalade.md"))
 
 (def m-codes (tag-stripper :code marm-arach))

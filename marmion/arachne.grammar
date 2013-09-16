@@ -26,7 +26,7 @@ code-body = (code-line | blank-line)+ ;
  
 <blank-line> = '\n' sp #'[\n]+' ;
 
-code-header = triple-ticks (code-type)* contd? "\n"+ ;
+code-header = triple-ticks (code-type)* contd?  sp* "\n"+ ;
 
 contd = '~' ;
 
