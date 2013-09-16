@@ -4,7 +4,7 @@ Arachne is our tangler, extracting usable code from the source, arranging it, an
 
 The arachne file looks like this:
 
-```clojure~  
+```clojure
 #|(file:arachne.clj)|#
 (ns marmion.arachne
   (:require [instaparse.core :as insta]
