@@ -20,6 +20,14 @@ There is a short continuation form used to intersperse code and commentary. Let'
 
 Each language may be considered namespaced in this regard, so if you are interweaving two or more languages, each will go into the current file. Try to keep things easy to follow.
 
+###Macro Predicates
+
+In addition, a macro may have a prefix, which is an ordinary symbol which must end in the character `?`. In the configuration, the prefix may be set to 'true' or 'false'. If the prefix is false, the macro doesn't exist.
+
+This is a simple `#ifdef` kind of refinement that lets use build multiple versions from a single codebase.
+
+I am wary of adding more complexity than this.
+
 So here's a small grammar for parsing macros, once they have been located.
 
 ```grammar
@@ -40,10 +48,4 @@ command = #'[0-9A-Za-z.!+\-_ ]+'
           ;
 ```
 
-###Macro Predicates
-
-In addition, a macro may have a prefix, which is an ordinary symbol which must end in the character `?`. In the configuration, the prefix may be set to 'true' or 'false'. If the prefix is false, the macro doesn't exist.
-
-This is a simple `#ifdef` kind of refinement that lets use build multiple versions from a single codebase.
-
-I am wary of adding more complexity than this.
+Which does pretty much what you'd expect, restricting our macros to alphanumerics, `-`,`.`,`!`, and `+` for now. `?` and `:` may be found once each, must be in that order if both are present, and `?` further more joins the prefix so that the prefix is parsed as `debug?` not `debug` `?`.
