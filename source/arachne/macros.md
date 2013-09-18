@@ -48,4 +48,41 @@ command = #'[0-9A-Za-z.!+\-_ ]+'
           ;
 ```
 
-Which does pretty much what you'd expect, restricting our macros to alphanumerics, `-`,`.`,`!`, and `+` for now. `?` and `:` may be found once each, must be in that order if both are present, and `?` further more joins the prefix so that the prefix is parsed as `debug?` not `debug` `?`.
+Which does pretty much what you'd expect, restricting our macros to alphanumerics, `-`,`.`,`!`, and `+` for now. `?` and `:` may be found once each, must be in that order if both are present, and furthermore `?` joins the prefix so that it is parsed as `debug?` not `debug` `?`.
+
+##Container Macros
+
+Anchor macros are the simple kind. We use them to assign code blocks to files and to expand code into place. The other kind we offer are container macros, which look essentially like this: `` `<$macro:name$><$ some arbitrary code $>` ``. Simplest use case is optional code where the macro body is just a prefix and the code is included if that prefix is true. This form will also be defined for the `file:` and `source:` forms, but needn't be used. It is clearer and less error prone to use these as headers for discrete code blocks. Since we're going to the trouble to define containers, it would be good if our commands do something sensible in all cases for both forms.
+
+Early on, I considered allowing arbitrary chains of this form. That sounds like a hassle and other than maybe disguishing try/catch/finally type forms I can't come up with a use case. Strikes me as a distraction at present.
+
+The current macro parser is anchor-only and Clojure specific. It looks like this:
+
+
+```grammar
+#|(file:clj-macro.grammar)|#
+(* A Mini Grammar for Literate Clojure Macros in Marmalade *)
+
+code-body = (code-line | blank-line)+ ;
+
+<code-line> = (#'[^\n#|(]+' | macro | punc) (!blank-line '\n')* ;
+
+macro = <mac-start> mac-name <mac-end> ;
+
+<mac-start> = '#|(' ;
+
+<mac-name> = !mac-end #'[^)]+' ;
+
+<mac-end> = ')|#' ;
+
+<punc> = !mac-start #'[#|(]+' ;
+
+<blank-line> = '\n' sp #'[\n]+' ;
+
+<sp> = #'[ \t]*' ;
+
+<ws> = #'[\s]+';
+
+```
+
+We need to dynamically generate variations on this by overloading the definitions of `mac-start` and `mac-end` off the config block, at some point relatively soon.
