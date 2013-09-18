@@ -60,6 +60,7 @@
 ;; this returns a list of all codes, with the clojure parsed for macros.
 
 (defn strip-codes
-  "takes an Arachne parse tree and returns a list of all code blocks, with macros expanded."
+  "takes an Arachne parse tree and returns a list of all code blocks, with macros (in Clojure blocks) parsed."
   [tree]
+  ;;note that this lacks a certain generality
   (map parse-macros (map clj-parse (tag-stripper :code tree))))
