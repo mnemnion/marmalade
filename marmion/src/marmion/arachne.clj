@@ -6,14 +6,14 @@
 
 (def link-hunter (insta/parser (slurp "link-hunter.grammar") :output-format :enlive))
 
+(def clj-mac (insta/parser (slurp "clj-macro.grammar") :output-format :enlive))
+
+(def macro-parse (insta/parser (slurp "macro.grammar") :output-format :enlive))
+
 (defn link-strip
   "strips links on behalf of Arachne"
   [tree]
   (tag-stripper :local-file (re-parse link-hunter tree :prose)))
-
-(def clj-mac (insta/parser (slurp "clj-macro.grammar") :output-format :enlive))
-
-(def macro-parse (insta/parser (slurp "macro.grammar") :output-format :enlive))
 
 (defn parse-macros
   "parse macros in-place on a single tree"
@@ -58,3 +58,8 @@
 
 ;;(map parse-macros (map clj-parse m-codes))
 ;; this returns a list of all codes, with the clojure parsed for macros.
+
+(defn strip-codes
+  "takes an Arachne parse tree and returns a list of all code blocks, with macros expanded."
+  [tree]
+  (map parse-macros (map clj-parse (tag-stripper :code tree))))

@@ -1,1 +1,1 @@
-([:dependencies ([org.clojure/clojure "1.4.0"] [instaparse/instaparse "1.2.2"] [aacc/aacc "0.0.1-SNAPSHOT"] [org.clojure/tools.nrepl "0.2.1" :exclusions ([org.clojure/clojure])] [clojure-complete/clojure-complete "0.2.2" :exclusions ([org.clojure/clojure])])])
+([:dependencies ([org.clojure/clojure "1.5.1"] [instaparse/instaparse "1.2.2"] [aacc/aacc "0.0.1-SNAPSHOT"] [org.clojure/tools.nrepl "0.2.1" :exclusions ([org.clojure/clojure])] [clojure-complete/clojure-complete "0.2.2" :exclusions ([org.clojure/clojure])])])
