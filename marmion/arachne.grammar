@@ -32,8 +32,7 @@ contd = '~' ;
 
 code-footer = triple-ticks ws; 
 
-<code-type> = "clojure" | "text" ;
-
+<code-type> = "clojure" | "text" | "grammar" ;
 <triple-ticks> = <"```"> ;
 
 <sp> = #'[ \t]*' ;

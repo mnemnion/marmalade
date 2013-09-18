@@ -38,9 +38,9 @@
   "Main Arachne fn"
   ([file]
       (-> file
-          (slurp)
-          (arachne-parse)
-          (fix-final-line)))
+          slurp
+          arachne-parse
+          fix-final-line))
   ([prefix file]
      (let [full-file (str prefix file)]
        (-> full-file

@@ -85,4 +85,4 @@ macro = <mac-start> mac-name <mac-end> ;
 
 ```
 
-We need to dynamically generate variations on this by overloading the definitions of `mac-start` and `mac-end` off the config block, at some point relatively soon.
+We need to dynamically generate variations on this by overloading the definitions of `mac-start`, `mac-end` and `punc` off the config block, at some point relatively soon. I'll put off adding continuation macros untl that point, or until I decide I want to actually use one.
