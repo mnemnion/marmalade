@@ -1,23 +1,49 @@
-#Macros.
+#Literate Macros
 
-The macro system needs to be flexible but not ridiculous. If we need non trivial code rewriting, we will choose a language which has it. Many, even most languages structure their code according to a convention which isn't necessarily that of the application logic. This is ultimately an imposition of the file structure, and cannot be helped.
+The term macro generally refers to a function that rewrites code prior to any attempt to make sense of it. Whether Coffeescript is a macro preprocessor over Javascript or a language in its own right is a matter of taste. Macros can get arbitrarily complex. We will keep ours as simple as practical.
 
-This is the powerful case for literate programming: we may structure our thougthts into form. Programming usually travels up and down the ladder of abstraction: When at the top level, we want to be placidly unconcerned with the formatting of our program's source code. 
+Our simplest type of macro is an anchor. It is surrounded with a triglyph on both sides, e.g. ` ~<$macro$>~ `, where the triglyph selected is one that will not appear in either order in the target language.
 
-Our macros are simple rewrite macros. The inner contents can get somewhat complex, but conceptually there are three kinds: anchors, containers, and chains. Anchors provide a single point in the code base into which one may substitute. Containers provide two such points, and chains provides as many as one may care to define. 
+Second rule: if the triglyphs are `~<$` and `$>~`, then `$><$` must also be an invalid token in the targeted language. We will use this rule for chaining macros. Those are also the default triglyphs in code blocks, if none are provided.
 
-This is easy to illustrate. For Markdown, a simple enough macro would be `` `<@ `` to begin a macro and `` @>` `` to end it. In between would be the name of the macro, or metadata, or what have you. That would suffice for a simple anchor macro.
+We will provide a mechanism for defining macro glyphs in the ```` ```config ```` blocks, later. For now we're hard wiring them. Marmalade has one, which I won't type until the code is sanitized to allow literal quoting of the macro form. The Clojure macros are `#|(` and `)|#` with the tetraglyph form `)||(`. They are syntax errors and likely to stay so. If it turns into anything legitimate, it will be a block comment a la Common Lisp. Rich has declared his opposition.
 
-A container (which is a chain of arity two, but is the most useful chain and has its own name) would start with `` `<@ ``, have a front matter closed with `` @> `` (note the lack of a closing `` ` ``) and immediately follow this with `` <@ ``. Whitespace between is not allowed, the middle symbol is `` @><@ `` in full. This is followed by literal source code, which is closed with `` @>` ``. A chain has more than one `` @><@ `` before the `` @>` `` which closes.
+To make life simple, we'll reuse this for Instaparse grammar files also. It's decidedly gibberish in that language also.
 
-To make macro definitions clearer, let's pretend this is a macro for Foolang, which is found in ```` ```foolang ```` code blocks. Markdown macros may be more complex, as an edge case. Somewhere in a code block, we've called a macro `` `<@foomac@>` ``.
+It's quite possible to write a legit Marmalade file that doesn't use any Markdown macros. Without macros in the code blocks, there will be no tangle. The default behavior around a code block with no macros is to include it in the weave but not the tangle. Often this is what we want, if we are quoting a short piece of code that never gets used or that has been deprecated in favor of better code.
 
-In its own codeblock, we put, as the first line, an anchor: `` `<@foomac/source@>` ``, with a newline immediately after. The code follows: one code block per macro. If it is a container or a chain, ` @><@ ` marks the points where literal code is written around.
+Anchor macros have an interior syntax. The simplest takes the form ` ~<$name$>~ `. The typical use is as a point in code for macro expansion. If so, Arachne will attempt to fill the macro from a code block called `~<$source:name$>~`. `source` is a keyword, not a variable.
 
-That's it, that's all the macro we're providing. The metadata will allow language specific macros, which must be literal (no regular expression macro boundaries please!), and which, to work correctly, should be syntax errors anywhere outside of literal strings within your target language, in opening, closing, and continuation forms.
+Another keyword form is `~<$file:/src/file.extn$>~`. Any code block containing such a macro at the top will end up in that file, after all other macros are fully expanded.
 
-Note: the trigraph format virtually guarantees picking a distinctive set of characters which will perform the dual of validation against your target languages syntax. Some languages, Lisps in particular, are strongly form oriented, and a single character terminal, hence two character continuation, is practical. Let your source be your guide.
+There is a short continuation form used to intersperse code and commentary. Let's say we're targeting foo-lang, and we have declared a ```` ```foo-lang ```` block that has started a file. If the next foo-lang block looks like ```` ```foo-lang~ ```` with a `~` after it, that block continues in the same file.
 
+Each language may be considered namespaced in this regard, so if you are interweaving two or more languages, each will go into the current file. Try to keep things easy to follow.
 
+So here's a small grammar for parsing macros, once they have been located.
 
+```grammar
+#|(file:macro.grammar)|#
 
+(* A Micro Grammar For Macros *)
+
+mac-name = prefix? command ':' mac-id
+         | mac-id
+         ;
+
+prefix = #'[0-9A-Za-z.!+\- ]+\?'
+
+mac-id = #'[0-9A-Za-z.!+\-_/ ]*'
+         ;
+
+command = #'[0-9A-Za-z.!+\-_ ]+'
+          ;
+```
+
+###Macro Predicates
+
+In addition, a macro may have a prefix, which is an ordinary symbol which must end in the character `?`. In the configuration, the prefix may be set to 'true' or 'false'. If the prefix is false, the macro doesn't exist.
+
+This is a simple `#ifdef` kind of refinement that lets use build multiple versions from a single codebase.
+
+I am wary of adding more complexity than this.
