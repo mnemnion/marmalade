@@ -20,6 +20,6 @@
 (def marm-links (link-strip marm-arach))
 
 (def ara-ath
-  (map #(load-and-parse "../source/" (first (:content %))) marm-links))
+  (load-children "../source/" marm-arach))
 
 (def code-base (into m-codes (map strip-codes ara-ath)))

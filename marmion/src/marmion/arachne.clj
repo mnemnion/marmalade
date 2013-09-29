@@ -25,7 +25,9 @@
   [tree]
   (if (= (code-type tree) "clojure")
     (re-parse clj-mac tree :code-body)
-    tree))
+    (if (= (code-type tree) "grammar")
+      (re-parse clj-mac tree :code-body)
+      tree)))
 
 (defn fix-final-line
   "fix the final line of a Marmalade file if necessary"
@@ -56,7 +58,7 @@
   ([prefix tree]
     (map #(load-and-parse prefix (first (:content %))) (link-strip tree))))
 
-;;(map parse-macros (map clj-parse m-codes))
+;; (map parse-macros (map clj-parse m-codes))
 ;; this returns a list of all codes, with the clojure parsed for macros.
 
 (defn strip-codes
