@@ -23,3 +23,7 @@
   (load-children "../source/" marm-arach))
 
 (def code-base (into m-codes (map strip-codes ara-ath)))
+
+(def ath (load-and-parse "../source/" "athena/athena.md"))
+
+(def ara (load-and-parse "../source/" "arachne/arachne.md"))
