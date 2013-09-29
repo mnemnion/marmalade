@@ -6,9 +6,13 @@ prose = categories+
 
 <stuff> = #'[^\[\]()]+' ;
 
-link = "[" #'[^\]]+' "]" WS* "(" local-file ")" ;
+link = "[" #'[^\]]+' "]" WS* "(" file ")" ;
 
-local-file = #"[^):]+" ;
+file = directory? local-file;
+
+directory = (#"[^):/]+" "/")+;
+
+local-file = #"[^):/]+" ;
 
 punct = #"[\[\]()]" ;
 
