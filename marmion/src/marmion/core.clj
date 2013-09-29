@@ -15,4 +15,11 @@
 
 (def marm-arach (load-and-parse "../source/" "marmalade.md"))
 
-(def m-codes (tag-stripper :code marm-arach))
+(def m-codes (strip-codes marm-arach))
+
+(def marm-links (link-strip marm-arach))
+
+(def ara-ath
+  (map #(load-and-parse "../source/" (first (:content %))) marm-links))
+
+(def code-base (into m-codes (map strip-codes ara-ath)))

@@ -2,10 +2,24 @@
 
 Arachne is our tangler, extracting usable code from the source, arranging it, and taking whatever actions are necessary to render it executable.
 
+##TODO
+
+What we need to do:
+
+  1. Parse the head file
+  1. Parse and follow all interior links
+  1. Parse the files thereby found
+  1. Parse all code blocks for macros
+  1. Expand said macros into file strings
+  1. Spit out the file strings into the tangle.
+
+Pretty much, that's the job. I'm curious to see what our Marmalade parser will do with that list. Should be :prose (it is).
+
+
 The arachne file looks like this:
 
 ```clojure
-#|(file:arachne.clj)|#
+#|(file:src/arachne.clj)|#
 (ns marmion.arachne
   (:require [instaparse.core :as insta]
             [marmion.util :refer :all]))
@@ -69,3 +83,28 @@ The arachne file looks like this:
 ```
 
 This kind of "markdown dump" shouldn't be necessary once we have the toolchain up. Bootstrapping requires lots of scrapping.
+
+##Link Hunter
+
+Arachne has some work to do in our :prose as well. Most links are not her business, rather Athena's. Arachne does need to look in any local links for more source code that may contain weavable code blocks.
+
+Arachne won't look for these kinds of links in headers, only in :prose blocks. Let's write a little `re-parse` grammar to find these kinds of links.
+
+```grammar
+#|(file:link-hunter.grammar)|#
+(* A Link Hunting Mini Grammar for Arachne *)
+
+prose = categories+
+
+<categories> = (stuff | link) / punct ;
+
+<stuff> = #'[^\[\]()]+' ;
+
+link = "[" #'[^\]]+' "]" WS* "(" local-file ")" ;
+
+local-file = #"[^):]+" ;
+
+punct = #"[\[\]()]" ;
+
+WS = #'[ ]+' ;
+```
