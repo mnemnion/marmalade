@@ -111,4 +111,4 @@ WS = #'[ ]+' ;
 
 ##Subdirectories
 
-Let's add a [relative link](sub/subdir.md), shall we? Now let's make that file exist.
+Let's add a [relative link](sub/sub.md), shall we? Now let's make that file exist.
