@@ -22,7 +22,7 @@
   "strips links for Arachne. Replaces link-strip,
 and will eventually be it. Grammar update, shim code."
   [tree]
-  (tag-stripper :link (re-parse better-link-hunter tree :prose)))
+  (tag-stripper :file (re-parse better-link-hunter tree :prose)))
 
 (defn parse-macros
   "parse macros in-place on a single tree"
@@ -63,9 +63,13 @@ and will eventually be it. Grammar update, shim code."
 (defn load-children
   "loads and parses all child links from an Arachne tree."
   ([tree]
-     (map #(load-and-parse (first (:content %))) (link-strip tree)))
+     (map
+      #(load-and-parse (flat-tree (tag-stripper :file %)))
+       (better-link-strip tree)))
   ([prefix tree]
-    (map #(load-and-parse prefix (first (:content %))) (link-strip tree))))
+    (map
+      #(load-and-parse prefix (flat-tree (tag-stripper :file %)))
+       (better-link-strip tree))))
 
 ;; (map parse-macros (map clj-parse m-codes))
 ;; this returns a list of all codes, with the clojure parsed for macros.
