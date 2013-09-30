@@ -70,3 +70,10 @@
   [tree]
   ;;note that this lacks a certain generality
   (map parse-macros (map clj-parse (tag-stripper :code tree))))
+
+(defn get-directory
+  "expects a :file tree. returns a string consisting of the directory (prefix)
+of the linked file"
+  [file-tree]
+  (apply str
+         (:content (first (tag-stripper :directory file-tree)))))
