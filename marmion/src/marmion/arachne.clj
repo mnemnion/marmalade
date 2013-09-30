@@ -77,3 +77,8 @@ of the linked file"
   [file-tree]
   (apply str
          (:content (first (tag-stripper :directory file-tree)))))
+
+(defn get-filename
+  "expects a :file tree. returns a string consisting of the file name."
+  [file-tree]
+  (:content (first (tag-stripper :local-file file-tree))))
