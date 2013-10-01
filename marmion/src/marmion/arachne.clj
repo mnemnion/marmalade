@@ -24,13 +24,22 @@
           fix-final-line))
 
 (defn load-and-parse
-  "loads a single file and does initial parsing. Expects one or two strings,
-returns an Instaparsed mar"
+  "loads a single file and does initial parsing."
   ([file]
       (arachne-slurp file))
   ([prefix file]
      (let [full-file (str prefix file)]
-       (assoc {} full-file (arachne-slurp full-file)))))
+       (assoc {} full-file (arachne-slurp full-file))))
+  ([file-map prefix file]
+     (let [full-file (str prefix file)]
+       (assoc file-map full-file (arachne-slurp full-file)))))
+
+(defn load-from-file
+  "takes a file map, prefix string and a :file tree. load-and-parse on the resulting file."
+  [file-map prefix file-tree]
+  (let [file-name (str prefix (get-directory file-tree) (get-filename file-tree))]
+    (assoc file-map file-name (arachne-slurp file-name))))
+
 
 (defn load-children
   "loads and parses all child links from an Arachne tree."
