@@ -1,7 +1,8 @@
 (ns marmion.core
   (:require [instaparse.core :as insta]
             [marmion.arachne :refer :all]
-            [marmion.util :refer :all]))
+            [marmion.util :refer :all]
+            [marmion.links :refer :all]))
 
 (def marm (insta/parser (slurp "marmalade.grammar") :output-format :enlive))
 
@@ -17,10 +18,10 @@
 
 (def m-codes (strip-codes marm-arach))
 
-(def marm-links (link-strip marm-arach))
+(def marm-links (link-strip (get marm-arach "../source/marmalade.md")))
 
 (def ara-ath
-  (load-children "../source/" marm-arach))
+  (load-children "../source/" (get marm-arach "../source/marmalade.md")))
 
 (def code-base (into m-codes (map strip-codes ara-ath)))
 

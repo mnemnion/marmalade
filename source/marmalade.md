@@ -249,22 +249,3 @@ That will require thoughtful data types. The challenge of a good syntax highligh
 Since this is a parser-driven highlight, we will likely end up with something like major and minor modes for color themes. Every language grammar will come with a map from the tags in the grammar onto a default set of names for programming concepts, kind of like the TextMate domain. Every color theme must cover all these names (they can inherit from other themes in this respect) and may in addition provide minor modes for languages in which overriding color tags are provided directly.
 
 There is also absolutely no reason we shouldn't correctly highlight embedded code. Let's say a language contains an inline facility for C. We can specify that region to be highlighted using the C engine. A page conflating HTML, CSS and JS into a single text file could be correctly marked up. It won't even be particularly challenging. `re-parse` is a cool little function.
-
-##Link Hunter
-
-Arachne has some work to do in our :prose as well. Most links are not her business, rather Athena's. Arachne does need to look in any local links for more source code that may contain weavable code blocks.
-
-Arachne won't look for these kinds of links in headers, only in :prose blocks. Let's write a little `re-parse` grammar to find these kinds of links.
-
-Currently there's a behavior in the grammar that prevents the last line from being part of the paragraph. I've tagged it as :last-line, so we can `transform` it into :prose.
-
-What we need to do:
-
-  1. Parse the head file
-  1. Parse and follow all interior links
-  1. Parse the files thereby found
-  1. Parse all code blocks for macros
-  1. Expand said macros into file strings
-  1. Spit out the file strings into the tangle.
-
-Pretty much, that's the job. I'm curious to see what our Marmalade parser will do with that list. Should be :prose (it is).
