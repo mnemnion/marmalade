@@ -20,55 +20,10 @@
       (assoc {:tag :prose} :content (list (apply str chars))))}
    tree))
 
-(defn- arachne-slurp
-  "slurps and parses a Marmalade file, arachne style. Expects a stringy filename"
-  [file]
-  (-> file
-          slurp
-          arachne-parse
-          fix-final-line))
-
 (defn arachnify
   "takes a string and arachnifies it"
   [source]
   (-> source arachne-parse fix-final-line))
-
-(defn load-and-parse
-  "loads a single file and does initial parsing.
-   [file] is a string
-   [prefix file] two strings
-   [file-map prefix file] a map and two strings."
-  ([file]
-      (arachne-slurp file))
-  ([prefix file]
-     (let [full-file (str prefix file)]
-       (assoc {} full-file (arachne-slurp full-file))))
-  ([file-map prefix file]
-     (let [full-file (str prefix file)]
-       (assoc file-map full-file (arachne-slurp full-file)))))
-
-(defn load-from-file
-  "takes a file map, prefix string and a :file tree.
-load-and-parse on the resulting file."
-  [file-map prefix file-tree]
-  (let [file-name (str prefix (get-directory file-tree) (get-filename file-tree))]
-    (assoc file-map file-name (arachne-slurp file-name))))
-
-
-(defn load-children
-  "loads and parses all child links from an Arachne tree."
-  ([tree]
-     (map
-      #(load-and-parse (flat-tree (tag-stripper :file %)))
-       (link-strip tree)))
-  ([prefix tree]
-    (map
-      #(load-and-parse prefix (flat-tree (tag-stripper :file %)))
-      (link-strip tree))))
-
-
-;; (map parse-macros (map clj-parse m-codes))
-;; this returns a list of all codes, with the clojure parsed for macros.
 
 (defn parse-macros
   "parse macros in-place on a single tree"

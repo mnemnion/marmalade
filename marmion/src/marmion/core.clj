@@ -2,8 +2,7 @@
   (:require [instaparse.core :as insta]
             [me.raynes.fs :as fs]
             [marmion.arachne :refer :all]
-            [marmion.util :refer :all]
-            [marmion.links :refer :all]))
+            [marmion.util :refer :all]))
 
 (def marm (insta/parser (slurp "marmalade.grammar") :output-format :enlive))
 
@@ -19,15 +18,6 @@
 
 (def m-codes (strip-codes marm-arach))
 
-(def marm-links (link-strip (get marm-arach "../source/marmalade.md")))
-
-(def ara-ath
-  (load-children "../source/" (get marm-arach "../source/marmalade.md")))
-
-(def code-base (into m-codes (map strip-codes ara-ath)))
-
-(def ath (load-and-parse "../source/" "athena/athena.md"))
-
-(def ara (load-and-parse "../source/" "arachne/arachne.md"))
-
 (def source-files (map arachnify (slurp-files "../source/")))
+
+(def toy-files (map arachnify (slurp-files "../toy/")))
