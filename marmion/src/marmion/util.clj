@@ -75,6 +75,7 @@ extensions."
   [root dirs files]
   (map #(if (contains? extensions (fs/extension %))
           (slurp (fs/file root %))) files))
+
 (defn compact
   "removes all emptyness from a seq"
   [siq]

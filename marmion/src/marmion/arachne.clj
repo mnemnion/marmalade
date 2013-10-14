@@ -26,18 +26,11 @@
   [source]
   (-> source arachne-parse fix-final-line))
 
-(defn code-parse
-  "Strips codes from arachne-parsed trees and macro-parses them"
-  [md-tree-list]
-  (->> md-tree-list
-       (map strip-codes)
-       flatten
-       (map parse-macros)))
-
 (defn macro-parse-tree
   "parse macros in-place on a single tree"
   [tree]
   (re-parse macro-parser tree :macro))
+
 
 (defn clj-parse
   "clojure macro parses appropriate code."
@@ -52,4 +45,12 @@
   "takes an Arachne parse tree and returns a list of all code blocks, with macros (in Clojure blocks) parsed."
   [tree]
   ;;note that this lacks a certain generality
-  (map parse-macros (map clj-parse (tag-stripper :code tree))))
+  (map macro-parse-tree (map clj-parse (tag-stripper :code tree))))
+
+(defn code-parse
+  "Strips codes from arachne-parsed trees and macro-parses them"
+  [md-tree-list]
+  (->> md-tree-list
+       (map strip-codes)
+       flatten
+       (map macro-parse-tree)))

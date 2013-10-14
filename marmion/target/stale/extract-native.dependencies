@@ -1,1 +1,1 @@
-([:dependencies ([catnip "0.6.0-SNAPSHOT"] [org.clojure/clojure "1.5.1"] [instaparse/instaparse "1.2.2"] [me.raynes/fs "1.4.4"])])
+([:dependencies ([org.clojure/clojure "1.5.1"] [instaparse/instaparse "1.2.2"] [me.raynes/fs "1.4.4"] [org.clojure/tools.nrepl "0.2.1" :exclusions ([org.clojure/clojure])] [clojure-complete/clojure-complete "0.2.2" :exclusions ([org.clojure/clojure])])])
