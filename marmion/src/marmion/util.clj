@@ -75,10 +75,14 @@ extensions."
   [root dirs files]
   (map #(if (contains? extensions (fs/extension %))
           (slurp (fs/file root %))) files))
+(defn compact
+  "removes all emptyness from a seq"
+  [siq]
+  (filter #(not (empty? %)) siq))
 
 (defn slurp-files
   "slurps all .md, .markdown and .marm files in [directory] and subtrees."
   [path]
   (if (fs/directory? path)
-    (filter string? (flatten (fs/walk open-path path)))
+    (compact (flatten (fs/walk open-path path)))
     (print "Error: " path "is not a directory" \newline)))

@@ -8,7 +8,8 @@
 
 (def clj-mac (insta/parser (slurp "clj-macro.grammar") :output-format :enlive))
 
-(def macro-parse (insta/parser (slurp "macro.grammar") :output-format :enlive))
+(def ^:private  macro-parser
+  (insta/parser (slurp "macro.grammar") :output-format :enlive))
 
 (defn- fix-final-line
   "fix the final line of a Marmalade file if necessary"
@@ -25,10 +26,18 @@
   [source]
   (-> source arachne-parse fix-final-line))
 
-(defn parse-macros
+(defn code-parse
+  "Strips codes from arachne-parsed trees and macro-parses them"
+  [md-tree-list]
+  (->> md-tree-list
+       (map strip-codes)
+       flatten
+       (map parse-macros)))
+
+(defn macro-parse-tree
   "parse macros in-place on a single tree"
   [tree]
-  (re-parse macro-parse tree :macro))
+  (re-parse macro-parser tree :macro))
 
 (defn clj-parse
   "clojure macro parses appropriate code."
