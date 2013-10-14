@@ -54,11 +54,9 @@ load-and-parse on the resulting file."
   ([prefix tree]
     (map
       #(load-and-parse prefix (flat-tree (tag-stripper :file %)))
-      (link-strip tree)))
-  ([file-map prefix tree]
-     (map
-      #(load-from-file file-map prefix  %)
       (link-strip tree))))
+
+
 
 
 

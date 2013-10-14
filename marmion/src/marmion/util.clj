@@ -1,5 +1,6 @@
 (ns marmion.util
-  (:require [instaparse.core :as insta]))
+  (:require [instaparse.core :as insta]
+            [me.raynes.fs :as fs]))
 
 
 (defn key-maker
@@ -65,3 +66,19 @@ as a string, or \\n if not found."
   (let [seq-tree (e-tree-seq parse-tree)]
     (filter #(= tag (:tag %))
             seq-tree)))
+
+(def ^:private extensions #{ ".md" ".markdown" ".marm"})
+
+(defn- open-path
+  "opens the weirdass [root dirs files] files with Marmalade-compatible
+extensions."
+  [root dirs files]
+  (map #(if (contains? extensions (fs/extension %))
+          (slurp (fs/file root %))) files))
+
+(defn slurp-files
+  "slurps all .md, .markdown and .marm files in [directory] and subtrees."
+  [path]
+  (if (fs/directory? path)
+    (fs/walk open-path path)
+    (print "Error: " path "is not a directory" \newline)))
