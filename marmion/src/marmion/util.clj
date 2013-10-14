@@ -80,5 +80,5 @@ extensions."
   "slurps all .md, .markdown and .marm files in [directory] and subtrees."
   [path]
   (if (fs/directory? path)
-    (fs/walk open-path path)
+    (flatten (fs/walk open-path path))
     (print "Error: " path "is not a directory" \newline)))

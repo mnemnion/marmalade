@@ -3,7 +3,8 @@
             [marmion.util :refer :all]
             [marmion.links :refer :all]))
 
-(def arachne-parse (insta/parser (slurp "arachne.grammar") :output-format :enlive))
+(def ^:private arachne-parse
+  (insta/parser (slurp "arachne.grammar") :output-format :enlive))
 
 (def clj-mac (insta/parser (slurp "clj-macro.grammar") :output-format :enlive))
 
@@ -13,7 +14,11 @@
   "fix the final line of a Marmalade file if necessary"
   [tree]
   (insta/transform
-   {:final-line (fn [& chars] (assoc {:tag :prose} :content (list (apply str chars))))} tree))
+   {:final-line
+    (fn
+      [& chars]
+      (assoc {:tag :prose} :content (list (apply str chars))))}
+   tree))
 
 (defn- arachne-slurp
   "slurps and parses a Marmalade file, arachne style. Expects a stringy filename"
@@ -22,6 +27,11 @@
           slurp
           arachne-parse
           fix-final-line))
+
+(defn arachnify
+  "takes a string and arachnifies it"
+  [source]
+  (-> source arachne-parse fix-final-line))
 
 (defn load-and-parse
   "loads a single file and does initial parsing.
@@ -55,9 +65,6 @@ load-and-parse on the resulting file."
     (map
       #(load-and-parse prefix (flat-tree (tag-stripper :file %)))
       (link-strip tree))))
-
-
-
 
 
 ;; (map parse-macros (map clj-parse m-codes))

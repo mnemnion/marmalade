@@ -29,3 +29,5 @@
 (def ath (load-and-parse "../source/" "athena/athena.md"))
 
 (def ara (load-and-parse "../source/" "arachne/arachne.md"))
+
+(def source-files (map arachnify (slurp-files "../source/")))
