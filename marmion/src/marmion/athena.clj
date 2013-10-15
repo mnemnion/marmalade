@@ -26,6 +26,16 @@ trees as values."
                    (nth % 1))
                athena-map)))
 
+
+
+(defn athena-back-to-string
+  "takes an athena map and turns the tree values into strings"
+  [athena-map]
+  (reduce merge
+          (map #(assoc {} (nth % 0) (flat-tree (nth % 1)))
+               athena-map)))
+
+
 (defn athena-gen-dirs
   "create destination directories, if necessary."
   [athena-map source-dir destiny]
@@ -34,10 +44,20 @@ trees as values."
         target-dirs (sort (fn [x y]
                            (< (count (path-to-string x))
                               (count (path-to-string y)))) directs)]
-    (map #(if (not (fs/directory? %)) (fs/mkdir %)) target-dirs)))
+    (dorun (map #(if (not (fs/directory? %)) (fs/mkdir %)) target-dirs))))
 
 (defn athena-spit-files
   "takes a map and spits the values into a file created from the keys"
   [athena-map source-dir destiny]
   (let [target-map (make-destinations athena-map source-dir destiny)]
     (map #(spit (path-to-string (nth % 0)) (nth % 1)) target-map)))
+
+(defn athena
+  "given source and destination directories, athenifies the files."
+  [source destiny]
+  (let [athena-map (athena-open source)]
+    (do
+      (athena-gen-dirs athena-map source destiny)
+      (-> athena-map
+          athena-back-to-string
+          (athena-spit-files source destiny)))))
