@@ -4,8 +4,8 @@ This is the bar file.
 
 Foo links to it. Not much else going on here.
 
-```clojure
-#|(file:toy/src/core.clj)|#
+```clojure file:toy/src/core.clj
+
 {:bar "from the bar file"}
 
 #|(baz)|#
