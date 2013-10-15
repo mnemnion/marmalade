@@ -71,7 +71,22 @@ as a string, or \\n if not found."
     (filter #(= tag (:tag %))
             seq-tree)))
 
+
+;;; File Handling
+
+
 (def ^:private extensions #{ ".md" ".markdown" ".marm"})
+
+(defn path-to-string
+  "takes a path and makes it into a string"
+  ([path]
+      (->> path
+           fs/split
+           (interpose "/")
+           (drop 1)
+           (apply str)))
+  ([path filename]
+     (apply str (path-to-string path) "/" filename)))
 
 (defn open-path
   "opens the weirdass [root dirs files] files with Marmalade-compatible
@@ -84,8 +99,11 @@ extensions."
   "opens [root dirs files] and produces a list of maps. keys are fully qualified
 path name, value is the file as a string,"
   [root dirs files]
-  (map #(assoc {} (())))
-  )
+  (map #(if (contains? extensions (fs/extension %))
+          (assoc {}
+            (path-to-string root %)
+            (open-path root dirs (list %))))
+       files))
 
 
 (defn compact
@@ -104,14 +122,3 @@ path name, value is the file as a string,"
        (if (fs/directory? path)
          (compact (flatten (fs/walk open-path-athena path))))
        (println "Invalid Key:" key))))
-
-(defn path-to-string
-  "takes a path and makes it into a string"
-  ([path]
-      (->> path
-           fs/split
-           (interpose "/")
-           (drop 1)
-           (apply str)))
-  ([path filename]
-     (apply str (path-to-string path) "/" filename)))
