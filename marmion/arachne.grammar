@@ -18,7 +18,7 @@ header = "#" #'[^\n]+' '\n'+;
 
 prose = block blank-line+ ;
 
-code = code-header code-body code-footer ;
+code = (code-header | macro-header) code-body code-footer ;
 
 code-body = (code-line | blank-line)+ ;
 
@@ -26,9 +26,11 @@ code-body = (code-line | blank-line)+ ;
  
 <blank-line> = '\n' sp #'[\n]+' ;
 
-code-header = triple-ticks (code-type)* contd? header-macro? "\n"+ ;
+code-header = triple-ticks (code-type)* sp* "\n"+ ;
 
-header-macro = #"[A-Za-z:/.\-_]+" ;
+macro-header = triple-ticks code-type contd? header-macro "\n"+ ;
+
+header-macro = #"[A-Za-z:/. ]+" ;
 
 contd = '~' ;
 

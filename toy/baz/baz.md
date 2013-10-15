@@ -15,3 +15,14 @@ Like a [code block!](http://addme.com).
 ```
 
 Now let's reload, shall we?
+
+
+Let's also add an ordinary code block. This won't be reached by our tangler.
+
+```clojure
+
+{:do :not :see :me}
+
+```
+
+It should be correctly set in the proper weave, once we start weaving one.
