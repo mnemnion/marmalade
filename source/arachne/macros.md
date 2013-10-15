@@ -24,4 +24,18 @@ GFM code blocks have a header that looks like ```` ```language ````. We're alrea
 
 Our bare minimum task: specify certain code blocks as files, create anchor macros to put in the code blocks, and specify certain other code blocks as the source for those macros. Anchor macros look ` #|(like this)|# ` in Clojure; we use different trigrams for different programming environments. It would be easy to get weird with it if trigrams don't suffice. 
 
-File and source macros are header macros, and will look something like this: ```` ```clojure file:src/foo/core.clj ```` and ````clojure source:like this```. I'm split on allowing whitespace in macros, but don't see the harm. I may want to normalize that...
+File and source macros are header macros, and will look something like this: ```` ```clojure file:src/foo/core.clj ```` and ````clojure source:like this```. I'm split on allowing whitespace in macros, but don't see the harm. I may want to normalize the whitespace if I do. 
+
+The rule is, currently, one block per file, and one block per source. I will relax that for files, and not for sources, in exactly one way: if a block says ```` ```clojure file:src/somefile.clj ````, and the next block says ```` ```clojure~ ```` (note the `~`), that block is also part of the same file. 
+
+Will I allow the interleaving of multiple languages? Maybe. I can see the use case but don't want to make this harder to reason about. 
+
+I can think of some ways to expand this that might be nice. Some anchors might resolve to a single line or symbol and it could be convenient to embed several of those in a code block. If so, they will have a distinct "container" format. A code block must have either free code or any number of containers, but not both. I won't add this unless I'm feeling pain. 
+
+There are both developer and user justifications for this. As a developer, it happens that it's easy to make decisions about the code body from the code header. It's already packed up into a nice tree.
+
+This conceptual clarity will help the user also. When we develop Athena further, it will be easy to turn our file macros into links into the tangle that provide the created file, and mark up the file name attractively as a header for the code block. Similarly, the source names can be converted into legible headers, and the anchors turned into links into the source code block. 
+
+Also, code is the land and Markdown is the ocean. Treating the blocks as mostly disconnected and atomic units will aid clarity, encourage the use of macros, and make the resulting weave easier to read.
+
+The next step is to add some of the proposed header macros to Toy, which will make it unreadable. Next, make a readable weave of Toy with a lean Athena, and get back to Arachne. We'll get this ball of mud bootstrapping yet!
