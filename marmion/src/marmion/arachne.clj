@@ -1,10 +1,9 @@
 (ns marmion.arachne
   (:require [instaparse.core :as insta]
-            [marmion.util :refer :all]
-            [marmion.links :refer :all]))
+            [marmion.util :refer :all]))
 
 (def ^:private arachne-parse
-  (insta/parser (slurp "arachne.grammar") :output-format :enlive))
+  (insta/parser (slurp "arachne.grammar") :output-format :enlive :total true))
 
 (def clj-mac (insta/parser (slurp "clj-macro.grammar") :output-format :enlive))
 
@@ -53,4 +52,5 @@
   (->> md-tree-list
        (map strip-codes)
        flatten
-       (map macro-parse-tree)))
+       (map macro-parse-tree)
+       (map #(smush :literal-code %))))

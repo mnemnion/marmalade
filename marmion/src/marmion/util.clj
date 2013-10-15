@@ -12,8 +12,12 @@
   "smushes a keyword corresponding to a terminal node"
   [rule tree]
     (insta/transform
-         {rule (fn [ & lines ] [rule (apply str lines)])}
-                   tree))
+     {rule (fn
+             [ & lines ]
+             (assoc {} :content (list (apply str lines)),
+                       :tag rule))}
+     tree))
+
 (defn- e-tree-seq
   "tree-seqs enlive trees/graphs, at least instaparse ones"
   [e-tree]

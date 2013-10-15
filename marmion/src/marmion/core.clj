@@ -9,3 +9,7 @@
 (def toy-files (map arachnify (slurp-files "../toy/")))
 
 (def m-codes (code-parse source-files))
+
+(def t-codes (code-parse toy-files))
+
+;(def compact-codes (map #(smush :literal-code %) m-codes))

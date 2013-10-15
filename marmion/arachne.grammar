@@ -26,13 +26,18 @@ code-body = (code-line | blank-line)+ ;
  
 <blank-line> = '\n' sp #'[\n]+' ;
 
-code-header = triple-ticks (code-type)* contd?  sp* "\n"+ ;
+code-header = triple-ticks (code-type)* contd? header-macro? "\n"+ ;
+
+header-macro = #"[A-Za-z:/.\-_]+" ;
 
 contd = '~' ;
 
 code-footer = triple-ticks ws; 
 
-<code-type> = "clojure" | "text" | "grammar" ;
+(* <code-type> = "clojure" | "text" | "grammar" ; *)
+
+code-type = #'[a-z]+' ;
+
 <triple-ticks> = <"```"> ;
 
 <sp> = #'[ \t]*' ;
