@@ -73,12 +73,20 @@ as a string, or \\n if not found."
 
 (def ^:private extensions #{ ".md" ".markdown" ".marm"})
 
-(defn- open-path
+(defn open-path
   "opens the weirdass [root dirs files] files with Marmalade-compatible
 extensions."
   [root dirs files]
   (map #(if (contains? extensions (fs/extension %))
           (slurp (fs/file root %))) files))
+
+(defn open-path-athena
+  "opens [root dirs files] and produces a list of maps. keys are fully qualified
+path name, value is the file as a string,"
+  [root dirs files]
+  (map #(assoc {} (())))
+  )
+
 
 (defn compact
   "removes all emptyness from a seq"
@@ -87,7 +95,23 @@ extensions."
 
 (defn slurp-files
   "slurps all .md, .markdown and .marm files in [directory] and subtrees."
-  [path]
-  (if (fs/directory? path)
-    (compact (flatten (fs/walk open-path path)))
-    (print "Error: " path "is not a directory" \newline)))
+  ([path]
+      (if (fs/directory? path)
+        (compact (flatten (fs/walk open-path path)))
+        (print "Error: " path "is not a directory" \newline)))
+  ([path key]
+     (if (= key :athena)
+       (if (fs/directory? path)
+         (compact (flatten (fs/walk open-path-athena path))))
+       (println "Invalid Key:" key))))
+
+(defn path-to-string
+  "takes a path and makes it into a string"
+  ([path]
+      (->> path
+           fs/split
+           (interpose "/")
+           (drop 1)
+           (apply str)))
+  ([path filename]
+     (apply str (path-to-string path) "/" filename)))
