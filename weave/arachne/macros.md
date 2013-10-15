@@ -38,4 +38,10 @@ This conceptual clarity will help the user also. When we develop Athena further,
 
 Also, code is the land and Markdown is the ocean. Treating the blocks as mostly disconnected and atomic units will aid clarity, encourage the use of macros, and make the resulting weave easier to read.
 
-The next step is to add some of the proposed header macros to Toy, which will make it unreadable. Next, make a readable weave of Toy with a lean Athena, and get back to Arachne. We'll get this ball of mud bootstrapping yet!
+Most importantly, this make writing Marmion difficult, not fiendishly difficult with numerous failure modes. This reduces merge conflicts to one case: edits to a macro source, in the tangle, where that macro is expanded in more than one place. This kind of thing is uncommon.
+
+Marmalade macros are meta-macros. If you want to do fancy macro stuff, use a language that supports it. A major justification for writing Marmalade is polyglot codebases, so we can assemble working systems using the best tools for the job. That's what we do anyway, and the Marmalade toolchain systematizes it. 
+
+##Marmalade Proper
+
+By adding header macros, we have officially made a dialect of GFM. Marmalade files do not parse as Markdown, causing me to take a day to write the first true Athena. She simply takes Marmalade code, strips the header macros, and emits compatible Markdown. Eventually, she can do a great deal more than that. But the circuit is complete; we may make breaking changes to our Markdown documents, generate the weave, and have readable Markdown which GitHub helpfully autogens into HTML. 
