@@ -1,6 +1,7 @@
 (ns marmion.core
   (:require [instaparse.core :as insta]
             [me.raynes.fs :as fs]
+            [marmion.athena :refer :all]
             [marmion.arachne :refer :all]
             [marmion.util :refer :all]))
 

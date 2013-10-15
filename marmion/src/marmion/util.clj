@@ -80,11 +80,12 @@ as a string, or \\n if not found."
 (defn path-to-string
   "takes a path and makes it into a string"
   ([path]
-      (->> path
-           fs/split
-           (interpose "/")
-           (drop 1)
-           (apply str)))
+     (->> path
+          ;fs/normalized-path
+          fs/split
+          (interpose "/")
+          (drop 1)
+          (apply str)))
   ([path filename]
      (apply str (path-to-string path) "/" filename)))
 
