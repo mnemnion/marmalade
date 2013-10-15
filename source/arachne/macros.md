@@ -1,88 +1,41 @@
-#Literate Macros
+#The Marmalade Macro System
 
-The term macro generally refers to a function that rewrites code prior to any attempt to make sense of it. Whether Coffeescript is a macro preprocessor over Javascript or a language in its own right is a matter of taste. Macros can get arbitrarily complex. We will keep ours as simple as practical.
+What makes literate programming distinctive is not the interleaving of documentation and code. That's a weaker paradigm, frequently reinvented. Two variations: one is embedding documentation in comments or strings in the code, the other is embedding code in a comment syntax and extracting it. The former is Javadoc, doc strings in Python/Clojure/Common Lisp/YouNameIt; the latter is used in Literate Coffeescript, which is not true literate programming, albeit an improvement over nothing at all.
 
-Our simplest type of macro is an anchor. It is surrounded with a triglyph on both sides, e.g. ` ~<$macro$>~ `, where the triglyph selected is one that will not appear in either order in the target language.
+The real power of literate programming lies in separating the logic of the program from the logic of the programming language or environment. To unleash this power requires macros. 
 
-Second rule: if the triglyphs are `~<$` and `$>~`, then `$><$` must also be an invalid token in the targeted language. We will use this rule for chaining macros. Those are also the default triglyphs in code blocks, if none are provided.
+Macros can rapidly become too much power. In particular, our literate toolchain relies on three operations: tangling, weaving, and untangling. If the macro system is too general, the source will become the only place where code may be edited. We wish to retain the ability to make changes in the tangle and have them back propagate into the source and hence the weave. That's trivial, except for macros. 
 
-We will provide a mechanism for defining macro glyphs in the ```` ```config ```` blocks, later. For now we're hard wiring them. Marmalade has one, which I won't type until the code is sanitized to allow literal quoting of the macro form. The Clojure macros are `#|(` and `)|#` with the tetraglyph form `)||(`. They are syntax errors and likely to stay so. If it turns into anything legitimate, it will be a block comment a la Common Lisp. Rich has declared his opposition.
+##Macros in Marmalade
 
-To make life simple, we'll reuse this for Instaparse grammar files also. It's decidedly gibberish in that language also.
+Knuth's original literate system has a truly fantastical set of macros. He was working in the dark days, when both markup of documents for publishing and usable programming languages had to be invented from whole cloth.
 
-It's quite possible to write a legit Marmalade file that doesn't use any Markdown macros. Without macros in the code blocks, there will be no tangle. The default behavior around a code block with no macros is to include it in the weave but not the tangle. Often this is what we want, if we are quoting a short piece of code that never gets used or that has been deprecated in favor of better code.
+We have a tremendous advantage with Git Flavored Markdown. I feel like it's teetering on the verge of being literate as-is. We want to make thoughtful choices when we expand it.
 
-Anchor macros have an interior syntax. The simplest takes the form ` ~<$name$>~ `. The typical use is as a point in code for macro expansion. If so, Arachne will attempt to fill the macro from a code block called `~<$source:name$>~`. `source` is a keyword, not a variable.
+The first approach was straightforward: code blocks are code, and prose is everything else. Anything of use to Arachne was therefore to be found within code blocks. Very well, as far as it goes. 
 
-Another keyword form is `~<$file:/src/file.extn$>~`. Any code block containing such a macro at the top will end up in that file, after all other macros are fully expanded.
+I'm going to try something different, that I hope will be more powerful. Namely, making code blocks a first-class citizen in the environment. 
 
-There is a short continuation form used to intersperse code and commentary. Let's say we're targeting foo-lang, and we have declared a ```` ```foo-lang ```` block that has started a file. If the next foo-lang block looks like ```` ```foo-lang~ ```` with a `~` after it, that block continues in the same file.
+This will require a (hopefully quick) diversion to write some of Athena, because as of this change, Marmalade will no longer be valid GFM. There's no advantage to keeping that constraint, so I don't intend to. 
 
-Each language may be considered namespaced in this regard, so if you are interweaving two or more languages, each will go into the current file. Try to keep things easy to follow.
+GFM code blocks have a header that looks like ```` ```language ````. We're already parsing that header (and everything else), and using that information. Let's use that for some of our macros, shall we? 
 
-###Macro Predicates
+##Minimal Macros
 
-In addition, a macro may have a prefix, which is an ordinary symbol which must end in the character `?`. In the configuration, the prefix may be set to 'true' or 'false'. If the prefix is false, the macro doesn't exist.
+Our bare minimum task: specify certain code blocks as files, create anchor macros to put in the code blocks, and specify certain other code blocks as the source for those macros. Anchor macros look ` #|(like this)|# ` in Clojure; we use different trigrams for different programming environments. It would be easy to get weird with it if trigrams don't suffice. 
 
-This is a simple `#ifdef` kind of refinement that lets use build multiple versions from a single codebase.
+File and source macros are header macros, and will look something like this: ```` ```clojure file:src/foo/core.clj ```` and ````clojure source:like this```. I'm split on allowing whitespace in macros, but don't see the harm. I may want to normalize the whitespace if I do. 
 
-I am wary of adding more complexity than this.
+The rule is, currently, one block per file, and one block per source. I will relax that for files, and not for sources, in exactly one way: if a block says ```` ```clojure file:src/somefile.clj ````, and the next block says ```` ```clojure~ ```` (note the `~`), that block is also part of the same file. 
 
-So here's a small grammar for parsing macros, once they have been located.
+Will I allow the interleaving of multiple languages? Maybe. I can see the use case but don't want to make this harder to reason about. 
 
-```grammar
-#|(file:macro.grammar)|#
+I can think of some ways to expand this that might be nice. Some anchors might resolve to a single line or symbol and it could be convenient to embed several of those in a code block. If so, they will have a distinct "container" format. A code block must have either free code or any number of containers, but not both. I won't add this unless I'm feeling pain. 
 
-(* A Micro Grammar For Macros *)
+There are both developer and user justifications for this. As a developer, it happens that it's easy to make decisions about the code body from the code header. It's already packed up into a nice tree.
 
-mac-name = prefix? command ':' mac-id
-         | mac-id
-         ;
+This conceptual clarity will help the user also. When we develop Athena further, it will be easy to turn our file macros into links into the tangle that provide the created file, and mark up the file name attractively as a header for the code block. Similarly, the source names can be converted into legible headers, and the anchors turned into links into the source code block. 
 
-prefix = #'[0-9A-Za-z.!+\- ]+\?'
+Also, code is the land and Markdown is the ocean. Treating the blocks as mostly disconnected and atomic units will aid clarity, encourage the use of macros, and make the resulting weave easier to read.
 
-mac-id = #'[0-9A-Za-z.!+\-_/ ]*'
-         ;
-
-command = #'[0-9A-Za-z.!+\-_ ]+'
-          ;
-```
-
-Which does pretty much what you'd expect, restricting our macros to alphanumerics, `-`,`.`,`!`, and `+` for now. `?` and `:` may be found once each, must be in that order if both are present, and furthermore `?` joins the prefix so that it is parsed as `debug?` not `debug` `?`.
-
-##Container Macros
-
-Anchor macros are the simple kind. We use them to assign code blocks to files and to expand code into place. The other kind we offer are container macros, which look essentially like this: `` `<$macro:name$><$ some arbitrary code $>` ``. Simplest use case is optional code where the macro body is just a prefix and the code is included if that prefix is true. This form will also be defined for the `file:` and `source:` forms, but needn't be used. It is clearer and less error prone to use these as headers for discrete code blocks. Since we're going to the trouble to define containers, it would be good if our commands do something sensible in all cases for both forms.
-
-Early on, I considered allowing arbitrary chains of this form. That sounds like a hassle and other than maybe disguishing try/catch/finally type forms I can't come up with a use case. Strikes me as a distraction at present.
-
-The current macro parser is anchor-only and Clojure specific. It looks like this:
-
-
-```grammar
-#|(file:clj-macro.grammar)|#
-(* A Mini Grammar for Literate Clojure Macros in Marmalade *)
-
-code-body = (code-line | blank-line)+ ;
-
-<code-line> = (#'[^\n#|(]+' | macro | punc) (!blank-line '\n')* ;
-
-macro = <mac-start> mac-name <mac-end> ;
-
-<mac-start> = '#|(' ;
-
-<mac-name> = !mac-end #'[^)]+' ;
-
-<mac-end> = ')|#' ;
-
-<punc> = !mac-start #'[#|(]+' ;
-
-<blank-line> = '\n' sp #'[\n]+' ;
-
-<sp> = #'[ \t]*' ;
-
-<ws> = #'[\s]+';
-
-```
-
-We need to dynamically generate variations on this by overloading the definitions of `mac-start`, `mac-end` and `punc` off the config block, at some point relatively soon. I'll put off adding continuation macros untl that point, or until I decide I want to actually use one.
+The next step is to add some of the proposed header macros to Toy, which will make it unreadable. Next, make a readable weave of Toy with a lean Athena, and get back to Arachne. We'll get this ball of mud bootstrapping yet!
