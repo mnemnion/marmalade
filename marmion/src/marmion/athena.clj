@@ -1,0 +1,33 @@
+(ns marmion.athena
+  (:require [instaparse.core :as insta]
+            [clojure.string :as s]
+            [me.raynes.fs :as fs]
+            [marmion.util :refer :all]))
+
+
+(def athena-parse (insta/parser (slurp "athena.grammar")
+                                :output-format :enlive
+                                :total true))
+
+(defn athena-open
+  "open and parse Athena files. Returns a map with filenames as keys and
+trees as values."
+  [source-dir]
+  (reduce merge
+          (map #(assoc {} (nth % 0) (athena-parse (apply str  (nth % 1))))
+               (reduce merge (slurp-files source-dir :athena)))))
+
+(defn make-destinations
+  "make the athena map keys point to a destination directory"
+  [athena-map source-dir destiny]
+  (reduce merge
+          (map #(assoc {}
+                   (s/replace (nth % 0) source-dir destiny)
+                   (nth % 1))
+               athena-map)))
+
+(defn athena-save
+  "save generated Markdown to appropriate directories. Create if needed."
+  [athena-map source-dir destiny]
+  (let [destiny-map (make-destinations athena-map source-dir destiny)]
+    destiny-map))
