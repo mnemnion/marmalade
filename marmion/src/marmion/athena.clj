@@ -26,8 +26,18 @@ trees as values."
                    (nth % 1))
                athena-map)))
 
-(defn athena-save
-  "save generated Markdown to appropriate directories. Create if needed."
+(defn athena-gen-dirs
+  "create destination directories, if necessary."
   [athena-map source-dir destiny]
-  (let [destiny-map (make-destinations athena-map source-dir destiny)]
-    destiny-map))
+  (let [destiny-map (make-destinations athena-map source-dir destiny)
+        directs (map #(fs/parent %) (keys destiny-map))
+        target-dirs (sort (fn [x y]
+                           (< (count (path-to-string x))
+                              (count (path-to-string y)))) directs)]
+    (map #(if (not (fs/directory? %)) (fs/mkdir %)) target-dirs)))
+
+(defn athena-spit-files
+  "takes a map and spits the values into a file created from the keys"
+  [athena-map source-dir destiny]
+  (let [target-map (make-destinations athena-map source-dir destiny)]
+    (map #(spit (path-to-string (nth % 0)) (nth % 1)) target-map)))
