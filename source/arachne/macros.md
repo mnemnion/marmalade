@@ -22,4 +22,6 @@ GFM code blocks have a header that looks like ```` ```language ````. We're alrea
 
 ##Minimal Macros
 
-Our bare minimum task: specify certain code blocks as files, create anchor macros to put in the code blocks, and specify certain other code blocks as the source for those macros. 
+Our bare minimum task: specify certain code blocks as files, create anchor macros to put in the code blocks, and specify certain other code blocks as the source for those macros. Anchor macros look ` #|(like this)|# ` in Clojure; we use different trigrams for different programming environments. It would be easy to get weird with it if trigrams don't suffice. 
+
+File and source macros are header macros, and will look something like this: ```` ```clojure file:src/foo/core.clj ```` and ````clojure source:like this```. I'm split on allowing whitespace in macros, but don't see the harm. I may want to normalize that...
