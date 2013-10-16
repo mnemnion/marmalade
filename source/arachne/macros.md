@@ -67,3 +67,21 @@ Marmion will treat lines with anchor macros on them as boundaries, so in the edg
 That sounds like a bug in the making, actually. One may hope I grep for "marmion" before actually starting that codebase.
 
 It won't affect Arachne, or Marmalade itself, which will be written in good style. Good Marmalade style dictates anchors which expand to code blocks get their own line.
+
+##Header Macros
+
+Header macros are the one place where Marmalade is currently syntax-incompatible with GFM. The anchor macros are, by design, syntax-incompatible with the language in the code block, but this will cause no problems in Markdown parsing. Github/Pygments will even mark some syntax errors as being errors, which is fine for now. Eventually Athena will take over the Markdown parsing, so we can do fun weave-tangle concordance.
+
+For that reason, we speak of tangle blocks and code blocks. The parsers treat them differently, accordingly. All Athena does at present is turn tangle blocks into code blocks by suppressing the additional syntax.
+
+I will start with three header macro types, two of which are necessary. The `file:` header macros specify a code block as a file container. The string following the command must be a relative path off the directory that will eventually be `tangle/` or whatever destination is chosen. Arachne is not aware of the `source/` directorie's structure, though naturally, Athena is.
+
+The `source:` command specifies that a block is the source for the anchor macro. The parser will consume all whitespace between `source:` and the anchor, but will attach all whitespace after onto the anchor. I will probably normalize this before release because whitespace bugs suck, but I'm enamored of the ability to use actual, multiple words in anchors. This is *literate* programming, after all.
+
+The `clone:` command is actually an Athena macro, and will be added later, as it's not on the critical path. `clone:` will take an anchor, and must be followed by an empty code block, containing exactly one newline. In this instance, whitespace is allowed on the newline, but is bad style. It will fill the code block, in the weave, with the `source:` of the anchor.
+
+This lets us document code in multiple places, and Athena will be able to link those code blocks back to the canonical `:source` definition for additional context.
+
+As mentioned before, a `~` after the language tag on a header line means that the following code block is part of the `file:` structure that is being built up. Using it in the wrong place is an error and will halt the program.
+
+Not implemented, but when it is, we will start with the restriction that one may build up only one `file:` structure at a time and must stick to a consistent language. Anything else would be harder to code and potentially confuse the user.
