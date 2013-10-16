@@ -1,0 +1,18 @@
+(* A Micro Grammar for Header Macros *)
+
+header = <sp>* file-mac file 
+       | <sp>* source-mac source 
+       | <sp>* clone-mac source 
+       ;
+
+file-mac = #"file:[ ]*"  ;
+
+source-mac = #"source:[ ]*"  ;
+
+clone-mac = #"clone:[ ]*"  ;
+
+file = #"[0-9A-Za-z.!+\-_/ ~]+"
+
+source = #"[0-9A-Za-z.!+\-_/ ]+"
+
+sp = #'[ ]+' ;

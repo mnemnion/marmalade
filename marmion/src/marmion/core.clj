@@ -18,3 +18,6 @@
 ;(def compact-codes (map #(smush :literal-code %) m-codes))
 
 (def eat-a (insta/parser "Aeater = #'[a]'+" :output-format :enlive))
+
+(def header-parse (insta/parser (slurp "header-macros.grammar")
+                               :output-format :enlive))

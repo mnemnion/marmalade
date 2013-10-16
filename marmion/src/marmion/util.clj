@@ -19,6 +19,12 @@
                        :tag rule))}
      tree))
 
+;;; one for the toolbox (not used here)
+(defn seq-string
+  "make a string seqable by character"
+  [split-me]
+  (seq (drop 1 (clojure.string/split split-me #""))))
+
 (defn- e-tree-seq
   "tree-seqs enlive trees/graphs, at least instaparse ones"
   [e-tree]
