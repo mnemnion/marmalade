@@ -12,13 +12,15 @@ final-line = line | blank-line ;
 
 <block> = line+ ;
 
-<paragraph> = prose | code ;
+<paragraph> = <prose> | code | tangle ;
 
 header = "#" #'[^\n]+' '\n'+; 
 
 prose = block blank-line+ ;
 
-code = (code-header | macro-header) code-body code-footer ;
+tangle = macro-header code-body code-footer ;
+
+code = code-header code-body code-footer ;
 
 code-body = (code-line | blank-line)+ ;
 

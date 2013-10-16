@@ -1,6 +1,6 @@
 (* A Mini Grammar for Literate Clojure Macros in Marmalade *)
 
-code-body = literal-code * code-line + ;
+code-body = literal-code * code-line * ;
 
 <code-line> = macro literal-code  (* (!blank-line newline)* ; *) ;
 

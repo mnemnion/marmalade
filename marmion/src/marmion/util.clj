@@ -1,5 +1,6 @@
 (ns marmion.util
   (:require [instaparse.core :as insta]
+            [clojure.string :as s]
             [me.raynes.fs :as fs]))
 
 
@@ -123,3 +124,29 @@ path name, value is the file as a string,"
        (if (fs/directory? path)
          (compact (flatten (fs/walk open-path-athena path))))
        (println "Invalid Key:" key))))
+
+(defn make-destinations
+  "make the athena map keys point to a destination directory"
+  [athena-map source-dir destiny]
+  (reduce merge
+          (map #(assoc {}
+                   (s/replace (nth % 0) source-dir destiny)
+                   (nth % 1))
+               athena-map)))
+
+(defn file-map-to-string
+  "takes an athena map and turns the tree values into strings"
+  [athena-map]
+  (reduce merge
+          (map #(assoc {} (nth % 0) (flat-tree (nth % 1)))
+               athena-map)))
+
+(defn create-target-dirs
+  "create destination directories, if necessary."
+  [athena-map source-dir destiny]
+  (let [destiny-map (make-destinations athena-map source-dir destiny)
+        directs (map #(fs/parent %) (keys destiny-map))
+        target-dirs (sort (fn [x y]
+                           (< (count (path-to-string x))
+                              (count (path-to-string y)))) directs)]
+    (dorun (map #(if (not (fs/directory? %)) (fs/mkdir %)) target-dirs))))

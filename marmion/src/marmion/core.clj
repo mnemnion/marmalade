@@ -7,6 +7,8 @@
 
 (def source-files (map arachnify (slurp-files "../source/")))
 
+(def edn-parse (insta/parser (slurp "edn.grammar") :output-format :enlive
+                             :total true))
 (def toy-files (map arachnify (slurp-files "../toy/")))
 
 (def m-codes (code-parse source-files))

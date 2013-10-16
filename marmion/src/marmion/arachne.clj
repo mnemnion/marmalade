@@ -3,7 +3,7 @@
             [marmion.util :refer :all]))
 
 (def ^:private arachne-parse
-  (insta/parser (slurp "arachne.grammar") :output-format :enlive :total true))
+  (insta/parser (slurp "arachne.grammar") :output-format :enlive))
 
 (def clj-mac (insta/parser (slurp "clj-macro.grammar") :output-format :enlive))
 
@@ -34,17 +34,13 @@
 (defn clj-parse
   "clojure macro parses appropriate code."
   [tree]
-  (if (= (code-type tree) "clojure")
-    (re-parse clj-mac tree :code-body)
-    (if (= (code-type tree) "grammar")
-      (re-parse clj-mac tree :code-body)
-      tree)))
+  (re-parse clj-mac tree :code-body))
 
 (defn strip-codes
   "takes an Arachne parse tree and returns a list of all code blocks, with macros (in Clojure blocks) parsed."
   [tree]
   ;;note that this lacks a certain generality
-  (map macro-parse-tree (map clj-parse (tag-stripper :code tree))))
+  (map macro-parse-tree (map clj-parse (tag-stripper :tangle tree))))
 
 (defn code-parse
   "Strips codes from arachne-parsed trees and macro-parses them"
