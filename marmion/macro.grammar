@@ -1,13 +1,10 @@
 (* A Micro Grammar For Macros *)
 
-mac-name = prefix? command ':' mac-id
+anchor = prefix? mac-id
          | mac-id
          ;
 
 prefix = #'[0-9A-Za-z.!+\- ]+\?'
 
-mac-id = #'[0-9A-Za-z.!+\-_/ ]*'
+<mac-id> = #'[0-9A-Za-z.!+\-_/ ]*'
          ;
-
-command = #'[0-9A-Za-z.!+\-_ ]+'
-          ;

@@ -6,13 +6,13 @@ code-body = literal-code * code-line * ;
 
 literal-code = (#'[^\n#|(]+' | punc | newline)+ ;
 
-<newline> = '\n' ;
+<newline> = #'\n+' ;
  
-macro = <mac-start> mac-name <mac-end> ;
+macro = <mac-start> anchor <mac-end> ;
 
 <mac-start> = '#|(' ;
 
-<mac-name> = !mac-end #'[^)]+' ;
+<anchor> = !mac-end #'[^)]+' ;
 
 <mac-end> = ')|#' ;
 

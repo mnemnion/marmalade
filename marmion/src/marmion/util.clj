@@ -53,8 +53,10 @@
          (insta/parse parser (flatten-enlive tree))))
   ([parser tree rule]
   (if (vector? tree)
-         (insta/transform {rule (fn [& node] (re-parse parser [rule node]))} tree)
-         (insta/transform {rule (fn [& node] (re-parse parser {:tag rule, :content node}))} tree))))
+    (insta/transform {rule (fn [& node]
+                             (re-parse parser [rule node]))} tree)
+    (insta/transform {rule (fn [& node]
+                             (re-parse parser {:tag rule, :content node}))} tree))) )
 
 (defn code-type
   "expects a :code tree. Returns the type of the code,

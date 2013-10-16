@@ -28,7 +28,7 @@
 (defn macro-parse-tree
   "parse macros in-place on a single tree"
   [tree]
-  (re-parse macro-parser tree :macro))
+  (re-parse macro-parser tree :macro ))
 
 
 (defn clj-parse

@@ -16,3 +16,5 @@
 (def t-codes (code-parse toy-files))
 
 ;(def compact-codes (map #(smush :literal-code %) m-codes))
+
+(def eat-a (insta/parser "Aeater = #'[a]'+" :output-format :enlive))
