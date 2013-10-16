@@ -15,6 +15,24 @@
 
 (def t-codes (code-parse toy-files))
 
-;(def compact-codes (map #(smush :literal-code %) m-codes))
+(def t-source-map (map-sources t-codes))
 
-(def eat-a (insta/parser "Aeater = #'[a]'+" :output-format :enlive))
+(def t-file-map (map-files t-codes))
+
+
+(defn transform-if-equal
+  "takes a source string, an anchor string, and an expansion string.
+if source and anchor are equal, return a map {:tag :expanded :content 'expansion'.
+otherwise, return the anchor string."
+  [source anchor expansion]
+  (if (= source anchor)
+    (assoc {:tag :expanded} :content expansion)
+    (assoc {:tag :marmalade/error} :content  anchor)))
+
+
+(defn expand-anchor-if-equal
+  [source tangle expansion]
+
+  (insta/transform {:anchor
+                    (fn [& chars] (transform-if-equal source (first chars) expansion))}
+                   tangle))

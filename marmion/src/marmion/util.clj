@@ -62,7 +62,15 @@
     (insta/transform {rule (fn [& node]
                              (re-parse parser [rule node]))} tree)
     (insta/transform {rule (fn [& node]
-                             (re-parse parser {:tag rule, :content node}))} tree))) )
+                             (re-parse parser {:tag rule, :content node}))} tree))))
+
+
+(defn swap-rule-name
+  "swaps a new :rule for an old :rule"
+  [tree old-rule new-rule]
+  (insta/transform { old-rule,
+                    (fn [& chars] {:tag new-rule, :content chars} )} tree))
+
 
 (defn code-type
   "expects a :code tree. Returns the type of the code,

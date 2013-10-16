@@ -60,10 +60,12 @@
        (map header-parse-tree)
        (map #(smush :literal-code %))))
 
-(defn make-rule-map
+(defn- make-rule-map
   "takes a :tangle-map and :rule and produces a map with the :rule string as the key and the :code-body as the val"
   [tangle rule]
-  (assoc {} (first (:content (first (tag-stripper rule tangle)))) (tag-stripper :code-body tangle)))
+  (if (containing-tag rule tangle)
+    (assoc {} (first (:content (first (tag-stripper rule tangle)))) (tag-stripper :code-body tangle))
+    nil))
 
 (defn make-file-map
   "makes a file-string to :code-body map from a :tangle"
@@ -74,3 +76,19 @@
   "makes an anchro-macro string to :code-body map from a :tangle"
   [tangle]
   (make-rule-map tangle :source))
+
+(defn- map-rules
+  "takes a list of :tangles and a function and returns a map."
+  [tangle-list rule-map-fn]
+  (reduce merge
+          (filter #(not (nil? %)) (map #(rule-map-fn %) tangle-list))))
+
+(defn map-files
+  "takes a list of :tangles, returns a map of :file tangles to associated :code-body"
+  [tangle-list]
+  (map-rules tangle-list make-file-map))
+
+(defn map-sources
+  "takes a list of tangles, returns a map of :source tangles to associated :code-body"
+  [tangle-list]
+  (map-rules tangle-list make-source-map))
