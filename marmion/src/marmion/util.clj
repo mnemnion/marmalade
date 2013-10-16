@@ -158,3 +158,10 @@ path name, value is the file as a string,"
                            (< (count (path-to-string x))
                               (count (path-to-string y)))) directs)]
     (dorun (map #(if (not (fs/directory? %)) (fs/mkdir %)) target-dirs))))
+
+(defn containing-tag
+  "takes a tree and a :tag. Returns the tree if the :tag is in it, otherwise nil"
+  [rule tree]
+  (if (empty? (tag-stripper rule tree))
+    nil
+    tree))

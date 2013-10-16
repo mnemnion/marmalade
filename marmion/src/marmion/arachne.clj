@@ -5,6 +5,9 @@
 (def ^:private arachne-parse
   (insta/parser (slurp "arachne.grammar") :output-format :enlive))
 
+(def header-parser (insta/parser (slurp "header-macros.grammar")
+                               :output-format :enlive))
+
 (def clj-mac (insta/parser (slurp "clj-macro.grammar") :output-format :enlive))
 
 (def ^:private  macro-parser
@@ -30,6 +33,11 @@
   [tree]
   (re-parse macro-parser tree :macro ))
 
+(defn header-parse-tree
+  "parses header macros on a :tangle block"
+  [tree]
+  (re-parse header-parser tree :header-macro))
+
 
 (defn clj-parse
   "clojure macro parses appropriate code."
@@ -49,4 +57,20 @@
        (map strip-codes)
        flatten
        (map macro-parse-tree)
+       (map header-parse-tree)
        (map #(smush :literal-code %))))
+
+(defn make-rule-map
+  "takes a :tangle-map and :rule and produces a map with the :rule string as the key and the :code-body as the val"
+  [tangle rule]
+  (assoc {} (first (:content (first (tag-stripper rule tangle)))) (tag-stripper :code-body tangle)))
+
+(defn make-file-map
+  "makes a file-string to :code-body map from a :tangle"
+  [tangle]
+  (make-rule-map tangle :file))
+
+(defn make-source-map
+  "makes an anchro-macro string to :code-body map from a :tangle"
+  [tangle]
+  (make-rule-map tangle :source))
