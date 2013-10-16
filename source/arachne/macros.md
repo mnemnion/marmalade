@@ -12,7 +12,7 @@ Knuth's original literate system has a truly fantastical set of macros. He was w
 
 We have a tremendous advantage with Git Flavored Markdown. I feel like it's teetering on the verge of being literate as-is. We want to make thoughtful choices when we expand it.
 
-The first approach was straightforward: code blocks are code, and prose is everything else. Anything of use to Arachne was therefore to be found within code blocks. Very well, as far as it goes.
+The first approach was straightforward: code blocks are code, and prose is everything else. Anything of use to Arachne was therefore to be found within code blocks. Very well, as far as it goes. It had a powerful advantage to begin with, namely that Marmalade parsed correctly as Markdown. 
 
 I'm going to try something different, that I hope will be more powerful. Namely, making code blocks a first-class citizen in the environment.
 
@@ -46,7 +46,7 @@ Marmalade macros are meta-macros. If you want to do fancy macro stuff, use a lan
 
 By adding header macros, we have officially made a dialect of GFM. Marmalade files do not parse as Markdown, causing me to take a day to write the first true Athena. She simply takes Marmalade code, strips the header macros, and emits compatible Markdown. Eventually, she can do a great deal more than that. But the circuit is complete; we may make breaking changes to our Markdown documents, generate the weave, and have readable Markdown which GitHub helpfully autogens into HTML.
 
-Also, I just had my first conflicted edit! Because there's a weave, I edited the weave, not the tangle. This is going to be hard to fix down the line. I can add a function to Athena that generates special Markdown indicating that a weave is Woken and not Source, which would be useful during edit-intensive stages.
+Also, I just had my first conflicted edit! Because there's a weave, I edited the weave, not the tangle. This is going to be hard to fix down the line. I can add a function to Athena that generates special Markdown indicating that a weave is Woken and not Source, which would be useful during edit-intensive stages. Better yet, let Marmion back-propagate from both the weave and tangle. That's a tough boundary because the weave can become arbitrarily complex. A bridge too far. 
 
 This combines well with Git: a Develop branch could have Marmalade tuned one way, and pushing to production would mean producing a clean weave. Something for later.
 
@@ -74,11 +74,11 @@ Header macros are the one place where Marmalade is currently syntax-incompatible
 
 For that reason, we speak of tangle blocks and code blocks. The parsers treat them differently, accordingly. All Athena does at present is turn tangle blocks into code blocks by suppressing the additional syntax.
 
-I will start with three header macro types, two of which are necessary. The `file:` header macros specify a code block as a file container. The string following the command must be a relative path off the directory that will eventually be `tangle/` or whatever destination is chosen. Arachne is not aware of the `source/` directorie's structure, though naturally, Athena is.
+I will start with three header macro types, two of which are necessary. The `file:` header macros specify a tangle block as a file container. The string following the command must be a relative path off the directory that will eventually be `tangle/` or whatever destination is chosen. Arachne is not aware of the `source/` directory's structure, though naturally, Athena is.
 
-The `source:` command specifies that a block is the source for the anchor macro. The parser will consume all whitespace between `source:` and the anchor, but will attach all whitespace after onto the anchor. I will probably normalize this before release because whitespace bugs suck, but I'm enamored of the ability to use actual, multiple words in anchors. This is *literate* programming, after all.
+The `source:` command specifies that a tangle block is the source for the anchor macro. The parser will consume all whitespace between `source:` and the anchor, but will attach all whitespace after onto the anchor. I will probably normalize this before release because whitespace bugs suck, but I'm enamored of the ability to use actual, multiple words in anchors. This is *literate* programming, after all.
 
-The `clone:` command is actually an Athena macro, and will be added later, as it's not on the critical path. `clone:` will take an anchor, and must be followed by an empty code block, containing exactly one newline. In this instance, whitespace is allowed on the newline, but is bad style. It will fill the code block, in the weave, with the `source:` of the anchor.
+The `clone:` command is actually an Athena macro, and will be added later, as it's not on the critical path. `clone:` will take an anchor, and must be followed by an empty code block, containing exactly one newline. In this instance, whitespace is allowed on the newline, but is bad style. It will fill the code block, in the weave, with the `source:` of the anchor. Note that this is a **code** block, not featured in the tangle. 
 
 This lets us document code in multiple places, and Athena will be able to link those code blocks back to the canonical `:source` definition for additional context.
 
