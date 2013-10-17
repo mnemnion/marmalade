@@ -8,7 +8,9 @@ We'll put more here eventually I reckon.
 
 Like a [code block!](http://addme.com).
 
-```clojure source: baz
+>####  source: baz
+
+```clojure
 
 {:foo :bar, :baz :bux}
 
