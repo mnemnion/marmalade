@@ -3,9 +3,7 @@
             [marmion.util :refer :all]))
 
 
-(def ^:private athena-parse (insta/parser (slurp "athena.grammar")
-                                :output-format :enlive
-                                :total true))
+(def ^:private athena-parse (total-parse  (slurp "athena.grammar")))
 
 (defn- athena-open
   "open and parse Athena files. Returns a map with filenames as keys and

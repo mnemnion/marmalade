@@ -2,7 +2,11 @@
   (:require [instaparse.core :as insta]
             [clojure.string :as s]
             [me.raynes.fs :as fs]))
-
+(defn total-parse
+  "make a parser with :total true"
+  [parse-string]
+  (let [parser (insta/parser parse-string :output-format :enlive)]
+       (partial #(insta/parse parser % :total true))))
 
 (defn key-maker
   "makes a keyword name from our file string"
@@ -55,8 +59,8 @@
   :rule."
   ([parser tree]
   (if (vector? tree)
-         (insta/parse parser (flatten-hiccup tree))
-         (insta/parse parser (flatten-enlive tree))))
+         (parser (flatten-hiccup tree))
+         (parser (flatten-enlive tree))))
   ([parser tree rule]
   (if (vector? tree)
     (insta/transform {rule (fn [& node]

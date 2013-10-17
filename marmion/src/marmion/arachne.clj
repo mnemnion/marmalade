@@ -4,15 +4,14 @@
             [marmion.util :refer :all]))
 
 (def ^:private arachne-parse
-  (insta/parser (slurp "arachne.grammar") :output-format :enlive))
+  (total-parse (slurp "arachne.grammar")))
 
-(def header-parser (insta/parser (slurp "header-macros.grammar")
-                               :output-format :enlive))
+(def header-parser (total-parse (slurp "header-macros.grammar")))
 
-(def clj-mac (insta/parser (slurp "clj-macro.grammar") :output-format :enlive))
+(def clj-mac (total-parse (slurp "clj-macro.grammar")))
 
 (def ^:private  macro-parser
-  (insta/parser (slurp "macro.grammar") :output-format :enlive))
+  (total-parse (slurp "macro.grammar")))
 
 (defn- fix-final-line
   "fix the final line of a Marmalade file if necessary"
@@ -61,7 +60,7 @@
        (map header-parse-tree)
        #_(map #(smush :literal-code %))))
 
-(defn- make-rule-map
+(defn make-rule-map
   "takes a :tangle-map and :rule and produces a map with the :rule string as the key and the :catch-rule as the val"
   [tangle rule catch-rule]
   (if (containing-tag rule tangle)
@@ -80,7 +79,7 @@
   [tangle]
   (make-rule-map tangle :source :tangle))
 
-(defn- map-rules
+(defn map-rules
   "takes a list of :tangles and a function and returns a map."
   [tangle-list rule-map-fn]
   (reduce merge
@@ -98,7 +97,7 @@
 
 
 
-(defn- transform-if-equal
+(defn transform-if-equal
   "takes a source string, an anchor string, and an expansion string.
 if source and anchor are equal, return a map {:tag :expanded :content 'expansion'.
 otherwise, return the anchor string."
@@ -108,7 +107,7 @@ otherwise, return the anchor string."
     (assoc {:tag :anchor} :content (list  anchor))))
 
 
-(defn- expand-anchor-if-equal
+(defn expand-anchor-if-equal
   [source-string tangle expansion]
 
   (insta/transform {:anchor
@@ -117,12 +116,12 @@ otherwise, return the anchor string."
                                                      expansion))}
                    tangle))
 
-(defn- get-expansion
+(defn get-expansion
   "takes a :source tangle and returns the code-body as a string"
   [tangle]
   (flat-tree (tag-stripper :code-body tangle)))
 
-(defn- get-source-macro
+(defn get-source-macro
   "takes a :source tangle and returns the macro as a string"
   [tangle]
   (first (:content (first (tag-stripper :source tangle)))))
