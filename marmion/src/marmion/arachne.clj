@@ -1,5 +1,6 @@
 (ns marmion.arachne
   (:require [instaparse.core :as insta]
+            [me.raynes.fs :as fs]
             [marmion.util :refer :all]))
 
 (def ^:private arachne-parse
@@ -124,7 +125,7 @@ otherwise, return the anchor string."
   [tangle]
   (first (:content (first (tag-stripper :source tangle)))))
 
-(defn expand-source
+(defn- expand-source
   "takes a :source tangle and maps it across a file-map. expands into anchors,
 returning file-map."
   [source file-map]
@@ -140,3 +141,30 @@ returning file-map."
   "maps the source map against the file map. Expands."
   [source-map file-map]
   (map #(expand-source (nth % 1) file-map) source-map))
+
+(defn arachne-create-target-dirs
+  "and here we go loopty-loo"
+  [arachne-map]
+  (let [directs  (map #(fs/parent  %) (keys arachne-map))
+        target-dirs (sort (fn [x y]
+                           (< (count (path-to-string x))
+                              (count (path-to-string y)))) directs)]
+    (dorun (map #(if (not (fs/directory?  %))
+                     (fs/mkdir %)) target-dirs))
+    directs))
+
+
+
+
+#_(defn arachne
+  [source destiny]
+  (let [arachne-files (map arachnify (slurp-files source))
+        tangles (code-parse arachne-files)
+        sources (map-sources tangles)
+        file-containers   (map-files tangles)
+        files (first (expand-all-sources sources file-containers))]
+    #_(-> files
+        (create-target-dirs source destiny)
+        file-map-to-string
+        (spit-files source destiny)))
+  files)

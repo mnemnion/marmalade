@@ -167,6 +167,12 @@ path name, value is the file as a string,"
                               (count (path-to-string y)))) directs)]
     (dorun (map #(if (not (fs/directory? %)) (fs/mkdir %)) target-dirs))))
 
+(defn spit-files
+  "takes a map and spits the values into a file created from the keys"
+  [athena-map source-dir destiny]
+  (let [target-map (make-destinations athena-map source-dir destiny)]
+    (map #(spit (path-to-string (nth % 0)) (nth % 1)) target-map)))
+
 (defn containing-tag
   "takes a tree and a :tag. Returns the tree if the :tag is in it, otherwise nil"
   [rule tree]
