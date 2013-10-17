@@ -62,21 +62,23 @@
        (map #(smush :literal-code %))))
 
 (defn- make-rule-map
-  "takes a :tangle-map and :rule and produces a map with the :rule string as the key and the :code-body as the val"
-  [tangle rule]
+  "takes a :tangle-map and :rule and produces a map with the :rule string as the key and the :catch-rule as the val"
+  [tangle rule catch-rule]
   (if (containing-tag rule tangle)
-    (assoc {} (first (:content (first (tag-stripper rule tangle)))) (tag-stripper :code-body tangle))
+    (assoc {}
+      (first (:content (first (tag-stripper rule tangle))))
+      (tag-stripper catch-rule tangle))
     nil))
 
 (defn make-file-map
   "makes a file-string to :code-body map from a :tangle"
   [tangle]
-  (make-rule-map tangle :file))
+  (make-rule-map tangle :file :code-body))
 
 (defn make-source-map
   "makes an anchro-macro string to :code-body map from a :tangle"
   [tangle]
-  (make-rule-map tangle :source))
+  (make-rule-map tangle :source :tangle))
 
 (defn- map-rules
   "takes a list of :tangles and a function and returns a map."
@@ -102,8 +104,8 @@ if source and anchor are equal, return a map {:tag :expanded :content 'expansion
 otherwise, return the anchor string."
   [source-string anchor expansion]
   (if (= source-string anchor)
-    (assoc {:tag :expanded} :content expansion)
-    (assoc {:tag :marmalade/error} :content  anchor)))
+    (assoc {:tag :anchor} :content (list expansion))
+    (assoc {:tag :anchor} :content (list  anchor))))
 
 
 (defn- expand-anchor-if-equal
@@ -125,7 +127,7 @@ otherwise, return the anchor string."
   [tangle]
   (first (:content (first (tag-stripper :source tangle)))))
 
-(defn- expand-source
+(defn expand-source
   "takes a :source tangle and maps it across a file-map. expands into anchors,
 returning file-map."
   [source file-map]
@@ -140,31 +142,34 @@ returning file-map."
 (defn expand-all-sources
   "maps the source map against the file map. Expands."
   [source-map file-map]
-  (map #(expand-source (nth % 1) file-map) source-map))
+  (reduce merge
+          (flatten
+           (map #(expand-source (nth % 1) file-map)
+                source-map))))
 
 (defn arachne-create-target-dirs
   "and here we go loopty-loo"
   [arachne-map]
-  (let [directs  (map #(fs/parent  %) (keys arachne-map))
-        target-dirs (sort (fn [x y]
-                           (< (count (path-to-string x))
-                              (count (path-to-string y)))) directs)]
+  (let [directs  (map #(fs/parent  %) (keys arachne-map))]
     (dorun (map #(if (not (fs/directory?  %))
-                     (fs/mkdir %)) target-dirs))
-    directs))
+                     (fs/mkdirs %)) directs))
+    arachne-map))
+
+(defn arachne-spit-files
+  "spittem"
+  [arachne-map]
+  (map #(spit (nth % 0) (nth % 1)) arachne-map))
 
 
-
-
-#_(defn arachne
+(defn arachne
   [source destiny]
   (let [arachne-files (map arachnify (slurp-files source))
         tangles (code-parse arachne-files)
         sources (map-sources tangles)
         file-containers   (map-files tangles)
-        files (first (expand-all-sources sources file-containers))]
-    #_(-> files
-        (create-target-dirs source destiny)
+        files (expand-all-sources sources file-containers)]
+    (-> files
+        arachne-create-target-dirs
         file-map-to-string
-        (spit-files source destiny)))
-  files)
+        arachne-spit-files))
+  #_files)
