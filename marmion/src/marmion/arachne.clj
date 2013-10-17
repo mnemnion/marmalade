@@ -102,7 +102,7 @@
 if source and anchor are equal, return a map {:tag :expanded :content 'expansion'.
 otherwise, return the anchor string."
   [source-string anchor expansion]
-  (println "source:" source-string "anchor:" anchor "exp:" expansion)
+  ;(println "source:" source-string "anchor:" anchor "exp:" expansion)
   (if (= source-string anchor)
     (assoc {:tag :expansion} :content (list expansion))
     (assoc {:tag :anchor} :content (list  anchor))))
@@ -111,7 +111,7 @@ otherwise, return the anchor string."
 (defn expand-anchor-if-equal
   [source-string tangle expansion]
 
-  (println "str:" source-string)
+  #_(println "str:" source-string)
   (insta/transform {:anchor
                     (fn [& chars] (transform-if-equal source-string
                                                      (first chars)
@@ -149,6 +149,20 @@ returning file-map."
              (map #(expand-source (nth % 1) file-map)
                   source-map)))
     file-map))
+
+(defn seqspand
+  "man...."
+  [source-seq file-map]
+  (if (not (empty? source-seq))
+    (let [expanded-file-map (expand-source (first source-seq) file-map)]
+      (seqspand (rest source-seq) expanded-file-map))
+    file-map))
+
+(defn new-sources
+  "2.0"
+  [source-map file-map]
+  (let [source-tangles (vals source-map)]
+    (seqspand source-tangles file-map)))
 
 (defn arachne-create-target-dirs
   "and here we go loopty-loo"
