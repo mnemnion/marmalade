@@ -16,17 +16,13 @@ The first approach was straightforward: code blocks are code, and prose is every
 
 I'm going to try something different, that I hope will be more powerful. Namely, making code blocks a first-class citizen in the environment.
 
-This will require a (hopefully quick) diversion to write some of Athena, because as of this change, Marmalade will no longer be valid GFM. There's no advantage to keeping that constraint, so I don't intend to.
-
-GFM code blocks have a header that looks like ```` ```language ````. We're already parsing that header (and everything else), and using that information. Let's use that for some of our macros, shall we?
-
 ##Minimal Macros
 
 Our bare minimum task: specify certain code blocks as files, create anchor macros to put in the code blocks, and specify certain other code blocks as the source for those macros. Anchor macros look ` #|(like this)|# ` in Clojure; we use different trigrams for different programming environments. It would be easy to get weird with it if trigrams don't suffice.
 
-File and source macros are header macros, and will look something like this: ```` ```clojure file:src/foo/core.clj ```` and ````clojure source:like this```. I'm split on allowing whitespace in macros, but don't see the harm. I may want to normalize the whitespace if I do.
+File and source macros are header macros, and will look something like this: ```` >## file:src/foo/core.clj ```` and ````>## source:like this```. I'm split on allowing whitespace in macros, but don't see the harm. I may want to normalize the whitespace if I do.
 
-The rule is, currently, one block per file, and one block per source. I will relax that for files, and not for sources, in exactly one way: if a block says ```` ```clojure file:src/somefile.clj ````, and the next block says ```` ```clojure~ ```` (note the `~`), that block is also part of the same file.
+The rule is, currently, one block per file, and one block per source. I will relax that for files, and not for sources, in exactly one way: if a block says ```` >## file:src/somefile.clj \n ```clojure  ````, and the next block says ```` ```clojure~ ```` (note the `~`), that block is also part of the same file.
 
 Will I allow the interleaving of multiple languages? Maybe. I can see the use case but don't want to make this harder to reason about.
 
@@ -70,9 +66,9 @@ It won't affect Arachne, or Marmalade itself, which will be written in good styl
 
 ##Header Macros
 
-Header macros are the one place where Marmalade is currently syntax-incompatible with GFM. The anchor macros are, by design, syntax-incompatible with the language in the code block, but this will cause no problems in Markdown parsing. Github/Pygments will even mark some syntax errors as being errors, which is fine for now. Eventually Athena will take over the Markdown parsing, so we can do fun weave-tangle concordance.
+Header macros begin like this, on a newline: ` ># `. Any number of hashes is allowed. This corresponds to a block header, which parses well enough as pure Markdown. The code block must be directly below the header, exactly one newline is required and no more are allowed.
 
-For that reason, we speak of tangle blocks and code blocks. The parsers treat them differently, accordingly. All Athena does at present is turn tangle blocks into code blocks by suppressing the additional syntax.
+A code block with a header macro is called a tangle block.
 
 I will start with three header macro types, two of which are necessary. The `file:` header macros specify a tangle block as a file container. The string following the command must be a relative path off the directory that will eventually be `tangle/` or whatever destination is chosen. Arachne is not aware of the `source/` directory's structure, though naturally, Athena is.
 
