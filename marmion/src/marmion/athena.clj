@@ -15,11 +15,7 @@ trees as values."
           (map #(assoc {} (nth % 0) (athena-parse (apply str  (nth % 1))))
                (reduce merge (slurp-files source-dir :athena)))))
 
-(defn- spit-files
-  "takes a map and spits the values into a file created from the keys"
-  [athena-map source-dir destiny]
-  (let [target-map (make-destinations athena-map source-dir destiny)]
-    (map #(spit (path-to-string (nth % 0)) (nth % 1)) target-map)))
+
 
 (defn athena
   "given source and destination directories, loads the former, applies Athena magic, then saves the files. to the latter."

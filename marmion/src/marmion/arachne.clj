@@ -162,7 +162,7 @@ returning file-map."
 
 
 (defn arachne
-  [source destiny]
+  [source ]
   (let [arachne-files (map arachnify (slurp-files source))
         tangles (code-parse arachne-files)
         sources (map-sources tangles)
