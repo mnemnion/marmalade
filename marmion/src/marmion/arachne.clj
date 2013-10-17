@@ -129,26 +129,16 @@ otherwise, return the anchor string."
   (first (:content (first (tag-stripper :source tangle)))))
 
 (defn expand-source
-  "takes a :source tangle and maps it across a file-map. expands into anchors,
+  "takes a :source tangle and maps it across a single file-map entry. expands into anchors,
 returning file-map."
-  [source file-map]
-  (map #(assoc {}
-          (nth % 0)
-          (expand-anchor-if-equal
-           (get-source-macro source)
-           (nth % 1)
-           (get-expansion source)))
-       file-map))
-
-(defn expand-all-sources
-  "maps the source map against the file map. Expands."
-  [source-map file-map]
-  (if (not (nil? source-map))
-    (reduce merge
-            (flatten
-             (map #(expand-source (nth % 1) file-map)
-                  source-map)))
-    file-map))
+  [source file]
+  (assoc {}
+    (first (keys file))
+      (expand-anchor-if-equal
+       (get-source-macro source)
+       (first (vals file))
+       (get-expansion source)))
+  #_(println "file-map:" file-map "$$$"))
 
 (defn seqspand
   "man...."
@@ -158,8 +148,8 @@ returning file-map."
       (seqspand (rest source-seq) expanded-file-map))
     file-map))
 
-(defn new-sources
-  "2.0"
+(defn expand-all-sources
+  "maps the source map against a single file map. Expands."
   [source-map file-map]
   (let [source-tangles (vals source-map)]
     (seqspand source-tangles file-map)))
