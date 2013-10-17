@@ -66,7 +66,7 @@ It won't affect Arachne, or Marmalade itself, which will be written in good styl
 
 ##Header Macros
 
-Header macros begin like this, on a newline: ` ># `. Any number of hashes is allowed. This corresponds to a block header, which parses well enough as pure Markdown. The code block must be directly below the header, exactly one newline is required and no more are allowed.
+Header macros begin like this, on a newline: ` ># `. Any number of hashes is allowed. This corresponds to a block header, which parses well enough as pure Markdown. This must be followed by a blank line. Everything non-whitespace after ` >### ` is part of the macro, up to the newline. 
 
 A code block with a header macro is called a tangle block.
 
