@@ -154,6 +154,13 @@ returning file-map."
   (let [source-tangles (vals source-map)]
     (seqspand source-tangles file-map)))
 
+(defn expand-all-files
+  [source-map file-map]
+  (reduce merge (map #(expand-all-sources
+                        source-map
+                        (hash-map (key %) (val %)))
+                      file-map)))
+
 (defn arachne-create-target-dirs
   "and here we go loopty-loo"
   [arachne-map]
@@ -174,7 +181,7 @@ returning file-map."
         tangles (code-parse arachne-files)
         sources (map-sources tangles)
         file-containers   (map-files tangles)
-        files (expand-all-sources sources file-containers)]
+        files (expand-all-files sources file-containers)]
     (-> files
         arachne-create-target-dirs
         file-map-to-string
