@@ -32,7 +32,7 @@ code-body = (code-line | blank-line)+ ;
 
 code-header = triple-ticks (code-type)* sp* "\n"+ ;
 
-macro-header = block-header header-macro "\n"+ ;
+macro-header = block-header header-macro blank-line ;
 
 header-macro = #"[A-Za-z:/. ]+" ;
 
