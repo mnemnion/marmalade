@@ -102,14 +102,16 @@
 if source and anchor are equal, return a map {:tag :expanded :content 'expansion'.
 otherwise, return the anchor string."
   [source-string anchor expansion]
+  (println "source:" source-string "anchor:" anchor "exp:" expansion)
   (if (= source-string anchor)
-    (assoc {:tag :anchor} :content (list expansion))
+    (assoc {:tag :expansion} :content (list expansion))
     (assoc {:tag :anchor} :content (list  anchor))))
 
 
 (defn expand-anchor-if-equal
   [source-string tangle expansion]
 
+  (println "str:" source-string)
   (insta/transform {:anchor
                     (fn [& chars] (transform-if-equal source-string
                                                      (first chars)
