@@ -9,6 +9,8 @@
 
 (def edn-parse (total-parse (slurp "edn.grammar")))
 
+(def ara-new (total-parse (slurp "new-arachne.grammar")))
+
 (def toy-files (map arachnify (slurp-files "../toy/")))
 
 (def m-codes (code-parse source-files))

@@ -1,0 +1,51 @@
+
+(* A Grammar for Arachne, A Literate Tangler of Markdown *)
+
+
+marmalade = &header section+ | paragraph + section * ;
+
+section = header paragraph* final-line*;
+
+final-line = line | blank-line ;
+
+<line> = !(block-header |header | triple-ticks) #'[^\n]+' (!blank-line '\n')*;
+
+<block> = line+ ;
+
+<paragraph> = <prose> | code | tangle ;
+
+block-header = ">" #"[#]+" ;
+
+header = "#" #'[^\n]+' '\n'+; 
+
+prose = block blank-line+ ;
+
+tangle = macro-header code-header code-body code-footer ;
+
+code = code-header code-body code-footer ;
+
+code-body = (code-line | blank-line)+ ;
+
+<code-line> = !(triple-ticks) #'[^\n]+' (!blank-line '\n')* ;
+ 
+<blank-line> = '\n' sp #'[\n]+' ;
+
+code-header = triple-ticks (code-type)* sp* "\n"+ ;
+
+macro-header = block-header header-macro "\n"+ ;
+
+header-macro = #"[A-Za-z:/. ]+" ;
+
+contd = '~' ;
+
+code-footer = triple-ticks ws; 
+
+(* <code-type> = "clojure" | "text" | "grammar" ; *)
+
+code-type = #'[a-z]+' ;
+
+<triple-ticks> = <"```"> ;
+
+<sp> = #'[ \t]*' ;
+
+<ws> = #'[\s]+';
