@@ -4,7 +4,7 @@ This is the bar file.
 
 Foo links to it. Not much else going on here.
 
->####  file: toy/src/core.clj
+>####  file: ../toytangle/src/core.clj
 
 ```clojure
 
@@ -18,7 +18,7 @@ Foo links to it. Not much else going on here.
 
 >#### source:   bux
 
-```clojure 
+```clojure
 
 {:bux "this is from the bux block of the bar file"}
 

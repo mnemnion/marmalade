@@ -22,7 +22,7 @@
 (def t-file-map (map-files t-codes))
 
 
-(def quarry (map arachnify (slurp-files "../ugly")))
+(def quarry (map arachnify (slurp-files "../toy")))
 
 (def tangles (code-parse quarry));
 
