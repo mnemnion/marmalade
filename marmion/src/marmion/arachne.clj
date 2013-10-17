@@ -59,7 +59,7 @@
        flatten
        (map macro-parse-tree)
        (map header-parse-tree)
-       (map #(smush :literal-code %))))
+       #_(map #(smush :literal-code %))))
 
 (defn- make-rule-map
   "takes a :tangle-map and :rule and produces a map with the :rule string as the key and the :catch-rule as the val"
@@ -142,10 +142,12 @@ returning file-map."
 (defn expand-all-sources
   "maps the source map against the file map. Expands."
   [source-map file-map]
-  (reduce merge
-          (flatten
-           (map #(expand-source (nth % 1) file-map)
-                source-map))))
+  (if (not (nil? source-map))
+    (reduce merge
+            (flatten
+             (map #(expand-source (nth % 1) file-map)
+                  source-map)))
+    file-map))
 
 (defn arachne-create-target-dirs
   "and here we go loopty-loo"

@@ -161,11 +161,10 @@ path name, value is the file as a string,"
   "create destination directories, if necessary."
   [athena-map source-dir destiny]
   (let [destiny-map (make-destinations athena-map source-dir destiny)
-        directs (map #(fs/parent %) (keys destiny-map))
-        target-dirs (sort (fn [x y]
-                           (< (count (path-to-string x))
-                              (count (path-to-string y)))) directs)]
-    (dorun (map #(if (not (fs/directory? %)) (fs/mkdir %)) target-dirs))))
+        directs (map #(fs/parent %) (keys destiny-map))]
+    (dorun (map
+            #(if (not (fs/directory? %)) (fs/mkdirs %))
+            directs))))
 
 (defn spit-files
   "takes a map and spits the values into a file created from the keys"

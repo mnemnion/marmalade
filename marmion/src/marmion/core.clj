@@ -18,3 +18,14 @@
 (def t-source-map (map-sources t-codes))
 
 (def t-file-map (map-files t-codes))
+
+
+(def quarry (map arachnify (slurp-files "../ugly")))
+
+(def tangles (code-parse quarry))
+
+(def sources (map-sources tangles))
+
+(def file-containers (map-files tangles))
+
+(def files (expand-all-sources sources file-containers))

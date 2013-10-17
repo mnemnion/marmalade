@@ -2,7 +2,7 @@
 
 Now that we have the elements, let's quine the software:
 
-```clojure file: project.clj
+```clojure file: ../checkpoint/project.clj
 (defproject marmalade "0.1.1-SNAPSHOT"
   :description "Marmalade: a Literate Markdown in Three Acts"
   :url "http://github.com/mnemnion/Marmalade/marmion"
@@ -15,7 +15,7 @@ Now that we have the elements, let's quine the software:
 
 Okay, there's project.clj. Here's core:
 
-```clojure file: src/marmion/core.clj
+```clojure file: ../checkpoint/src/marmion/core.clj
 (ns marmion.core
   (:require [instaparse.core :as insta]
             [me.raynes.fs :as fs]

@@ -21,8 +21,7 @@ trees as values."
   "given source and destination directories, loads the former, applies Athena magic, then saves the files. to the latter."
   [source destiny]
   (let [athena-map (athena-open source)]
-    (do
-      (create-target-dirs athena-map source destiny)
-      (-> athena-map
-          file-map-to-string
-          (spit-files source destiny)))))
+    (create-target-dirs athena-map source destiny)
+    (-> athena-map
+        file-map-to-string
+        (spit-files source destiny))))
